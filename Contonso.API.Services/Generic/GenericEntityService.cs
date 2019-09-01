@@ -9,9 +9,9 @@
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    /// A generic service for entity actions on the database.
+    /// Provides service methods for database operations related to any given <see cref="ApplicationEntity"/> entity.
     /// </summary>
-    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    /// <typeparam name="TEntity">The type of the application entity.</typeparam>
     public class GenericEntityService<TEntity>
             where TEntity : ApplicationEntity
     {
@@ -24,16 +24,16 @@
         /// Initializes a new instance of the <see cref="GenericEntityService{TEntity}"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
-        /// <exception cref="System.ArgumentNullException">context.</exception>
+        /// <exception cref="ArgumentNullException">Throw when the <paramref name="context"/> is null.</exception>
         public GenericEntityService(ApplicationDbContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         /// <summary>
-        /// Gets all entities.
+        /// Gets all of <typeparamref name="TEntity"/>.
         /// </summary>
-        /// <returns>All entities.</returns>
+        /// <returns>All of <typeparamref name="TEntity"/> result.</returns>
         public async Task<ServiceResult<IEnumerable<TEntity>>> GetAll()
         {
             var result = await this.context.Set<TEntity>().ToListAsync();
@@ -42,10 +42,10 @@
         }
 
         /// <summary>
-        /// Gets the entity by specified identifier.
+        /// Gets the <typeparamref name="TEntity"/> by specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>The entity.</returns>
+        /// <returns>The <typeparamref name="TEntity"/> result.</returns>
         public async Task<ServiceResult<TEntity>> Get(Guid id)
         {
             var result = await this.context.FindAsync<TEntity>(id);
@@ -54,10 +54,10 @@
         }
 
         /// <summary>
-        /// Creates the entity from specified data.
+        /// Creates the <typeparamref name="TEntity"/> from specified data.
         /// </summary>
         /// <param name="data">The data.</param>
-        /// <returns>The created entity.</returns>
+        /// <returns>The created <typeparamref name="TEntity"/> result.</returns>
         public async Task<ServiceResult<TEntity>> Create(TEntity data)
         {
             var result = await this.context.AddAsync<TEntity>(data);
@@ -68,11 +68,11 @@
         }
 
         /// <summary>
-        /// Updates the entity by specified identifier.
+        /// Updates the <typeparamref name="TEntity"/> by specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="data">The data.</param>
-        /// <returns>The updated entity.</returns>
+        /// <returns>The updated <typeparamref name="TEntity"/>.</returns>
         public async Task<ServiceResult<TEntity>> Update(Guid id, TEntity data)
         {
             var target = await this.Get(id);
@@ -92,7 +92,7 @@
         }
 
         /// <summary>
-        /// Deletes the entity specified by identifier.
+        /// Deletes the <typeparamref name="TEntity"/> specified by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>The deletion result.</returns>

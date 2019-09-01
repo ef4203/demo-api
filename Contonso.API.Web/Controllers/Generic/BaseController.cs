@@ -5,18 +5,18 @@
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
-    /// The base controller.
+    /// Provides additions to the <see cref="Controller"/>, for usage in other controllers.
     /// </summary>
-    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
-    public class BaseController : Controller
+    /// <seealso cref="Controller" />
+    public abstract class BaseController : Controller
     {
         /// <summary>
-        /// Statuses the code.
+        /// Creates a statuscode from a given <see cref="ServiceResult{TData}"/>.
         /// </summary>
         /// <typeparam name="T">The entity.</typeparam>
         /// <param name="serviceResult">The service result.</param>
-        /// <returns>The status code.</returns>
-        /// <exception cref="System.NotImplementedException">Status code not implemented.</exception>
+        /// <returns>The <see cref="ActionResult{T}"/> with the given status code.</returns>
+        /// <exception cref="NotImplementedException">Thrown when the status code is not implemented.</exception>
         protected ActionResult<T> StatusCode<T>(ServiceResult<T> serviceResult)
         {
             switch (serviceResult.Status)

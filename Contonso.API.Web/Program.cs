@@ -1,19 +1,12 @@
 ﻿namespace Contonso.API.Web
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.Logging;
 
     /// <summary>
-    /// Class that holds the entry point of the application.
+    /// Holds the entry point of the application.
     /// </summary>
-    public class Program
+    public sealed class Program
     {
         /// <summary>
         /// Defines the entry point of the application.

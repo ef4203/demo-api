@@ -5,15 +5,15 @@
     using Contonso.API.Services.Generic;
 
     /// <summary>
-    /// A service for book related actions on the database.
+    /// Provides service methods for database operations related to the <see cref="Book"/> entity.
     /// </summary>
-    /// <seealso cref="Contonso.API.Services.Generic.GenericEntityService{Book}" />
+    /// <seealso cref="GenericEntityService{Book}" />
     public class BookService : GenericEntityService<Book>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BookService"/> class.
         /// </summary>
-        /// <param name="context">The context.</param>
+        /// <param name="context">The database context.</param>
         public BookService(ApplicationDbContext context)
             : base(context)
         {

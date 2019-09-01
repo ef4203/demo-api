@@ -1,13 +1,9 @@
 ﻿namespace Contonso.API.Entities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
-    /// The book.
+    /// The book entity.
     /// </summary>
-    /// <seealso cref="Contonso.API.Entities.ApplicationEntity" />
+    /// <seealso cref="ApplicationEntity" />
     public class Book : ApplicationEntity
     {
         /// <summary>

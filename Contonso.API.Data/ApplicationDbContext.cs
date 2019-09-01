@@ -6,7 +6,7 @@
     /// <summary>
     /// The database context for the application.
     /// </summary>
-    /// <seealso cref="Microsoft.EntityFrameworkCore.DbContext" />
+    /// <seealso cref="DbContext" />
     public class ApplicationDbContext : DbContext
     {
         /// <summary>

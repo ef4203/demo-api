@@ -6,16 +6,17 @@
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
-    /// Provides endpoints for books.
+    /// Provides HTTP endpoints for the <see cref="Book"/> entity.
     /// </summary>
+    /// <seealso cref="GenericEntityController{BookService, Book}" />
     [Route("api/books")]
     [ApiController]
-    public class BookController : GenericController<BookService, Book>
+    public class BookController : GenericEntityController<BookService, Book>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BookController"/> class.
         /// </summary>
-        /// <param name="service">The service.</param>
+        /// <param name="service">The book service.</param>
         public BookController(BookService service)
             : base(service)
         {

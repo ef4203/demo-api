@@ -10,9 +10,9 @@
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
-    /// The startup class.
+    /// Contains configuration which will be run on startup.
     /// </summary>
-    public class Startup
+    public sealed class Startup
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.

@@ -2,39 +2,40 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Contonso.API.Entities;
     using Contonso.API.Services.Generic;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
-    /// A generic controller that provides enpoints to entities.
+    /// Provides HTTP endpoints for any given <see cref="ApplicationEntity"/>.
     /// </summary>
     /// <typeparam name="TService">The type of the service.</typeparam>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <seealso cref="Contonso.API.Web.Controllers.BaseController" />
-    public class GenericController<TService, TEntity> : BaseController
+    /// <seealso cref="BaseController" />
+    public abstract class GenericEntityController<TService, TEntity> : BaseController
         where TEntity : ApplicationEntity
         where TService : GenericEntityService<TEntity>
     {
+        /// <summary>
+        /// The service.
+        /// </summary>
         private readonly TService service;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GenericController{TService, TEntity}"/> class.
+        /// Initializes a new instance of the <see cref="GenericEntityController{TService, TEntity}"/> class.
         /// </summary>
         /// <param name="service">The service.</param>
-        /// <exception cref="ArgumentNullException">service.</exception>
-        public GenericController(TService service)
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="service"/> is null.</exception>
+        public GenericEntityController(TService service)
         {
             this.service = service ?? throw new ArgumentNullException(nameof(service));
         }
 
         /// <summary>
-        /// Gets all.
+        /// Gets all of <typeparamref name="TEntity"/>.
         /// </summary>
-        /// <returns>All entities.</returns>
+        /// <returns>All all of <typeparamref name="TEntity"/>.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TEntity>>> GetAll()
         {
@@ -44,10 +45,10 @@
         }
 
         /// <summary>
-        /// Gets the by identifier.
+        /// Gets the <typeparamref name="TEntity"/> by specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>The entity.</returns>
+        /// <returns>The <typeparamref name="TEntity"/>.</returns>
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<TEntity>> GetById([FromRoute]Guid id)
@@ -58,10 +59,10 @@
         }
 
         /// <summary>
-        /// Creates the specified data.
+        /// Creates the <typeparamref name="TEntity"/> from specified data.
         /// </summary>
         /// <param name="data">The data.</param>
-        /// <returns>The creation result.</returns>
+        /// <returns>The created <typeparamref name="TEntity"/>.</returns>
         [HttpPost]
         public async Task<ActionResult<TEntity>> Create([FromBody]TEntity data)
         {
@@ -71,11 +72,11 @@
         }
 
         /// <summary>
-        /// Updates the specified identifier.
+        /// Updates the <typeparamref name="TEntity"/> by specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="data">The data.</param>
-        /// <returns>The update result.</returns>
+        /// <returns>The updated <typeparamref name="TEntity"/>.</returns>
         [HttpPut]
         [Route("{id}")]
         public async Task<ActionResult<TEntity>> Update([FromRoute]Guid id, [FromBody]TEntity data)
@@ -86,10 +87,10 @@
         }
 
         /// <summary>
-        /// Deletes the specified identifier.
+        /// Deletes the <typeparamref name="TEntity"/> specified by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>The delete result.</returns>
+        /// <returns>The deletion result.</returns>
         [HttpDelete]
         [Route("{id}")]
         public async Task<ActionResult<bool>> Delete([FromRoute]Guid id)

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Contonso.API.Entities;
+    using Contonso.API.Infrastructure;
     using Contonso.API.Services.Generic;
     using Microsoft.AspNetCore.Mvc;
 
@@ -12,8 +13,8 @@
     /// </summary>
     /// <typeparam name="TService">The type of the service.</typeparam>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <seealso cref="BaseController" />
-    public abstract class GenericEntityController<TService, TEntity> : BaseController
+    /// <seealso cref="Controller" />
+    public abstract class GenericEntityController<TService, TEntity> : Controller
         where TEntity : ApplicationEntity
         where TService : GenericEntityService<TEntity>
     {
@@ -98,6 +99,34 @@
             var result = await this.service.Delete(id);
 
             return this.StatusCode(result);
+        }
+
+        /// <summary>
+        /// Creates a statuscode from a given <see cref="ServiceResult{TData}"/>.
+        /// </summary>
+        /// <typeparam name="T">The entity.</typeparam>
+        /// <param name="serviceResult">The service result.</param>
+        /// <returns>The <see cref="ActionResult{T}"/> with the given status code.</returns>
+        /// <exception cref="NotImplementedException">Thrown when the status code is not implemented.</exception>
+        protected ActionResult<T> StatusCode<T>(ServiceResult<T> serviceResult)
+        {
+            switch (serviceResult.Status)
+            {
+                case ServiceResultStatus.NotFound:
+                    return this.NotFound();
+
+                case ServiceResultStatus.Success:
+                    return this.Ok(serviceResult.Data);
+
+                case ServiceResultStatus.BadRequest:
+                    return this.BadRequest();
+
+                case ServiceResultStatus.Created:
+                    return this.Created(this.Request.Path, serviceResult.Data);
+
+                default:
+                    throw new NotImplementedException("Status code not implemented.");
+            }
         }
     }
 }

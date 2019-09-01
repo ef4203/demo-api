@@ -12,7 +12,7 @@
     /// Provides service methods for database operations related to any given <see cref="ApplicationEntity"/> entity.
     /// </summary>
     /// <typeparam name="TEntity">The type of the application entity.</typeparam>
-    public class GenericEntityService<TEntity>
+    public abstract class GenericEntityService<TEntity>
             where TEntity : ApplicationEntity
     {
         /// <summary>

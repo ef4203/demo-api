@@ -5,13 +5,18 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contonso.API.Web", "Contonso.API.Web\Contonso.API.Web.csproj", "{FE982026-54D9-43C7-BEE4-1078D8C7C22F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.API.Entities", "Contonso.API.Entities\Contonso.API.Entities.csproj", "{892C4B26-4AEF-4408-AEF7-ED6D962CA69C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contonso.API.Entities", "Contonso.API.Entities\Contonso.API.Entities.csproj", "{892C4B26-4AEF-4408-AEF7-ED6D962CA69C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.API.Data", "Contonso.API.Data\Contonso.API.Data.csproj", "{BE10B7A9-51AD-49C3-9B1F-A5F24A769E5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contonso.API.Data", "Contonso.API.Data\Contonso.API.Data.csproj", "{BE10B7A9-51AD-49C3-9B1F-A5F24A769E5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.API.Services", "Contonso.API.Services\Contonso.API.Services.csproj", "{7B4157D5-2CFE-4010-A096-7301886BE415}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contonso.API.Services", "Contonso.API.Services\Contonso.API.Services.csproj", "{7B4157D5-2CFE-4010-A096-7301886BE415}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.API.Infrastructure", "Contonso.API.Infrastructure\Contonso.API.Infrastructure.csproj", "{697E1289-9C96-4A02-977B-3A4E36B78E48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contonso.API.Infrastructure", "Contonso.API.Infrastructure\Contonso.API.Infrastructure.csproj", "{697E1289-9C96-4A02-977B-3A4E36B78E48}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D0F99AD5-E9F7-44EB-B6C0-36A5EB87B63D}"
+	ProjectSection(SolutionItems) = preProject
+		.travis.yml = .travis.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

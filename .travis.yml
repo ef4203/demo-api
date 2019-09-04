@@ -1,8 +1,21 @@
-sudo: false
 language: csharp
+sudo: false
+dist: trusty
+env:
+  global:
+    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+    - DOTNET_CLI_TELEMETRY_OPTOUT: 1
 mono: none
-dotnet: 2.2.401
-
+os:
+  - linux
+  - osx
+before_install:
+  - mkdir -p $HOME/dotnet
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://download.visualstudio.microsoft.com/download/pr/c2c162bc-53c8-444b-9fee-9fcd61404643/777d1ea5a43344e64f0dc3c70a672405/dotnet-sdk-2.2.401-osx-x64.tar.gz ; tar zxf dotnet-sdk-2.2.401-osx-x64.tar.gz -C $HOME/dotnet ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget https://download.visualstudio.microsoft.com/download/pr/228832ea-805f-45ab-8c88-fa36165701b9/16ce29a06031eeb09058dee94d6f5330/dotnet-sdk-2.2.401-linux-x64.tar.gz ; tar zxf dotnet-sdk-2.2.401-linux-x64.tar.gz -C $HOME/dotnet ; fi
+  - export DOTNET_ROOT=$HOME/dotnet
+  - export PATH=$PATH:$HOME/dotnet
 script:
   - dotnet restore
   - dotnet build
+  - dotnet publish --configuration Release

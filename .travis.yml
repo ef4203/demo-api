@@ -9,13 +9,13 @@ mono: none
 os:
   - linux
   - osx
+  - windows
 before_install:
   - mkdir -p $HOME/dotnet
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://download.visualstudio.microsoft.com/download/pr/c2c162bc-53c8-444b-9fee-9fcd61404643/777d1ea5a43344e64f0dc3c70a672405/dotnet-sdk-2.2.401-osx-x64.tar.gz ; tar zxf dotnet-sdk-2.2.401-osx-x64.tar.gz -C $HOME/dotnet ; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget https://download.visualstudio.microsoft.com/download/pr/228832ea-805f-45ab-8c88-fa36165701b9/16ce29a06031eeb09058dee94d6f5330/dotnet-sdk-2.2.401-linux-x64.tar.gz ; tar zxf dotnet-sdk-2.2.401-linux-x64.tar.gz -C $HOME/dotnet ; fi
-  - export DOTNET_ROOT=$HOME/dotnet
-  - export PATH=$PATH:$HOME/dotnet
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then wget https://download.visualstudio.microsoft.com/download/pr/4de548ef-9b51-4b1f-ae3a-60ebd6a6f2b5/01fce24fe286e7475fdbecc60f1daee5/dotnet-sdk-2.2.401-win-x64.zip ; 7z x dotnet-sdk-2.2.401-win-x64.zip -o$HOME/dotnet ; fi
 script:
-  - dotnet restore
-  - dotnet build
-  - dotnet publish --configuration Release
+  - $HOME/dotnet/dotnet restore
+  - $HOME/dotnet/dotnet build
+  - $HOME/dotnet/dotnet publish --configuration Release

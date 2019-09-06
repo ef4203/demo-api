@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Contonso.API.Entities;
-    using Contonso.API.Infrastructure;
     using Contonso.API.Services.Generic;
     using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +13,7 @@
     /// <typeparam name="TService">The type of the service.</typeparam>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <seealso cref="Controller" />
-    public abstract class GenericEntityController<TService, TEntity> : Controller
+    public abstract class GenericEntityController<TService, TEntity> : BaseController
         where TEntity : ApplicationEntity
         where TService : GenericEntityService<TEntity>
     {
@@ -38,7 +37,7 @@
         /// </summary>
         /// <returns>All all of <typeparamref name="TEntity"/>.</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TEntity>>> GetAll()
+        public virtual async Task<ActionResult<IEnumerable<TEntity>>> GetAll()
         {
             var result = await this.service.GetAll();
 
@@ -52,7 +51,7 @@
         /// <returns>The <typeparamref name="TEntity"/>.</returns>
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<TEntity>> GetById([FromRoute]Guid id)
+        public virtual async Task<ActionResult<TEntity>> GetById([FromRoute]Guid id)
         {
             var result = await this.service.Get(id);
 
@@ -65,7 +64,7 @@
         /// <param name="data">The data.</param>
         /// <returns>The created <typeparamref name="TEntity"/>.</returns>
         [HttpPost]
-        public async Task<ActionResult<TEntity>> Create([FromBody]TEntity data)
+        public virtual async Task<ActionResult<TEntity>> Create([FromBody]TEntity data)
         {
             var result = await this.service.Create(data);
 
@@ -80,7 +79,7 @@
         /// <returns>The updated <typeparamref name="TEntity"/>.</returns>
         [HttpPut]
         [Route("{id}")]
-        public async Task<ActionResult<TEntity>> Update([FromRoute]Guid id, [FromBody]TEntity data)
+        public virtual async Task<ActionResult<TEntity>> Update([FromRoute]Guid id, [FromBody]TEntity data)
         {
             var result = await this.service.Update(id, data);
 
@@ -94,39 +93,11 @@
         /// <returns>The deletion result.</returns>
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult<bool>> Delete([FromRoute]Guid id)
+        public virtual async Task<ActionResult<bool>> Delete([FromRoute]Guid id)
         {
             var result = await this.service.Delete(id);
 
             return this.StatusCode(result);
-        }
-
-        /// <summary>
-        /// Creates a statuscode from a given <see cref="ServiceResult{TData}"/>.
-        /// </summary>
-        /// <typeparam name="T">The entity.</typeparam>
-        /// <param name="serviceResult">The service result.</param>
-        /// <returns>The <see cref="ActionResult{T}"/> with the given status code.</returns>
-        /// <exception cref="NotImplementedException">Thrown when the status code is not implemented.</exception>
-        protected ActionResult<T> StatusCode<T>(ServiceResult<T> serviceResult)
-        {
-            switch (serviceResult.Status)
-            {
-                case ServiceResultStatus.NotFound:
-                    return this.NotFound();
-
-                case ServiceResultStatus.Success:
-                    return this.Ok(serviceResult.Data);
-
-                case ServiceResultStatus.BadRequest:
-                    return this.BadRequest();
-
-                case ServiceResultStatus.Created:
-                    return this.Created(this.Request.Path, serviceResult.Data);
-
-                default:
-                    throw new NotImplementedException("Status code not implemented.");
-            }
         }
     }
 }

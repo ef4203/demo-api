@@ -34,7 +34,7 @@
         /// Gets all of <typeparamref name="TEntity"/>.
         /// </summary>
         /// <returns>All of <typeparamref name="TEntity"/> result.</returns>
-        public async Task<ServiceResult<IEnumerable<TEntity>>> GetAll()
+        public virtual async Task<ServiceResult<IEnumerable<TEntity>>> GetAll()
         {
             var result = await this.context.Set<TEntity>().ToListAsync();
 
@@ -46,7 +46,7 @@
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>The <typeparamref name="TEntity"/> result.</returns>
-        public async Task<ServiceResult<TEntity>> Get(Guid id)
+        public virtual async Task<ServiceResult<TEntity>> Get(Guid id)
         {
             var result = await this.context.FindAsync<TEntity>(id);
 
@@ -58,7 +58,7 @@
         /// </summary>
         /// <param name="data">The data.</param>
         /// <returns>The created <typeparamref name="TEntity"/> result.</returns>
-        public async Task<ServiceResult<TEntity>> Create(TEntity data)
+        public virtual async Task<ServiceResult<TEntity>> Create(TEntity data)
         {
             var result = await this.context.AddAsync<TEntity>(data);
 
@@ -73,7 +73,7 @@
         /// <param name="id">The identifier.</param>
         /// <param name="data">The data.</param>
         /// <returns>The updated <typeparamref name="TEntity"/>.</returns>
-        public async Task<ServiceResult<TEntity>> Update(Guid id, TEntity data)
+        public virtual async Task<ServiceResult<TEntity>> Update(Guid id, TEntity data)
         {
             var target = await this.Get(id);
 
@@ -96,7 +96,7 @@
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>The deletion result.</returns>
-        public async Task<ServiceResult<bool>> Delete(Guid id)
+        public virtual async Task<ServiceResult<bool>> Delete(Guid id)
         {
             var target = await this.Get(id);
 

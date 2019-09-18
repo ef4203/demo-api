@@ -9,8 +9,8 @@
     /// Provides HTTP endpoints for the <see cref="Book"/> entity.
     /// </summary>
     /// <seealso cref="GenericEntityController{BookService, Book}" />
-    [Route("api/books")]
     [ApiController]
+    [Route("api/books")]
     public class BookController : GenericEntityController<BookService, Book>
     {
         /// <summary>

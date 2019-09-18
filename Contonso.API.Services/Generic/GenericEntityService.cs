@@ -16,7 +16,7 @@
             where TEntity : ApplicationEntity
     {
         /// <summary>
-        /// The database context.
+        /// The application database context.
         /// </summary>
         private readonly ApplicationDbContext context;
 
@@ -31,9 +31,9 @@
         }
 
         /// <summary>
-        /// Gets all of <typeparamref name="TEntity"/>.
+        /// Gets all of the <typeparamref name="TEntity"/> entities.
         /// </summary>
-        /// <returns>All of <typeparamref name="TEntity"/> result.</returns>
+        /// <returns>All of the <typeparamref name="TEntity"/> entities.</returns>
         public virtual async Task<ServiceResult<IEnumerable<TEntity>>> GetAll()
         {
             var result = await this.context.Set<TEntity>().ToListAsync();

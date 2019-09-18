@@ -18,7 +18,7 @@
         where TService : GenericEntityService<TEntity>
     {
         /// <summary>
-        /// The service.
+        /// The service for the given <typeparamref name="TEntity"/>.
         /// </summary>
         private readonly TService service;
 
@@ -33,9 +33,9 @@
         }
 
         /// <summary>
-        /// Gets all of <typeparamref name="TEntity"/>.
+        /// Gets all the <typeparamref name="TEntity"/> entities.
         /// </summary>
-        /// <returns>All all of <typeparamref name="TEntity"/>.</returns>
+        /// <returns>All the <typeparamref name="TEntity"/> entities.</returns>
         [HttpGet]
         public virtual async Task<ActionResult<IEnumerable<TEntity>>> GetAll()
         {
@@ -49,8 +49,7 @@
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>The <typeparamref name="TEntity"/>.</returns>
-        [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}")]
         public virtual async Task<ActionResult<TEntity>> GetById([FromRoute]Guid id)
         {
             var result = await this.service.Get(id);
@@ -75,10 +74,9 @@
         /// Updates the <typeparamref name="TEntity"/> by specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <param name="data">The data.</param>
+        /// <param name="data">The updated data.</param>
         /// <returns>The updated <typeparamref name="TEntity"/>.</returns>
-        [HttpPut]
-        [Route("{id}")]
+        [HttpPut("{id}")]
         public virtual async Task<ActionResult<TEntity>> Update([FromRoute]Guid id, [FromBody]TEntity data)
         {
             var result = await this.service.Update(id, data);
@@ -91,8 +89,7 @@
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>The deletion result.</returns>
-        [HttpDelete]
-        [Route("{id}")]
+        [HttpDelete("{id}")]
         public virtual async Task<ActionResult<bool>> Delete([FromRoute]Guid id)
         {
             var result = await this.service.Delete(id);

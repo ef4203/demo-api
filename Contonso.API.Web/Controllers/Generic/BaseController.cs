@@ -7,7 +7,7 @@
     /// <summary>
     /// A base class for endpoint controller classes.
     /// </summary>
-    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+    /// <seealso cref="ControllerBase" />
     public abstract class BaseController : ControllerBase
     {
         /// <summary>

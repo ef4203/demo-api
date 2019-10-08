@@ -1,7 +1,7 @@
 ﻿namespace Contonso.API.Web.Controllers.Generic
 {
     using System;
-    using Contonso.API.Infrastructure;
+    using Contonso.API.Services.Infrastructure;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -11,7 +11,7 @@
     public abstract class BaseController : ControllerBase
     {
         /// <summary>
-        /// Creates a statuscode from a given <see cref="ServiceResult{TData}"/>.
+        /// Creates a status code from a given <see cref="ServiceResult{TData}"/>.
         /// </summary>
         /// <typeparam name="T">The entity.</typeparam>
         /// <param name="serviceResult">The service result.</param>
@@ -32,6 +32,15 @@
 
                 case ServiceResultStatus.Created:
                     return this.Created(this.Request.Path, serviceResult.Data);
+
+                case ServiceResultStatus.AuthorizationError:
+                    return this.Unauthorized();
+
+                case ServiceResultStatus.ValidationError:
+                    return this.UnprocessableEntity();
+
+                case ServiceResultStatus.DuplicateError:
+                    return this.Conflict();
 
                 default:
                     throw new NotImplementedException("Status code not implemented.");

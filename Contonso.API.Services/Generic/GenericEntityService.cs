@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using Contonso.API.Data;
     using Contonso.API.Entities;
-    using Contonso.API.Infrastructure;
+    using Contonso.API.Services.Infrastructure;
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
@@ -82,7 +82,7 @@
                 return ServiceResult<TEntity>.NotFound();
             }
 
-            data.ID = target.Data.ID;
+            data.Id = target.Data.Id;
 
             var result = this.context.Update<TEntity>(data);
 

@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Contonso.API.Data\Contonso.API.Data.csproj" />
-    <ProjectReference Include="..\Contonso.API.Infrastructure\Contonso.API.Infrastructure.csproj" />
     <ProjectReference Include="..\Contonso.API.Services\Contonso.API.Services.csproj" />
   </ItemGroup>
 

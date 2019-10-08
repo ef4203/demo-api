@@ -25,7 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Contonso.API.Data\Contonso.API.Data.csproj" />
     <ProjectReference Include="..\Contonso.API.Entities\Contonso.API.Entities.csproj" />
-    <ProjectReference Include="..\Contonso.API.Infrastructure\Contonso.API.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -71,8 +71,8 @@
                 app.UseHttpsRedirection();
             }
 
-            // Automatiicaly applies migrations.
-            this.InitializeDatabase(app);
+            // Automatically applies migrations.
+            InitializeDatabase(app);
 
             app.UseMvc();
         }
@@ -81,9 +81,9 @@
         /// Initializes the database.
         /// </summary>
         /// <param name="app">The application.</param>
-        private void InitializeDatabase(IApplicationBuilder app)
+        private static void InitializeDatabase(IApplicationBuilder app)
         {
-            using (IServiceScope scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 using (var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
                 {

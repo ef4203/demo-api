@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contonso.API.Data", "Conton
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contonso.API.Services", "Contonso.API.Services\Contonso.API.Services.csproj", "{7B4157D5-2CFE-4010-A096-7301886BE415}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contonso.API.Infrastructure", "Contonso.API.Infrastructure\Contonso.API.Infrastructure.csproj", "{697E1289-9C96-4A02-977B-3A4E36B78E48}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D0F99AD5-E9F7-44EB-B6C0-36A5EB87B63D}"
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
@@ -40,10 +38,6 @@ Global
 		{7B4157D5-2CFE-4010-A096-7301886BE415}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B4157D5-2CFE-4010-A096-7301886BE415}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B4157D5-2CFE-4010-A096-7301886BE415}.Release|Any CPU.Build.0 = Release|Any CPU
-		{697E1289-9C96-4A02-977B-3A4E36B78E48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{697E1289-9C96-4A02-977B-3A4E36B78E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{697E1289-9C96-4A02-977B-3A4E36B78E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{697E1289-9C96-4A02-977B-3A4E36B78E48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

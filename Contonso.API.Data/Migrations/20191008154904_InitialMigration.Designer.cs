@@ -9,18 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Contonso.API.Data.Migrations
 {
-    /// <summary>
-    /// Represents the database migration actions.
-    /// </summary>
-    /// <seealso cref="Microsoft.EntityFrameworkCore.Migrations.Migration" />
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190831234831_InitialMigration")]
+    [Migration("20191008154904_InitialMigration")]
     partial class InitialMigration
     {
-        /// <summary>
-        /// Implemented to builds the <see cref="P:Microsoft.EntityFrameworkCore.Migrations.Migration.TargetModel" />.
-        /// </summary>
-        /// <param name="modelBuilder">The <see cref="T:Microsoft.EntityFrameworkCore.ModelBuilder" /> to use to build the model.</param>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
@@ -31,14 +23,14 @@ namespace Contonso.API.Data.Migrations
 
             modelBuilder.Entity("Contonso.API.Entities.Book", b =>
                 {
-                    b.Property<Guid>("ID")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Author");
 
                     b.Property<string>("Title");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Books");
                 });

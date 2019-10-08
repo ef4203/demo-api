@@ -21,14 +21,14 @@ namespace Contonso.API.Data.Migrations
 
             modelBuilder.Entity("Contonso.API.Entities.Book", b =>
                 {
-                    b.Property<Guid>("ID")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Author");
 
                     b.Property<string>("Title");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Books");
                 });

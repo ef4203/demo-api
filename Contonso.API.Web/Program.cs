@@ -6,7 +6,7 @@
     /// <summary>
     /// Holds the entry point of the application.
     /// </summary>
-    public sealed class Program
+    public static class Program
     {
         /// <summary>
         /// Defines the entry point of the application.
@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns>The web host.</returns>
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
     }

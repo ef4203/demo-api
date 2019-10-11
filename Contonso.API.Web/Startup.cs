@@ -8,6 +8,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
 
     /// <summary>
     /// Contains configuration which will be run on startup.
@@ -15,31 +16,23 @@
     public sealed class Startup
     {
         /// <summary>
+        /// The configuration.
+        /// </summary>
+        private readonly IConfiguration configuration;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="env">The env.</param>
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
+            this.configuration = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables();
-
-            if (env.IsDevelopment())
-            {
-                builder.AddUserSecrets<Startup>();
-            }
-
-            this.Configuration = builder.Build();
+                .AddEnvironmentVariables()
+                .AddUserSecrets<Startup>()
+                .Build();
         }
-
-        /// <summary>
-        /// Gets the configuration.
-        /// </summary>
-        /// <value>
-        /// The configuration.
-        /// </value>
-        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -47,11 +40,12 @@
         /// <param name="services">The services.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextPool<ApplicationDbContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("Database")));
+            services.AddDbContextPool<ApplicationDbContext>(options =>
+                options.UseSqlServer(this.configuration.GetConnectionString("Database")));
 
             services.AddTransient<BookService>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         /// <summary>
@@ -59,7 +53,7 @@
         /// </summary>
         /// <param name="app">The application.</param>
         /// <param name="env">The env.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -73,8 +67,6 @@
 
             // Automatically applies migrations.
             InitializeDatabase(app);
-
-            app.UseMvc();
         }
 
         /// <summary>
@@ -83,13 +75,9 @@
         /// <param name="app">The application.</param>
         private static void InitializeDatabase(IApplicationBuilder app)
         {
-            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                using (var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
-                {
-                    dbContext.Database.Migrate();
-                }
-            }
+            using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            using var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            dbContext.Database.Migrate();
         }
     }
 }

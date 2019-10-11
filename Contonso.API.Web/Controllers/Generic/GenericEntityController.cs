@@ -27,7 +27,7 @@
         /// </summary>
         /// <param name="service">The service.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="service"/> is null.</exception>
-        public GenericEntityController(TService service)
+        protected GenericEntityController(TService service)
         {
             this.service = service ?? throw new ArgumentNullException(nameof(service));
         }

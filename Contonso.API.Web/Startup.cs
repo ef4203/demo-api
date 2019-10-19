@@ -11,28 +11,32 @@
     using Microsoft.Extensions.Hosting;
 
     /// <summary>
-    /// Contains configuration which will be run on startup.
+    /// Contains Configuration which will be run on startup.
     /// </summary>
     public sealed class Startup
     {
-        /// <summary>
-        /// The configuration.
-        /// </summary>
-        private readonly IConfiguration configuration;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="env">The env.</param>
         public Startup(IWebHostEnvironment env)
         {
-            this.configuration = new ConfigurationBuilder()
+            this.Configuration = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
                 .AddEnvironmentVariables()
                 .AddUserSecrets<Startup>()
                 .Build();
         }
+
+        /// <summary>
+        /// Gets the configuration.
+        /// </summary>
+        /// <value>
+        /// The configuration.
+        /// </value>
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -41,7 +45,7 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<ApplicationDbContext>(options =>
-                options.UseSqlServer(this.configuration.GetConnectionString("Database")));
+                options.UseSqlServer(this.Configuration.GetConnectionString("Database")));
 
             services.AddTransient<BookService>();
 

@@ -12,9 +12,9 @@ os:
   - windows
 before_install:
   - mkdir -p $HOME/dotnet
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://download.visualstudio.microsoft.com/download/pr/c2c162bc-53c8-444b-9fee-9fcd61404643/777d1ea5a43344e64f0dc3c70a672405/dotnet-sdk-2.2.401-osx-x64.tar.gz ; tar zxf dotnet-sdk-2.2.401-osx-x64.tar.gz -C $HOME/dotnet ; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget https://download.visualstudio.microsoft.com/download/pr/228832ea-805f-45ab-8c88-fa36165701b9/16ce29a06031eeb09058dee94d6f5330/dotnet-sdk-2.2.401-linux-x64.tar.gz ; tar zxf dotnet-sdk-2.2.401-linux-x64.tar.gz -C $HOME/dotnet ; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then wget https://download.visualstudio.microsoft.com/download/pr/4de548ef-9b51-4b1f-ae3a-60ebd6a6f2b5/01fce24fe286e7475fdbecc60f1daee5/dotnet-sdk-2.2.401-win-x64.zip ; 7z x dotnet-sdk-2.2.401-win-x64.zip -o$HOME/dotnet ; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://download.visualstudio.microsoft.com/download/pr/b9251194-4118-41cb-ae05-6763fb002e5d/1d398b4e97069fa4968628080b617587/dotnet-sdk-3.0.100-osx-x64.tar.gz ; tar zxf dotnet-sdk-3.0.100-osx-x64.tar.gz -C $HOME/dotnet ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget https://download.visualstudio.microsoft.com/download/pr/886b4a4c-30af-454b-8bec-81c72b7b4e1f/d1a0c8de9abb36d8535363ede4a15de6/dotnet-sdk-3.0.100-linux-x64.tar.gz ; tar zxf dotnet-sdk-3.0.100-linux-x64.tar.gz -C $HOME/dotnet ; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then wget https://download.visualstudio.microsoft.com/download/pr/a24f4f34-ada1-433a-a437-5bc85fc2576a/7e886d06729949c15c96fe7e70faa8ae/dotnet-sdk-3.0.100-win-x64.zip ; 7z x dotnet-sdk-3.0.100-win-x64.zip -o$HOME/dotnet ; fi
 script:
   - $HOME/dotnet/dotnet restore
   - $HOME/dotnet/dotnet build

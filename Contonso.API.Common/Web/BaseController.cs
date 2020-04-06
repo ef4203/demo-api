@@ -1,7 +1,7 @@
-﻿namespace Contonso.API.Web.Controllers.Generic
+﻿namespace Contonso.API.Common.Web
 {
     using System;
-    using Contonso.API.Services.Infrastructure;
+    using Contonso.API.Common.Infrastructure;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -16,9 +16,15 @@
         /// <typeparam name="T">The entity.</typeparam>
         /// <param name="serviceResult">The service result.</param>
         /// <returns>The <see cref="ActionResult{T}"/> with the given status code.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="serviceResult"/> is null.</exception>
         /// <exception cref="NotImplementedException">Thrown when the status code is not implemented.</exception>
         protected ActionResult<T> StatusCode<T>(ServiceResult<T> serviceResult)
         {
+            if (serviceResult == null)
+            {
+                throw new ArgumentNullException(nameof(serviceResult));
+            }
+
             switch (serviceResult.Status)
             {
                 case ServiceResultStatus.NotFound:
@@ -31,7 +37,7 @@
                     return this.BadRequest();
 
                 case ServiceResultStatus.Created:
-                    return this.Created(this.Request.Path, serviceResult.Data);
+                    return this.Created(new Uri($"{this.Request.Scheme}://{this.Request.Host}{this.Request.Path}"), serviceResult.Data);
 
                 case ServiceResultStatus.AuthorizationError:
                     return this.Unauthorized();
@@ -43,7 +49,7 @@
                     return this.Conflict();
 
                 default:
-                    throw new NotImplementedException("Status code not implemented.");
+                    throw new NotImplementedException(Properties.Resources.StatusCodeNotImplemented);
             }
         }
     }

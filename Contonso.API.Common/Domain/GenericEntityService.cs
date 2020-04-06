@@ -1,11 +1,10 @@
-﻿namespace Contonso.API.Services.Generic
+﻿namespace Contonso.API.Common.Domain
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Contonso.API.Data;
-    using Contonso.API.Entities;
-    using Contonso.API.Services.Infrastructure;
+    using Contonso.API.Common.Entities;
+    using Contonso.API.Common.Infrastructure;
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
@@ -18,14 +17,14 @@
         /// <summary>
         /// The application database context.
         /// </summary>
-        private readonly ApplicationDbContext context;
+        private readonly DbContext context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GenericEntityService{TEntity}"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <exception cref="ArgumentNullException">Throw when the <paramref name="context"/> is null.</exception>
-        public GenericEntityService(ApplicationDbContext context)
+        public GenericEntityService(DbContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
@@ -34,7 +33,7 @@
         /// Gets all of the <typeparamref name="TEntity"/> entities.
         /// </summary>
         /// <returns>All of the <typeparamref name="TEntity"/> entities.</returns>
-        public virtual async Task<ServiceResult<IEnumerable<TEntity>>> GetAll()
+        public virtual async Task<ServiceResult<IEnumerable<TEntity>>> GetAllAsync()
         {
             var result = await this.context.Set<TEntity>().ToListAsync();
 
@@ -46,7 +45,7 @@
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>The <typeparamref name="TEntity"/> result.</returns>
-        public virtual async Task<ServiceResult<TEntity>> Get(Guid id)
+        public virtual async Task<ServiceResult<TEntity>> GetByIdAsync(Guid id)
         {
             var result = await this.context.FindAsync<TEntity>(id);
 
@@ -58,7 +57,7 @@
         /// </summary>
         /// <param name="data">The data.</param>
         /// <returns>The created <typeparamref name="TEntity"/> result.</returns>
-        public virtual async Task<ServiceResult<TEntity>> Create(TEntity data)
+        public virtual async Task<ServiceResult<TEntity>> CreateAsync(TEntity data)
         {
             var result = await this.context.AddAsync<TEntity>(data);
 
@@ -73,13 +72,18 @@
         /// <param name="id">The identifier.</param>
         /// <param name="data">The data.</param>
         /// <returns>The updated <typeparamref name="TEntity"/>.</returns>
-        public virtual async Task<ServiceResult<TEntity>> Update(Guid id, TEntity data)
+        public virtual async Task<ServiceResult<TEntity>> UpdateAsync(Guid id, TEntity data)
         {
-            var target = await this.Get(id);
+            var target = await this.GetByIdAsync(id);
 
             if (target.Status == ServiceResultStatus.NotFound)
             {
                 return ServiceResult<TEntity>.NotFound();
+            }
+
+            if (data == null)
+            {
+                return ServiceResult<TEntity>.ValidationError();
             }
 
             data.Id = target.Data.Id;
@@ -96,9 +100,9 @@
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>The deletion result.</returns>
-        public virtual async Task<ServiceResult<bool>> Delete(Guid id)
+        public virtual async Task<ServiceResult<bool>> DeleteAsync(Guid id)
         {
-            var target = await this.Get(id);
+            var target = await this.GetByIdAsync(id);
 
             if (target.Status == ServiceResultStatus.NotFound)
             {

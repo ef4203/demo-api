@@ -1,10 +1,11 @@
-﻿namespace Contonso.API.Web.Controllers.Generic
+﻿namespace Contonso.API.Common.Web
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Contonso.API.Entities;
-    using Contonso.API.Services.Generic;
+    using Contonso.API.Common.Domain;
+    using Contonso.API.Common.Entities;
+    using Contonso.API.Common.Web;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -39,7 +40,7 @@
         [HttpGet]
         public virtual async Task<ActionResult<IEnumerable<TEntity>>> GetAll()
         {
-            var result = await this.service.GetAll();
+            var result = await this.service.GetAllAsync();
 
             return this.StatusCode(result);
         }
@@ -52,7 +53,7 @@
         [HttpGet("{id}")]
         public virtual async Task<ActionResult<TEntity>> GetById([FromRoute]Guid id)
         {
-            var result = await this.service.Get(id);
+            var result = await this.service.GetByIdAsync(id);
 
             return this.StatusCode(result);
         }
@@ -65,7 +66,7 @@
         [HttpPost]
         public virtual async Task<ActionResult<TEntity>> Create([FromBody]TEntity data)
         {
-            var result = await this.service.Create(data);
+            var result = await this.service.CreateAsync(data);
 
             return this.StatusCode(result);
         }
@@ -79,7 +80,7 @@
         [HttpPut("{id}")]
         public virtual async Task<ActionResult<TEntity>> Update([FromRoute]Guid id, [FromBody]TEntity data)
         {
-            var result = await this.service.Update(id, data);
+            var result = await this.service.UpdateAsync(id, data);
 
             return this.StatusCode(result);
         }
@@ -92,7 +93,7 @@
         [HttpDelete("{id}")]
         public virtual async Task<ActionResult<bool>> Delete([FromRoute]Guid id)
         {
-            var result = await this.service.Delete(id);
+            var result = await this.service.DeleteAsync(id);
 
             return this.StatusCode(result);
         }

@@ -1,4 +1,6 @@
-﻿namespace Contonso.API.Web
+﻿using Contonso.API.Common.Web.Extensions;
+
+namespace Contonso.API.Web
 {
     using Contonso.API.Data;
     using Contonso.API.Services;
@@ -18,16 +20,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
-        /// <param name="env">The env.</param>
-        public Startup(IWebHostEnvironment env)
+        /// <param name="configuration">The configuration.</param>
+        public Startup(IConfiguration configuration)
         {
-            this.Configuration = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
-                .AddEnvironmentVariables()
-                .AddUserSecrets<Startup>()
-                .Build();
+            this.Configuration = configuration;
         }
 
         /// <summary>
@@ -39,25 +35,11 @@
         public IConfiguration Configuration { get; }
 
         /// <summary>
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// </summary>
-        /// <param name="services">The services.</param>
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddDbContextPool<ApplicationDbContext>(options =>
-                options.UseSqlServer(this.Configuration.GetConnectionString("Database")));
-
-            services.AddTransient<BookService>();
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-        }
-
-        /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app">The application.</param>
         /// <param name="env">The env.</param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -69,19 +51,20 @@
                 app.UseHttpsRedirection();
             }
 
-            // Automatically applies migrations.
-            InitializeDatabase(app);
+            app.InitializeDatabase<ApplicationDbContext>();
         }
 
         /// <summary>
-        /// Initializes the database.
+        /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
-        /// <param name="app">The application.</param>
-        private static void InitializeDatabase(IApplicationBuilder app)
+        /// <param name="services">The services.</param>
+        public void ConfigureServices(IServiceCollection services)
         {
-            using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
-            using var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            dbContext.Database.Migrate();
+            services.AddDbContextPool<ApplicationDbContext>(options =>
+                options.UseSqlServer(this.Configuration.GetConnectionString("Database")));
+
+            services.AddTransient<BookService>();
+            services.AddControllers();
         }
     }
 }

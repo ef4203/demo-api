@@ -1,14 +1,14 @@
 ﻿namespace Contonso.API.Web.Controllers
 {
+    using Contonso.API.Common.Web;
     using Contonso.API.Entities;
     using Contonso.API.Services;
-    using Contonso.API.Web.Controllers.Generic;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     /// Provides HTTP endpoints for the <see cref="Book"/> entity.
     /// </summary>
-    /// <seealso cref="GenericEntityController{BookService, Book}" />
+    /// <seealso cref="GenericEntityController{TService,TEntity}" />
     [ApiController]
     [Route("api/books")]
     public class BookController : GenericEntityController<BookService, Book>

@@ -1,4 +1,4 @@
-﻿namespace Contonso.API.Entities
+﻿namespace Contonso.API.Common.Entities
 {
     using System;
     using System.ComponentModel.DataAnnotations;

@@ -1,4 +1,4 @@
-﻿namespace Contonso.API.Services.Infrastructure
+﻿namespace Contonso.API.Common.Infrastructure
 {
     /// <summary>
     /// Represents the enumeration of service result statuses mapped to HTTP response codes.

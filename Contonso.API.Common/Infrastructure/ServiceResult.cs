@@ -1,4 +1,4 @@
-﻿namespace Contonso.API.Services.Infrastructure
+﻿namespace Contonso.API.Common.Infrastructure
 {
     /// <summary>
     /// Represents the service result object.

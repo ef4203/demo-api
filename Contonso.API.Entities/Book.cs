@@ -1,5 +1,7 @@
 ﻿namespace Contonso.API.Entities
 {
+    using Contonso.API.Common.Entities;
+
     /// <summary>
     /// The book entity.
     /// </summary>

@@ -40,7 +40,7 @@
         /// <value>
         /// The data.
         /// </value>
-        public TData Data { get; private set; }
+        public TData Data { get; }
 
         /// <summary>
         /// The data operation was successful.

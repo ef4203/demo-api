@@ -1,7 +1,7 @@
-﻿namespace Contonso.API.Common.Web.Extensions
+﻿namespace Contonso.API.Common.Extensions
 {
     using System;
-    using System.Runtime.InteropServices;
+    using System.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +17,7 @@
         /// <typeparam name="TContext">The type of the context.</typeparam>
         /// <param name="app">The application.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="app"/> is null.</exception>
-        /// <exception cref="InvalidOleVariantTypeException">Throw when <typeparamref name="TContext"/> is of wrong type.</exception>
+        /// <exception cref="StrongTypingException">Throw when <typeparamref name="TContext"/> is of wrong type.</exception>
         public static void InitializeDatabase<TContext>(this IApplicationBuilder app)
         {
             if (app == null)
@@ -30,7 +30,7 @@
 
             if (dbContext == null)
             {
-                throw new InvalidOleVariantTypeException(typeof(TContext).Name);
+                throw new StrongTypingException(typeof(TContext).Name);
             }
 
             dbContext.Database.Migrate();

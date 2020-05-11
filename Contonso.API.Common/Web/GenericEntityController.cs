@@ -3,9 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Contonso.API.Common.Domain;
-    using Contonso.API.Common.Entities;
-    using Contonso.API.Common.Web;
+    using Contonso.API.Common.Data;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>

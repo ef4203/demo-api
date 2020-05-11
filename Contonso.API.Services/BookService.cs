@@ -1,8 +1,8 @@
 ﻿namespace Contonso.API.Services
 {
-    using Contonso.API.Common.Domain;
+    using Contonso.API.Common.Data;
+    using Contonso.API.Data;
     using Contonso.API.Entities;
-    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// Provides service methods for database operations related to the <see cref="Book"/> entity.
@@ -14,7 +14,7 @@
         /// Initializes a new instance of the <see cref="BookService"/> class.
         /// </summary>
         /// <param name="context">The database context.</param>
-        public BookService(DbContext context)
+        public BookService(ApplicationDbContext context)
             : base(context)
         {
         }

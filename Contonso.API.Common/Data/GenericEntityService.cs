@@ -1,9 +1,8 @@
-﻿namespace Contonso.API.Common.Domain
+﻿namespace Contonso.API.Common.Data
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Contonso.API.Common.Entities;
     using Contonso.API.Common.Infrastructure;
     using Microsoft.EntityFrameworkCore;
 
@@ -60,7 +59,6 @@
         public virtual async Task<ServiceResult<TEntity>> CreateAsync(TEntity data)
         {
             var result = await this.context.AddAsync<TEntity>(data);
-
             await this.context.SaveChangesAsync();
 
             return ServiceResult<TEntity>.Created(result.Entity);
@@ -74,25 +72,23 @@
         /// <returns>The updated <typeparamref name="TEntity"/>.</returns>
         public virtual async Task<ServiceResult<TEntity>> UpdateAsync(Guid id, TEntity data)
         {
-            var target = await this.GetByIdAsync(id);
-
-            if (target.Status == ServiceResultStatus.NotFound)
-            {
-                return ServiceResult<TEntity>.NotFound();
-            }
-
             if (data == null)
             {
                 return ServiceResult<TEntity>.ValidationError();
             }
 
-            data.Id = target.Data.Id;
+            var target = await this.context.FindAsync<TEntity>(id);
 
-            var result = this.context.Update<TEntity>(data);
+            if (target == null)
+            {
+                return ServiceResult<TEntity>.NotFound();
+            }
 
+            data.Id = target.Id;
+            this.context.Entry(target).CurrentValues.SetValues(data);
             await this.context.SaveChangesAsync();
 
-            return ServiceResult<TEntity>.Success(result.Entity);
+            return ServiceResult<TEntity>.Success(data);
         }
 
         /// <summary>
@@ -102,15 +98,14 @@
         /// <returns>The deletion result.</returns>
         public virtual async Task<ServiceResult<bool>> DeleteAsync(Guid id)
         {
-            var target = await this.GetByIdAsync(id);
+            var target = await this.context.FindAsync<TEntity>(id);
 
-            if (target.Status == ServiceResultStatus.NotFound)
+            if (target == null)
             {
                 return ServiceResult<bool>.NotFound();
             }
 
-            this.context.Remove<TEntity>(target.Data);
-
+            this.context.Remove<TEntity>(target);
             await this.context.SaveChangesAsync();
 
             return ServiceResult<bool>.Success(true);

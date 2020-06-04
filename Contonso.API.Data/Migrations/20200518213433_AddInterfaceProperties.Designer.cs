@@ -4,14 +4,20 @@ using Contonso.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Contonso.API.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200518213433_AddInterfaceProperties")]
+    partial class AddInterfaceProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <summary>
+        /// Implemented to builds the <see cref="P:Microsoft.EntityFrameworkCore.Migrations.Migration.TargetModel" />.
+        /// </summary>
+        /// <param name="modelBuilder">The <see cref="T:Microsoft.EntityFrameworkCore.ModelBuilder" /> to use to build the model.</param>
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

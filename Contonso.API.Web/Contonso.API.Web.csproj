@@ -14,7 +14,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
     <CodeAnalysisRuleSet>..\Contonso.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Release\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

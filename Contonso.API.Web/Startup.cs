@@ -1,5 +1,7 @@
 ﻿namespace Contonso.API.Web
 {
+    using System;
+    using System.IO;
     using System.Reflection;
     using System.Text.Json.Serialization;
     using Contonso.API.Common.Extensions;
@@ -52,6 +54,7 @@
             services.AddSwaggerGen(o =>
             {
                 o.SwaggerDoc("v1", new OpenApiInfo { Title = this.applicationName, Version = "v1" });
+                o.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{this.applicationName}.xml"));
             });
 
             services.AddControllers()

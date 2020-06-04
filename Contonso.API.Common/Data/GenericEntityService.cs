@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Contonso.API.Common.Infrastructure;
     using Microsoft.EntityFrameworkCore;
@@ -34,7 +35,23 @@
         /// <returns>All of the <typeparamref name="TEntity"/> entities.</returns>
         public virtual async Task<ServiceResult<IEnumerable<TEntity>>> GetAllAsync()
         {
-            var result = await this.context.Set<TEntity>().ToListAsync();
+            var isArchivable = typeof(TEntity).GetInterfaces()
+                .Any(x => x == typeof(IArchivable));
+
+            var asd = typeof(TEntity).GetInterfaces();
+            IEnumerable<TEntity> result;
+            if (isArchivable)
+            {
+                result = await this.context.Set<TEntity>()
+                    .ToListAsync();
+
+                result = result.Where(x => !(x as IArchivable).IsDeleted);
+            }
+            else
+            {
+                result = await this.context.Set<TEntity>()
+                    .ToListAsync();
+            }
 
             return ServiceResult<IEnumerable<TEntity>>.Success(result);
         }
@@ -48,6 +65,11 @@
         {
             var result = await this.context.FindAsync<TEntity>(id);
 
+            if (result is IArchivable && (result as IArchivable).IsDeleted)
+            {
+                return ServiceResult<TEntity>.NotFound();
+            }
+
             return ServiceResult<TEntity>.ShouldExist(result);
         }
 
@@ -58,6 +80,17 @@
         /// <returns>The created <typeparamref name="TEntity"/> result.</returns>
         public virtual async Task<ServiceResult<TEntity>> CreateAsync(TEntity data)
         {
+            if (data is IArchivable)
+            {
+                (data as IArchivable).IsDeleted = false;
+            }
+
+            if (data is ICreationTracker)
+            {
+                (data as ICreationTracker).CreatedOn = DateTime.Now;
+                (data as ICreationTracker).CreatedBy = "System";
+            }
+
             var result = await this.context.AddAsync<TEntity>(data);
             await this.context.SaveChangesAsync();
 
@@ -79,12 +112,24 @@
 
             var target = await this.context.FindAsync<TEntity>(id);
 
-            if (target == null)
+            if (target == null || (target as IArchivable).IsDeleted)
             {
                 return ServiceResult<TEntity>.NotFound();
             }
 
             data.Id = target.Id;
+            if (data is ICreationTracker)
+            {
+                (data as ICreationTracker).CreatedBy = (target as ICreationTracker).CreatedBy;
+                (data as ICreationTracker).CreatedOn = (target as ICreationTracker).CreatedOn;
+            }
+
+            if (data is IModificationTracker)
+            {
+                (data as IModificationTracker).ModifiedOn = DateTime.Now;
+                (data as IModificationTracker).ModifiedBy = "System";
+            }
+
             this.context.Entry(target).CurrentValues.SetValues(data);
             await this.context.SaveChangesAsync();
 
@@ -103,6 +148,14 @@
             if (target == null)
             {
                 return ServiceResult<bool>.NotFound();
+            }
+
+            if (target is IArchivable)
+            {
+                (target as IArchivable).IsDeleted = true;
+                await this.context.SaveChangesAsync();
+
+                return ServiceResult<bool>.Success(true);
             }
 
             this.context.Remove<TEntity>(target);

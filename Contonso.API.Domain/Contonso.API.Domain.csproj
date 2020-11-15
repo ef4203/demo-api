@@ -22,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Contonso.Common.EntityFrameworkCore\Contonso.Common.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Contonso.API.Data\Contonso.API.Data.csproj" />
+    <ProjectReference Include="..\Contonso.API.Entities\Contonso.API.Entities.csproj" />
   </ItemGroup>
 
 </Project>

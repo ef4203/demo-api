@@ -1,17 +1,14 @@
-﻿namespace Contonso.API.Services
+﻿namespace Contonso.API.Domain
 {
-    using Contonso.API.Common.Data;
     using Contonso.API.Data;
     using Contonso.API.Entities;
+    using Contonso.Common.EntityFrameworkCore;
 
-    /// <summary>
-    /// Provides service methods for database operations related to the <see cref="Book"/> entity.
-    /// </summary>
-    /// <seealso cref="GenericEntityService{TEntity}" />
+    /// <inheritdoc />
     public class BookService : GenericEntityService<Book>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BookService"/> class.
+        ///     Initializes a new instance of the <see cref="BookService" /> class.
         /// </summary>
         /// <param name="context">The database context.</param>
         public BookService(ApplicationDbContext context)

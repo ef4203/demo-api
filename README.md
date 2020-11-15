@@ -1,6 +1,6 @@
-# .NET Core REST API Template
+# .NET REST API Demo
 
-> Fully featured REST API base for building enterprise backends
+> Collection of best practices for developing REST APIs.
 
 This project contains a complete REST API base, which can be extended with further functionality.
 
@@ -12,7 +12,7 @@ open the `.sln` file. The Community Edition of Visual Studio is free of charge.
 On Mac OS, download [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/) and open
 the `.sln` file.
 
-On Linux based System, download the [.NET Core SDK](https://dotnet.microsoft.com/download/dotnet-core/3.0)
+On Linux based System, download the [.NET Core SDK](https://dotnet.microsoft.com/download/dotnet/5.0)
 and install it like instructed. The project is then compiled and run with:
 
 ```

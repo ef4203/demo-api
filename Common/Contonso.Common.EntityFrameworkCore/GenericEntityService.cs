@@ -20,14 +20,14 @@
         ///     The application database context.
         /// </summary>
         [NotNull]
-        private readonly DbContext context;
+        private readonly GenericDbContext context;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GenericEntityService{TEntity}" /> class.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <exception cref="ArgumentNullException">Throw when the <paramref name="context" /> is null.</exception>
-        public GenericEntityService(DbContext context)
+        public GenericEntityService(GenericDbContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
@@ -45,9 +45,8 @@
             if (isArchivable)
             {
                 result = await this.context.Set<TEntity>()
+                    .Where(x => !((IArchivable)x).IsDeleted)
                     .ToListAsync();
-
-                result = result.Where(x => !(x as IArchivable).IsDeleted);
             }
             else
             {
@@ -67,7 +66,7 @@
         {
             var result = await this.context.FindAsync<TEntity>(id);
 
-            if (result is IArchivable && (result as IArchivable).IsDeleted)
+            if (result is IArchivable entity && entity.IsDeleted)
             {
                 return ServiceResult<TEntity>.NotFound();
             }
@@ -82,15 +81,9 @@
         /// <returns>The created <typeparamref name="TEntity" /> result.</returns>
         public virtual async Task<ServiceResult<TEntity>> CreateAsync(TEntity data)
         {
-            if (data is IArchivable)
+            if (data == null)
             {
-                (data as IArchivable).IsDeleted = false;
-            }
-
-            if (data is ICreationTracker)
-            {
-                (data as ICreationTracker).CreatedOn = DateTime.Now;
-                (data as ICreationTracker).CreatedBy = "System";
+                return ServiceResult<TEntity>.ValidationError();
             }
 
             var result = await this.context.AddAsync(data);
@@ -114,25 +107,12 @@
 
             var target = await this.context.FindAsync<TEntity>(id);
 
-            if (target == null || (target as IArchivable).IsDeleted)
+            if (target == null)
             {
                 return ServiceResult<TEntity>.NotFound();
             }
 
-            data.Id = target.Id;
-            if (data is ICreationTracker)
-            {
-                (data as ICreationTracker).CreatedBy = (target as ICreationTracker).CreatedBy;
-                (data as ICreationTracker).CreatedOn = (target as ICreationTracker).CreatedOn;
-            }
-
-            if (data is IModificationTracker)
-            {
-                (data as IModificationTracker).ModifiedOn = DateTime.Now;
-                (data as IModificationTracker).ModifiedBy = "System";
-            }
-
-            this.context.Entry(target).CurrentValues.SetValues(data);
+            this.context.Update(target, data);
             await this.context.SaveChangesAsync();
 
             return ServiceResult<TEntity>.Success(data);
@@ -150,14 +130,6 @@
             if (target == null)
             {
                 return ServiceResult<bool>.NotFound();
-            }
-
-            if (target is IArchivable)
-            {
-                (target as IArchivable).IsDeleted = true;
-                await this.context.SaveChangesAsync();
-
-                return ServiceResult<bool>.Success(true);
             }
 
             this.context.Remove(target);

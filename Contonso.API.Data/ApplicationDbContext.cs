@@ -2,10 +2,11 @@
 {
     using System;
     using Contonso.API.Entities;
+    using Contonso.Common.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
     /// <inheritdoc />
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : GenericDbContext
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="ApplicationDbContext" /> class.

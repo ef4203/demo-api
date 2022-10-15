@@ -5,5 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class ApplicationEntity<TKey>
 {
-    [Key] [DatabaseGenerated(DatabaseGeneratedOption.Identity)] public TKey Id { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public TKey Id { get; set; }
 }

@@ -3,8 +3,8 @@ namespace Contonso.SampleApi.Application.Common.Behaviors;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-public class UnhandledExceptionBehaviour<TRequest, TResponse>
-    : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
 {
     private readonly ILogger<TRequest> logger;
 

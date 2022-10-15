@@ -21,7 +21,8 @@ public class MappingProfile : Profile
             return t.IsGenericType && t.GetGenericTypeDefinition() == mapFromType;
         }
 
-        var types = assembly.GetExportedTypes().Where(t => t.GetInterfaces().Any(HasInterface))
+        var types = assembly.GetExportedTypes()
+            .Where(t => t.GetInterfaces().Any(HasInterface))
             .ToList();
 
         var argumentTypes = new[] { typeof(Profile) };
@@ -38,7 +39,9 @@ public class MappingProfile : Profile
             }
             else
             {
-                var interfaces = type.GetInterfaces().Where(HasInterface).ToList();
+                var interfaces = type.GetInterfaces()
+                    .Where(HasInterface)
+                    .ToList();
 
                 if (interfaces.Count <= 0)
                 {
@@ -47,8 +50,7 @@ public class MappingProfile : Profile
 
                 foreach (var @interface in interfaces)
                 {
-                    var interfaceMethodInfo =
-                        @interface.GetMethod(mappingMethodName, argumentTypes);
+                    var interfaceMethodInfo = @interface.GetMethod(mappingMethodName, argumentTypes);
 
                     interfaceMethodInfo?.Invoke(instance, new object[] { this });
                 }

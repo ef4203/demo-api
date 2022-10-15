@@ -20,11 +20,9 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         _ = request ?? throw new ArgumentNullException(nameof(request));
         _ = next ?? throw new ArgumentNullException(nameof(next));
 
-        this.logger.LogDebug("Start of {0}, Request: {1}", typeof(TRequest).Name,
-            JsonConvert.SerializeObject(request));
+        this.logger.LogDebug("Start of {0}, Request: {1}", typeof(TRequest).Name, JsonConvert.SerializeObject(request));
         var response = await next();
-        this.logger.LogDebug("End of {0}, Response: {1}", typeof(TRequest).Name,
-            JsonConvert.SerializeObject(response));
+        this.logger.LogDebug("End of {0}, Response: {1}", typeof(TRequest).Name, JsonConvert.SerializeObject(response));
 
         return response;
     }

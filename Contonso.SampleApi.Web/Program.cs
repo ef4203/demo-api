@@ -1,10 +1,10 @@
 namespace Contonso.SampleApi.Web;
 
 using Contonso.SampleApi.Application;
+using Contonso.SampleApi.Infrastructure;
 using Contonso.SampleApi.Web.Filter;
 using Microsoft.AspNetCore.OData;
 using Serilog;
-using ConfigureServicesExtension = Contonso.SampleApi.Infrastructure.ConfigureServicesExtension;
 
 internal class Programm
 {
@@ -13,8 +13,7 @@ internal class Programm
         var builder = WebApplication.CreateBuilder(args);
 
         // Configure logging.
-        Log.Logger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.Console()
-            .CreateLogger();
+        Log.Logger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.Console().CreateLogger();
 
         builder.Host.UseSerilog();
 
@@ -24,12 +23,11 @@ internal class Programm
         builder.Services.AddSwaggerGen();
         builder.Services.AddHealthChecks();
 
-        builder.Services
-            .AddControllersWithViews(options => options.Filters.Add<ApiExceptionFilterAttribute>())
+        builder.Services.AddControllersWithViews(options => options.Filters.Add<ApiExceptionFilterAttribute>())
             .AddNewtonsoftJson().AddOData(o => { o.EnableQueryFeatures(1000); });
 
         builder.Services.AddApplicationServices();
-        ConfigureServicesExtension.AddInfrastructureServices(builder.Services);
+        builder.Services.AddInfrastructureServices();
 
         var app = builder.Build();
 

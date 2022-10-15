@@ -19,10 +19,10 @@ public class GetBooksQueryHandler : IRequestHandler<GetBooksQuery, IEnumerable<B
         this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task<IEnumerable<BookDto>> Handle(GetBooksQuery request,
-        CancellationToken cancellationToken)
+    public async Task<IEnumerable<BookDto>> Handle(GetBooksQuery request, CancellationToken cancellationToken)
     {
-        return await this.dbContext.Books.ProjectTo<BookDto>(this.mapper.ConfigurationProvider)
+        return await this.dbContext.Books
+            .ProjectTo<BookDto>(this.mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
     }
 }

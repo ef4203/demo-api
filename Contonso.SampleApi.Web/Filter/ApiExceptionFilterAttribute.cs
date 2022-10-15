@@ -15,9 +15,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         this.exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
             { typeof(ValidationException), this.HandleValidationException },
-            {
-                typeof(NotFoundException), this.HandleNotFoundException
-            },
+            { typeof(NotFoundException), this.HandleNotFoundException },
         };
     }
 

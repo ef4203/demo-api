@@ -5,19 +5,10 @@ using AutoMapper;
 using Contonso.SampleApi.Application.Books.Queries.GetBooks;
 using Contonso.SampleApi.Application.Common.Mapping;
 using Contonso.SampleApi.Domain.Entities;
+using Contonso.SampleApi.Tests.Application.Common;
 
-public class MappingTests
+public class MappingTests : BaseTest
 {
-    private readonly IMapper mapper;
-
-    public MappingTests()
-    {
-        var mapperConfiguration =
-            new MapperConfiguration(config => config.AddProfile<MappingProfile>());
-
-        this.mapper = mapperConfiguration.CreateMapper();
-    }
-
     [Test]
     [TestCase(typeof(Book), typeof(BookDto))]
     public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
@@ -27,7 +18,7 @@ public class MappingTests
 
         var instance = GetInstanceOf(source);
 
-        this.mapper.Map(instance, source, destination);
+        this.Mapper.Map(instance, source, destination);
     }
 
     private static object GetInstanceOf(Type type)

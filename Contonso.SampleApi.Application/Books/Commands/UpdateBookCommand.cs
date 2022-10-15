@@ -19,13 +19,19 @@ public class UpdateBookCommandValidator : AbstractValidator<UpdateBookCommand>
 {
     public UpdateBookCommandValidator()
     {
-        this.RuleFor(o => o.Id).NotEmpty();
+        this.RuleFor(o => o.Id)
+            .NotEmpty();
 
-        this.RuleFor(o => o.Title).MinimumLength(1).NotEmpty();
+        this.RuleFor(o => o.Title)
+            .MinimumLength(1)
+            .NotEmpty();
 
-        this.RuleFor(o => o.AuthorId).NotEmpty();
+        this.RuleFor(o => o.AuthorId)
+            .NotEmpty();
 
-        this.RuleFor(o => o.PublishDate).LessThan(DateTime.Now).NotEmpty();
+        this.RuleFor(o => o.PublishDate)
+            .LessThan(DateTime.Now)
+            .NotEmpty();
     }
 }
 
@@ -42,7 +48,8 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, Unit>
     {
         _ = request ?? throw new ArgumentNullException(nameof(request));
 
-        var entity = await this.dbContext.Books.Where(o => o.Id == request.Id)
+        var entity = await this.dbContext.Books
+            .Where(o => o.Id == request.Id)
             .SingleOrDefaultAsync(cancellationToken);
 
         if (entity is null)

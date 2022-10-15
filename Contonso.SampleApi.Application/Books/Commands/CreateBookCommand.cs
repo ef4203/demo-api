@@ -16,11 +16,16 @@ public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
 {
     public CreateBookCommandValidator()
     {
-        this.RuleFor(o => o.Title).MinimumLength(1).NotEmpty();
+        this.RuleFor(o => o.Title)
+            .MinimumLength(1)
+            .NotEmpty();
 
-        this.RuleFor(o => o.AuthorId).NotEmpty();
+        this.RuleFor(o => o.AuthorId)
+            .NotEmpty();
 
-        this.RuleFor(o => o.PublishDate).LessThan(DateTime.Now).NotEmpty();
+        this.RuleFor(o => o.PublishDate)
+            .LessThan(DateTime.Now)
+            .NotEmpty();
     }
 }
 
@@ -39,9 +44,7 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, int>
 
         var entity = new Book
         {
-            PublishDate = request.PublishDate,
-            AuthorId = request.AuthorId,
-            Title = request.Title,
+            PublishDate = request.PublishDate, AuthorId = request.AuthorId, Title = request.Title,
         };
 
         await this.dbContext.Books.AddAsync(entity, cancellationToken);

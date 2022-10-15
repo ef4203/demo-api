@@ -33,11 +33,7 @@ public class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand, i
     {
         _ = request ?? throw new ArgumentNullException(nameof(request));
 
-        var entity = new Author
-        {
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-        };
+        var entity = new Author { FirstName = request.FirstName, LastName = request.LastName };
 
         await this.dbContext.Authors.AddAsync(entity, cancellationToken);
         return await this.dbContext.SaveChangesAsync(cancellationToken);

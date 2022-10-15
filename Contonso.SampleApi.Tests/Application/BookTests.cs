@@ -5,30 +5,15 @@ using Contonso.SampleApi.Application.Books.Commands;
 using Contonso.SampleApi.Application.Common.Abstraction;
 using Contonso.SampleApi.Application.Common.Mapping;
 using Contonso.SampleApi.Infrastructure.Persistence;
+using Contonso.SampleApi.Tests.Application.Common;
 using Microsoft.EntityFrameworkCore;
 
-public class BookTests
+public class BookTests : BaseTest
 {
-    private readonly IApplicationDbContext dbContext;
-
-    private readonly IMapper mapper;
-
-    public BookTests()
-    {
-        var mapperConfiguration =
-            new MapperConfiguration(config => config.AddProfile<MappingProfile>());
-
-        var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase("ExampleApi").Options;
-
-        this.mapper = mapperConfiguration.CreateMapper();
-        this.dbContext = new ApplicationDbContext(dbContextOptions);
-    }
-
     [Test]
     public void CreateCommandRequestCannotBeNull()
     {
-        var handler = new CreateBookCommandHandler(this.dbContext);
+        var handler = new CreateBookCommandHandler(this.DbContext);
 
         Assert.That(async () => await handler.Handle(null, CancellationToken.None),
             Throws.InstanceOf<ArgumentNullException>());
@@ -37,7 +22,7 @@ public class BookTests
     [Test]
     public void DeleteCommandRequestCannotBeNull()
     {
-        var handler = new DeleteBookCommandHandler(this.dbContext);
+        var handler = new DeleteBookCommandHandler(this.DbContext);
 
         Assert.That(async () => await handler.Handle(null, CancellationToken.None),
             Throws.InstanceOf<ArgumentNullException>());
@@ -46,7 +31,7 @@ public class BookTests
     [Test]
     public void UpdateCommandRequestCannotBeNull()
     {
-        var handler = new UpdateBookCommandHandler(this.dbContext);
+        var handler = new UpdateBookCommandHandler(this.DbContext);
 
         Assert.That(async () => await handler.Handle(null, CancellationToken.None),
             Throws.InstanceOf<ArgumentNullException>());

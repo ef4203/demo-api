@@ -19,10 +19,10 @@ public class GetAuthorsQueryHandler : IRequestHandler<GetAuthorsQuery, IEnumerab
         this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task<IEnumerable<AuthorDto>> Handle(GetAuthorsQuery request,
-        CancellationToken cancellationToken)
+    public async Task<IEnumerable<AuthorDto>> Handle(GetAuthorsQuery request, CancellationToken cancellationToken)
     {
-        return await this.dbContext.Authors.ProjectTo<AuthorDto>(this.mapper.ConfigurationProvider)
+        return await this.dbContext.Authors
+            .ProjectTo<AuthorDto>(this.mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
     }
 }

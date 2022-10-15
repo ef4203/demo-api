@@ -7,9 +7,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
-    public ApplicationDbContext(DbContextOptions options) : base(options ??
-                                                                 throw new ArgumentNullException(
-                                                                     nameof(options)))
+    public ApplicationDbContext(DbContextOptions options) : base(options)
     {
     }
 
@@ -26,8 +24,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void EnsureCreationTracking(EntityEntry entry, DateTime now)
     {
-        if (entry is not null && entry.Entity is ICreationTracker creationTrackable &&
-            entry.State == EntityState.Added)
+        if (entry is not null && entry.Entity is ICreationTracker creationTrackable && entry.State == EntityState.Added)
         {
             creationTrackable.CreatedOn = now;
         }

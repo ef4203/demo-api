@@ -13,7 +13,8 @@ public class DeleteBookCommandValidator : AbstractValidator<DeleteBookCommand>
 {
     public DeleteBookCommandValidator()
     {
-        this.RuleFor(o => o.Id).NotEmpty();
+        this.RuleFor(o => o.Id)
+            .NotEmpty();
     }
 }
 
@@ -30,7 +31,8 @@ public class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand, Unit>
     {
         _ = request ?? throw new ArgumentNullException(nameof(request));
 
-        var entity = await this.dbContext.Books.Where(x => x.Id == request.Id)
+        var entity = await this.dbContext.Books
+            .Where(x => x.Id == request.Id)
             .SingleOrDefaultAsync(cancellationToken);
 
         if (entity is null)

@@ -1,29 +1,9 @@
 namespace Contonso.SampleApi.Application.Authors.Commands;
 
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-public record UpdateAuthorCommand : IRequest<Unit>
-{
-    public Guid Id { get; set; }
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
-}
-
-public class UpdateAuthorCommandValidator : AbstractValidator<UpdateAuthorCommand>
-{
-    public UpdateAuthorCommandValidator()
-    {
-        this.RuleFor(o => o.Id).NotEmpty();
-
-        this.RuleFor(o => o.FirstName).MinimumLength(1).NotEmpty();
-
-        this.RuleFor(o => o.LastName).MinimumLength(1).NotEmpty();
-    }
-}
-
-public class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand, Unit>
+internal class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand, Unit>
 {
     private readonly IApplicationDbContext dbContext;
 

@@ -25,7 +25,10 @@ public class MappingProfile : Profile
             .Where(t => t.GetInterfaces().Any(HasInterface))
             .ToList();
 
-        var argumentTypes = new[] { typeof(Profile) };
+        var argumentTypes = new[]
+        {
+            typeof(Profile),
+        };
 
         foreach (var type in types)
         {
@@ -35,7 +38,10 @@ public class MappingProfile : Profile
 
             if (methodInfo != null)
             {
-                methodInfo.Invoke(instance, new object[] { this });
+                methodInfo.Invoke(instance, new object[]
+                {
+                    this,
+                });
             }
             else
             {
@@ -50,9 +56,13 @@ public class MappingProfile : Profile
 
                 foreach (var @interface in interfaces)
                 {
-                    var interfaceMethodInfo = @interface.GetMethod(mappingMethodName, argumentTypes);
+                    var interfaceMethodInfo =
+                        @interface.GetMethod(mappingMethodName, argumentTypes);
 
-                    interfaceMethodInfo?.Invoke(instance, new object[] { this });
+                    interfaceMethodInfo?.Invoke(instance, new object[]
+                    {
+                        this,
+                    });
                 }
             }
         }

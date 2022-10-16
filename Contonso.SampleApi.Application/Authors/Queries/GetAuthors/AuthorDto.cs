@@ -4,7 +4,6 @@ using Contonso.SampleApi.Application.Common.Mapping;
 
 public class AuthorDto : IMapFrom<Author>
 {
-    public string FirstName { get; set; }
-
-    public string LastName { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
 }

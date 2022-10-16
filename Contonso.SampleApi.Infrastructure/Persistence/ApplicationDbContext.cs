@@ -12,7 +12,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     }
 
     public DbSet<Book> Books { get; set; } = null!;
-
     public DbSet<Author> Authors { get; set; } = null!;
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -24,7 +23,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void EnsureCreationTracking(EntityEntry entry, DateTime now)
     {
-        if (entry is not null && entry.Entity is ICreationTracker creationTrackable && entry.State == EntityState.Added)
+        if (entry is not null && entry.Entity is ICreationTracker creationTrackable &&
+            entry.State == EntityState.Added)
         {
             creationTrackable.CreatedOn = now;
         }

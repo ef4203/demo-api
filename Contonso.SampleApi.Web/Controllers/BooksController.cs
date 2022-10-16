@@ -1,6 +1,8 @@
 namespace Contonso.SampleApi.Web.Controllers;
 
-using Contonso.SampleApi.Application.Books.Commands;
+using Contonso.SampleApi.Application.Books.Commands.CreateBook;
+using Contonso.SampleApi.Application.Books.Commands.DeleteBook;
+using Contonso.SampleApi.Application.Books.Commands.UpdateBook;
 using Contonso.SampleApi.Application.Books.Queries.GetBooks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -18,7 +20,7 @@ public class BooksController : BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult<int>> CreateBook([FromBody] CreateBookCommand command)
+    public async Task<ActionResult<Guid>> CreateBook([FromBody] CreateBookCommand command)
     {
         return await this.Mediator.Send(command);
     }
@@ -31,7 +33,8 @@ public class BooksController : BaseController
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult> UpdateBook([FromRoute] Guid id, [FromBody] UpdateBookCommand command)
+    public async Task<ActionResult> UpdateBook([FromRoute] Guid id,
+        [FromBody] UpdateBookCommand command)
     {
         if (id != command?.Id)
         {

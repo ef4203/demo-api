@@ -1,6 +1,8 @@
 namespace Contonso.SampleApi.Web.Controllers;
 
 using Contonso.SampleApi.Application.Authors.Commands;
+using Contonso.SampleApi.Application.Authors.Commands.CreateAuthor;
+using Contonso.SampleApi.Application.Authors.Commands.DeleteAuthor;
 using Contonso.SampleApi.Application.Authors.Queries.GetAuthors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -19,7 +21,7 @@ public class AuthorsController : BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult<int>> CreateAuthor([FromBody] CreateAuthorCommand command)
+    public async Task<ActionResult<Guid>> CreateAuthor([FromBody] CreateAuthorCommand command)
     {
         return await this.Mediator.Send(command);
     }
@@ -28,11 +30,13 @@ public class AuthorsController : BaseController
     public async Task<ActionResult> DeleteAuthor([FromRoute] Guid id)
     {
         await this.Mediator.Send(new DeleteAuthorCommand(id));
+
         return this.NoContent();
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult> UpdateBook([FromRoute] Guid id, [FromBody] UpdateAuthorCommand command)
+    public async Task<ActionResult> UpdateBook([FromRoute] Guid id,
+        [FromBody] UpdateAuthorCommand command)
     {
         if (id != command.Id)
         {

@@ -1,23 +1,9 @@
-namespace Contonso.SampleApi.Application.Authors.Commands;
+namespace Contonso.SampleApi.Application.Authors.Commands.DeleteAuthor;
 
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-public record DeleteAuthorCommand(Guid id) : IRequest<Unit>
-{
-    public Guid Id { get; set; } = id;
-}
-
-public class DeleteAuthorCommandValidator : AbstractValidator<DeleteAuthorCommand>
-{
-    public DeleteAuthorCommandValidator()
-    {
-        this.RuleFor(o => o.Id).NotEmpty();
-    }
-}
-
-public class DeleteAuthorCommandHandler : IRequestHandler<DeleteAuthorCommand, Unit>
+internal class DeleteAuthorCommandHandler : IRequestHandler<DeleteAuthorCommand, Unit>
 {
     private readonly IApplicationDbContext dbContext;
 

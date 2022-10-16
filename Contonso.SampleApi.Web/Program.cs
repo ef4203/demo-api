@@ -13,7 +13,10 @@ internal class Programm
         var builder = WebApplication.CreateBuilder(args);
 
         // Configure logging.
-        Log.Logger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.Console().CreateLogger();
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Console()
+            .CreateLogger();
 
         builder.Host.UseSerilog();
 
@@ -23,8 +26,10 @@ internal class Programm
         builder.Services.AddSwaggerGen();
         builder.Services.AddHealthChecks();
 
-        builder.Services.AddControllersWithViews(options => options.Filters.Add<ApiExceptionFilterAttribute>())
-            .AddNewtonsoftJson().AddOData(o => { o.EnableQueryFeatures(1000); });
+        builder.Services.AddControllersWithViews(o =>
+                o.Filters.Add<ApiExceptionFilterAttribute>())
+            .AddNewtonsoftJson()
+            .AddOData(o => { o.EnableQueryFeatures(1000); });
 
         builder.Services.AddApplicationServices();
         builder.Services.AddInfrastructureServices();

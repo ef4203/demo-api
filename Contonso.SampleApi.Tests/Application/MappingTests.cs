@@ -1,9 +1,8 @@
 namespace Contonso.SampleApi.Tests.Application;
 
 using System.Runtime.Serialization;
-using AutoMapper;
+using Contonso.SampleApi.Application.Authors.Queries.GetAuthors;
 using Contonso.SampleApi.Application.Books.Queries.GetBooks;
-using Contonso.SampleApi.Application.Common.Mapping;
 using Contonso.SampleApi.Domain.Entities;
 using Contonso.SampleApi.Tests.Application.Common;
 
@@ -11,6 +10,7 @@ public class MappingTests : BaseTest
 {
     [Test]
     [TestCase(typeof(Book), typeof(BookDto))]
+    [TestCase(typeof(Author), typeof(AuthorDto))]
     public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
     {
         _ = source ?? throw new ArgumentNullException(nameof(source));

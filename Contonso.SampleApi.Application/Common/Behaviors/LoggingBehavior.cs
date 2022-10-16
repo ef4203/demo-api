@@ -4,10 +4,10 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    private readonly ILogger<TRequest> logger;
+    private readonly ILogger logger;
 
     public LoggingBehavior(ILogger<TRequest> logger)
     {
@@ -20,9 +20,11 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         _ = request ?? throw new ArgumentNullException(nameof(request));
         _ = next ?? throw new ArgumentNullException(nameof(next));
 
-        this.logger.LogDebug("Start of {0}, Request: {1}", typeof(TRequest).Name, JsonConvert.SerializeObject(request));
+        this.logger.LogDebug("Start of {0}, Request: {1}", typeof(TRequest).Name,
+            JsonConvert.SerializeObject(request));
         var response = await next();
-        this.logger.LogDebug("End of {0}, Response: {1}", typeof(TRequest).Name, JsonConvert.SerializeObject(response));
+        this.logger.LogDebug("End of {0}, Response: {1}", typeof(TRequest).Name,
+            JsonConvert.SerializeObject(response));
 
         return response;
     }

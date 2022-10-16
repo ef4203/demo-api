@@ -1,24 +1,9 @@
-namespace Contonso.SampleApi.Application.Books.Commands;
+namespace Contonso.SampleApi.Application.Books.Commands.DeleteBook;
 
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-public record DeleteBookCommand(Guid id) : IRequest<Unit>
-{
-    public Guid Id { get; set; } = id;
-}
-
-public class DeleteBookCommandValidator : AbstractValidator<DeleteBookCommand>
-{
-    public DeleteBookCommandValidator()
-    {
-        this.RuleFor(o => o.Id)
-            .NotEmpty();
-    }
-}
-
-public class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand, Unit>
+internal class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand, Unit>
 {
     private readonly IApplicationDbContext dbContext;
 

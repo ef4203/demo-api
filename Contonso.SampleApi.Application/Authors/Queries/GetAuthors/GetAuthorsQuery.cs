@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 public record GetAuthorsQuery : IRequest<IEnumerable<AuthorDto>>;
 
-public class GetAuthorsQueryHandler : IRequestHandler<GetAuthorsQuery, IEnumerable<AuthorDto>>
+internal class GetAuthorsQueryHandler : IRequestHandler<GetAuthorsQuery, IEnumerable<AuthorDto>>
 {
     private readonly IApplicationDbContext dbContext;
 
@@ -19,7 +19,8 @@ public class GetAuthorsQueryHandler : IRequestHandler<GetAuthorsQuery, IEnumerab
         this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task<IEnumerable<AuthorDto>> Handle(GetAuthorsQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<AuthorDto>> Handle(GetAuthorsQuery request,
+        CancellationToken cancellationToken)
     {
         return await this.dbContext.Authors
             .ProjectTo<AuthorDto>(this.mapper.ConfigurationProvider)

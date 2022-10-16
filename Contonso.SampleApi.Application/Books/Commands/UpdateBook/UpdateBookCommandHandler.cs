@@ -1,41 +1,9 @@
-namespace Contonso.SampleApi.Application.Books.Commands;
+namespace Contonso.SampleApi.Application.Books.Commands.UpdateBook;
 
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-public record UpdateBookCommand : IRequest<Unit>
-{
-    public Guid Id { get; set; }
-
-    public string? Title { get; set; }
-
-    public Guid AuthorId { get; set; }
-
-    public DateTime PublishDate { get; set; }
-}
-
-public class UpdateBookCommandValidator : AbstractValidator<UpdateBookCommand>
-{
-    public UpdateBookCommandValidator()
-    {
-        this.RuleFor(o => o.Id)
-            .NotEmpty();
-
-        this.RuleFor(o => o.Title)
-            .MinimumLength(1)
-            .NotEmpty();
-
-        this.RuleFor(o => o.AuthorId)
-            .NotEmpty();
-
-        this.RuleFor(o => o.PublishDate)
-            .LessThan(DateTime.Now)
-            .NotEmpty();
-    }
-}
-
-public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, Unit>
+internal class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, Unit>
 {
     private readonly IApplicationDbContext dbContext;
 

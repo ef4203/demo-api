@@ -1,7 +1,6 @@
 namespace Contonso.SampleApi.Web.Filter;
 
 using Contonso.SampleApi.Application.Common.Exceptions;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -14,8 +13,12 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         // Register known exception types and handlers.
         this.exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
-            { typeof(ValidationException), this.HandleValidationException },
-            { typeof(NotFoundException), this.HandleNotFoundException },
+            {
+                typeof(ValidationException), this.HandleValidationException
+            },
+            {
+                typeof(NotFoundException), this.HandleNotFoundException
+            },
         };
     }
 
@@ -46,10 +49,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         var exception = (ValidationException)context.Exception;
 
-        var errors = exception.Errors.GroupBy(e => e.PropertyName, e => e.ErrorMessage)
-            .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
-
-        var details = new ValidationProblemDetails(errors)
+        var details = new ValidationProblemDetails(exception.Errors)
         {
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
         };

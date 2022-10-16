@@ -7,5 +7,6 @@ public class BaseController : Controller
 {
     private ISender mediator = null!;
 
-    protected ISender Mediator => this.mediator ??= this.HttpContext.RequestServices.GetRequiredService<ISender>();
+    protected ISender Mediator =>
+        this.mediator ??= this.HttpContext.RequestServices.GetRequiredService<ISender>();
 }

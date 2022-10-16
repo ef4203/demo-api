@@ -2,7 +2,7 @@ language: csharp
 sudo: false
 dist: trusty
 mono: none
-dotnet: 6.0.402
+dotnet: 6.0
 
 env:
   global:
@@ -13,20 +13,3 @@ script:
  - dotnet restore
  - dotnet test
  - dotnet publish
-
-# os:
-#   - linux
-#   - osx
-#   - windows
-
-# before_install:
-#   # Manually install .NET 6.0
-#   - mkdir -p $HOME/dotnet
-#   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://download.visualstudio.microsoft.com/download/pr/2601dfcb-7d2f-4186-9a08-d121e63a06dd/cd89903b769b1d6e3bdc1e7cd5fcc19a/dotnet-sdk-6.0.402-osx-x64.tar.gz ; tar zxf dotnet-sdk-6.0.402-osx-x64.tar.gz -C $HOME/dotnet ; fi
-#   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget https://download.visualstudio.microsoft.com/download/pr/d3e46476-4494-41b7-a628-c517794c5a6a/6066215f6c0a18b070e8e6e8b715de0b/dotnet-sdk-6.0.402-linux-x64.tar.gz ; tar zxf dotnet-sdk-6.0.402-linux-x64.tar.gz -C $HOME/dotnet ; fi
-#   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then wget https://download.visualstudio.microsoft.com/download/pr/554fb42f-36ae-4f2f-b7e1-6b447ebb1867/a512568a4574fc3494b73c187a5316d8/dotnet-sdk-6.0.402-win-x64.zip ; 7z x dotnet-sdk-6.0.402-win-x64.zip -o$HOME/dotnet ; fi
-
-# script:
-#   - $HOME/dotnet/dotnet restore
-#   - $HOME/dotnet/dotnet test
-#   - $HOME/dotnet/dotnet publish --configuration Release

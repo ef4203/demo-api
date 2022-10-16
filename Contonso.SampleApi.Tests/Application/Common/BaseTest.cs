@@ -2,9 +2,14 @@ namespace Contonso.SampleApi.Tests.Application.Common;
 
 using AutoMapper;
 using Contonso.SampleApi.Application;
+using Contonso.SampleApi.Application.Authors.Commands.CreateAuthor;
+using Contonso.SampleApi.Application.Authors.Commands.DeleteAuthor;
+using Contonso.SampleApi.Application.Authors.Commands.UpdateAuthor;
+using Contonso.SampleApi.Application.Authors.Queries.GetAuthors;
 using Contonso.SampleApi.Application.Books.Commands.CreateBook;
 using Contonso.SampleApi.Application.Books.Commands.DeleteBook;
 using Contonso.SampleApi.Application.Books.Commands.UpdateBook;
+using Contonso.SampleApi.Application.Books.Queries.GetBooks;
 using Contonso.SampleApi.Application.Common.Abstraction;
 using Contonso.SampleApi.Infrastructure.Persistence;
 using MediatR;
@@ -26,11 +31,11 @@ public class BaseTest
         this.Mediator = serviceProvider.GetRequiredService<ISender>();
     }
 
-    public IApplicationDbContext DbContext { get; private set; }
+    public IApplicationDbContext DbContext { get; }
 
-    public IMapper Mapper { get; private set; }
+    public IMapper Mapper { get; }
 
-    public ISender Mediator { get; private set; }
+    public ISender Mediator { get; }
 }
 
 internal static class ServiceCollectionExtension
@@ -49,6 +54,11 @@ internal static class ServiceCollectionExtension
         services.AddTransient(o => Mock.Of<ILogger<CreateBookCommand>>()!);
         services.AddTransient(o => Mock.Of<ILogger<DeleteBookCommand>>()!);
         services.AddTransient(o => Mock.Of<ILogger<UpdateBookCommand>>()!);
+        services.AddTransient(o => Mock.Of<ILogger<GetBooksQuery>>()!);
+        services.AddTransient(o => Mock.Of<ILogger<CreateAuthorCommand>>()!);
+        services.AddTransient(o => Mock.Of<ILogger<UpdateAuthorCommand>>()!);
+        services.AddTransient(o => Mock.Of<ILogger<DeleteAuthorCommand>>()!);
+        services.AddTransient(o => Mock.Of<ILogger<GetAuthorsQuery>>()!);
 
         return services;
     }

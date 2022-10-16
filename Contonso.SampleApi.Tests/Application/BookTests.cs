@@ -4,6 +4,7 @@ using Bogus.DataSets;
 using Contonso.SampleApi.Application.Books.Commands.CreateBook;
 using Contonso.SampleApi.Application.Books.Commands.DeleteBook;
 using Contonso.SampleApi.Application.Books.Commands.UpdateBook;
+using Contonso.SampleApi.Application.Books.Queries.GetBooks;
 using Contonso.SampleApi.Application.Common.Exceptions;
 using Contonso.SampleApi.Tests.Application.Common;
 
@@ -106,7 +107,7 @@ public class BookTests : BaseTest
     }
 
     [Test]
-    public async Task DeleteBookCommandThrowsNoException()
+    public async Task DeleteBook()
     {
         var commerceDataSet = new Commerce();
 
@@ -123,7 +124,7 @@ public class BookTests : BaseTest
     }
 
     [Test]
-    public async Task CreateBookCommandThrowsNoException()
+    public async Task CreateBook()
     {
         var commerceDataSet = new Commerce();
 
@@ -139,7 +140,7 @@ public class BookTests : BaseTest
     }
 
     [Test]
-    public async Task UpdateBookCommandThrowsNoException()
+    public async Task UpdateBook()
     {
         var commerceDataSet = new Commerce();
 
@@ -162,5 +163,46 @@ public class BookTests : BaseTest
         };
 
         await this.Mediator.Send(updateCommand);
+    }
+
+    [Test]
+    public async Task CannotUpdateNonExistingBook()
+    {
+        var commerceDataSet = new Commerce();
+
+        var createCommand = new CreateBookCommand
+        {
+            Title = commerceDataSet.ProductName(),
+            AuthorId = Guid.NewGuid(),
+            PublishDate = DateTime.Now.AddYears(-10),
+        };
+
+        var id = await this.Mediator.Send(createCommand);
+        Assert.That(id, Is.Not.Empty);
+
+        var updateCommand = new UpdateBookCommand
+        {
+            Id = Guid.NewGuid(),
+            Title = commerceDataSet.ProductName(),
+            AuthorId = Guid.NewGuid(),
+            PublishDate = DateTime.Now.AddYears(-10),
+        };
+
+        Assert.ThrowsAsync<NotFoundException>(async () => await this.Mediator.Send(updateCommand));
+    }
+
+    [Test]
+    public void CannotDeleteNonExistingBook()
+    {
+        Assert.ThrowsAsync<NotFoundException>(
+            async () =>
+                await this.Mediator.Send(new DeleteBookCommand(Guid.NewGuid())));
+    }
+
+    [Test]
+    public async Task GetBooks()
+    {
+        var result = await this.Mediator.Send(new GetBooksQuery());
+        Assert.That(result, Is.Not.Null.Or.Empty);
     }
 }

@@ -15,32 +15,41 @@ using Moq;
 
 public class BaseTest
 {
-    protected readonly IApplicationDbContext DbContext;
-    protected readonly IMapper Mapper;
-    protected readonly ISender Mediator;
-    private readonly IServiceProvider serviceProvider;
-
     protected BaseTest()
     {
-        var services = new ServiceCollection();
-        ConfigureServices(services);
-        this.serviceProvider = services.BuildServiceProvider();
+        var serviceProvider = new ServiceCollection()
+            .ConfigureServices()
+            .BuildServiceProvider();
 
-        this.DbContext = this.serviceProvider.GetRequiredService<IApplicationDbContext>();
-        this.Mapper = this.serviceProvider.GetRequiredService<IMapper>();
-        this.Mediator = this.serviceProvider.GetRequiredService<ISender>();
-        var logger = this.serviceProvider.GetRequiredService<ILogger>();
+        this.DbContext = serviceProvider.GetRequiredService<IApplicationDbContext>();
+        this.Mapper = serviceProvider.GetRequiredService<IMapper>();
+        this.Mediator = serviceProvider.GetRequiredService<ISender>();
     }
 
-    private static void ConfigureServices(IServiceCollection services)
+    public IApplicationDbContext DbContext { get; private set; }
+
+    public IMapper Mapper { get; private set; }
+
+    public ISender Mediator { get; private set; }
+}
+
+internal static class ServiceCollectionExtension
+{
+    public static IServiceCollection ConfigureServices(this IServiceCollection services)
     {
+        _ = services ?? throw new ArgumentNullException(nameof(services));
+
         services.AddApplicationServices();
-        services.AddDbContext<ApplicationDbContext>(o =>
-            o.UseInMemoryDatabase("ExampleApi"));
+        services.AddDbContext<ApplicationDbContext>(
+            o =>
+                o.UseInMemoryDatabase("ExampleApi"));
+
         services.AddTransient(typeof(IApplicationDbContext), typeof(ApplicationDbContext));
-        services.AddTransient(o => Mock.Of<ILogger>());
-        services.AddTransient(o => Mock.Of<ILogger<CreateBookCommand>>());
-        services.AddTransient(o => Mock.Of<ILogger<DeleteBookCommand>>());
-        services.AddTransient(o => Mock.Of<ILogger<UpdateBookCommand>>());
+        services.AddTransient(o => Mock.Of<ILogger>()!);
+        services.AddTransient(o => Mock.Of<ILogger<CreateBookCommand>>()!);
+        services.AddTransient(o => Mock.Of<ILogger<DeleteBookCommand>>()!);
+        services.AddTransient(o => Mock.Of<ILogger<UpdateBookCommand>>()!);
+
+        return services;
     }
 }

@@ -6,7 +6,7 @@ using Contonso.SampleApi.Web.Filter;
 using Microsoft.AspNetCore.OData;
 using Serilog;
 
-internal class Programm
+internal class Program
 {
     public static void Main(string[] args)
     {
@@ -26,8 +26,9 @@ internal class Programm
         builder.Services.AddSwaggerGen();
         builder.Services.AddHealthChecks();
 
-        builder.Services.AddControllersWithViews(o =>
-                o.Filters.Add<ApiExceptionFilterAttribute>())
+        builder.Services.AddControllersWithViews(
+                o =>
+                    o.Filters.Add<ApiExceptionFilterAttribute>())
             .AddNewtonsoftJson()
             .AddOData(o => { o.EnableQueryFeatures(1000); });
 

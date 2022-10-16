@@ -38,10 +38,12 @@ public class MappingProfile : Profile
 
             if (methodInfo != null)
             {
-                methodInfo.Invoke(instance, new object[]
+                var thisObj = new object[]
                 {
                     this,
-                });
+                };
+
+                methodInfo.Invoke(instance, thisObj);
             }
             else
             {
@@ -59,10 +61,12 @@ public class MappingProfile : Profile
                     var interfaceMethodInfo =
                         @interface.GetMethod(mappingMethodName, argumentTypes);
 
-                    interfaceMethodInfo?.Invoke(instance, new object[]
+                    var thisObj = new object[]
                     {
                         this,
-                    });
+                    };
+
+                    interfaceMethodInfo?.Invoke(instance, thisObj);
                 }
             }
         }

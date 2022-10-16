@@ -33,7 +33,8 @@ public class BooksController : BaseController
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult> UpdateBook([FromRoute] Guid id,
+    public async Task<ActionResult> UpdateBook(
+        [FromRoute] Guid id,
         [FromBody] UpdateBookCommand command)
     {
         if (id != command?.Id)

@@ -9,8 +9,9 @@ public static class ConfigureServicesExtension
     {
         _ = services ?? throw new ArgumentNullException(nameof(services));
 
-        services.AddDbContext<ApplicationDbContext>(o
-            => o.UseInMemoryDatabase("ExampleApi"));
+        services.AddDbContext<ApplicationDbContext>(
+            o
+                => o.UseInMemoryDatabase("ExampleApi"));
 
         services.AddTransient(typeof(IApplicationDbContext), typeof(ApplicationDbContext));
 

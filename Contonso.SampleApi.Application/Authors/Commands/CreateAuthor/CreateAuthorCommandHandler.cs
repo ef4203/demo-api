@@ -17,7 +17,8 @@ internal class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand,
 
         var entity = new Author
         {
-            FirstName = request.FirstName, LastName = request.LastName,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
         };
 
         await this.dbContext.Authors.AddAsync(entity, cancellationToken);

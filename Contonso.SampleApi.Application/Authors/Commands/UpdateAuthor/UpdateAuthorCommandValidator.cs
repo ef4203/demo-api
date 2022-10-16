@@ -6,15 +6,15 @@ internal class UpdateAuthorCommandValidator : AbstractValidator<UpdateAuthorComm
 {
     public UpdateAuthorCommandValidator()
     {
-        this.RuleFor(o => o.Id)
+        this.RuleFor(o => o.Id)?
             .NotEmpty();
 
-        this.RuleFor(o => o.FirstName)
-            .MinimumLength(1)
+        this.RuleFor(o => o.FirstName)?
+            .MinimumLength(1)?
             .NotEmpty();
 
-        this.RuleFor(o => o.LastName)
-            .MinimumLength(1)
+        this.RuleFor(o => o.LastName)?
+            .MinimumLength(1)?
             .NotEmpty();
     }
 }

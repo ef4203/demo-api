@@ -1,4 +1,4 @@
-namespace Contonso.SampleApi.Application.Authors.Commands;
+namespace Contonso.SampleApi.Application.Authors.Commands.UpdateAuthor;
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;

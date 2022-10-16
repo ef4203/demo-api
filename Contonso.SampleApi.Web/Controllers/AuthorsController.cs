@@ -1,8 +1,8 @@
 namespace Contonso.SampleApi.Web.Controllers;
 
-using Contonso.SampleApi.Application.Authors.Commands;
 using Contonso.SampleApi.Application.Authors.Commands.CreateAuthor;
 using Contonso.SampleApi.Application.Authors.Commands.DeleteAuthor;
+using Contonso.SampleApi.Application.Authors.Commands.UpdateAuthor;
 using Contonso.SampleApi.Application.Authors.Queries.GetAuthors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -35,10 +35,11 @@ public class AuthorsController : BaseController
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult> UpdateBook([FromRoute] Guid id,
+    public async Task<ActionResult> UpdateBook(
+        [FromRoute] Guid id,
         [FromBody] UpdateAuthorCommand command)
     {
-        if (id != command.Id)
+        if (id != command?.Id)
         {
             return this.BadRequest();
         }

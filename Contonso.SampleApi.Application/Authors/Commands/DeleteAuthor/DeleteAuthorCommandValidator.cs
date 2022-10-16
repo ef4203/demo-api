@@ -6,7 +6,7 @@ internal class DeleteAuthorCommandValidator : AbstractValidator<DeleteAuthorComm
 {
     public DeleteAuthorCommandValidator()
     {
-        this.RuleFor(o => o.Id)
+        this.RuleFor(o => o.Id)?
             .NotEmpty();
     }
 }

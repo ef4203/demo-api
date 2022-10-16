@@ -4,7 +4,7 @@ using Contonso.SampleApi.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
+public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 {
     private readonly IDictionary<Type, Action<ExceptionContext>> exceptionHandlers;
 
@@ -14,10 +14,10 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         this.exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
             {
-                typeof(ValidationException), this.HandleValidationException
+                typeof(ValidationException), HandleValidationException
             },
             {
-                typeof(NotFoundException), this.HandleNotFoundException
+                typeof(NotFoundException), HandleNotFoundException
             },
         };
     }
@@ -30,36 +30,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         base.OnException(context);
     }
 
-    private void HandleException(ExceptionContext context)
-    {
-        var type = context.Exception.GetType();
-        if (this.exceptionHandlers.ContainsKey(type))
-        {
-            this.exceptionHandlers[type].Invoke(context);
-            return;
-        }
-
-        if (!context.ModelState.IsValid)
-        {
-            this.HandleInvalidModelStateException(context);
-        }
-    }
-
-    private void HandleValidationException(ExceptionContext context)
-    {
-        var exception = (ValidationException)context.Exception;
-
-        var details = new ValidationProblemDetails(exception.Errors)
-        {
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
-        };
-
-        context.Result = new BadRequestObjectResult(details);
-
-        context.ExceptionHandled = true;
-    }
-
-    private void HandleInvalidModelStateException(ExceptionContext context)
+    private static void HandleInvalidModelStateException(ExceptionContext context)
     {
         var details = new ValidationProblemDetails(context.ModelState)
         {
@@ -71,7 +42,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleNotFoundException(ExceptionContext context)
+    private static void HandleNotFoundException(ExceptionContext context)
     {
         var exception = (NotFoundException)context.Exception;
 
@@ -85,5 +56,34 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.Result = new NotFoundObjectResult(details);
 
         context.ExceptionHandled = true;
+    }
+
+    private static void HandleValidationException(ExceptionContext context)
+    {
+        var exception = (ValidationException)context.Exception;
+
+        var details = new ValidationProblemDetails(exception.Errors)
+        {
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+        };
+
+        context.Result = new BadRequestObjectResult(details);
+
+        context.ExceptionHandled = true;
+    }
+
+    private void HandleException(ExceptionContext context)
+    {
+        var type = context.Exception.GetType();
+        if (this.exceptionHandlers.ContainsKey(type))
+        {
+            this.exceptionHandlers[type].Invoke(context);
+            return;
+        }
+
+        if (!context.ModelState.IsValid)
+        {
+            HandleInvalidModelStateException(context);
+        }
     }
 }

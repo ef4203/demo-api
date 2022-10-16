@@ -14,16 +14,24 @@ internal class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+    public async Task<TResponse> Handle(
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
         _ = request ?? throw new ArgumentNullException(nameof(request));
         _ = next ?? throw new ArgumentNullException(nameof(next));
 
-        this.logger.LogDebug("Start of {0}, Request: {1}", typeof(TRequest).Name,
+        this.logger.LogDebug(
+            "Start of {RequestName}, Request: {RequestObject}",
+            typeof(TRequest).Name,
             JsonConvert.SerializeObject(request));
+
         var response = await next();
-        this.logger.LogDebug("End of {0}, Response: {1}", typeof(TRequest).Name,
+
+        this.logger.LogDebug(
+            "End of {RequestName}, Response: {ResponseObject}",
+            typeof(TRequest).Name,
             JsonConvert.SerializeObject(response));
 
         return response;

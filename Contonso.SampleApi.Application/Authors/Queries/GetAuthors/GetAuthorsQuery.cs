@@ -19,7 +19,8 @@ internal class GetAuthorsQueryHandler : IRequestHandler<GetAuthorsQuery, IEnumer
         this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task<IEnumerable<AuthorDto>> Handle(GetAuthorsQuery request,
+    public async Task<IEnumerable<AuthorDto>> Handle(
+        GetAuthorsQuery request,
         CancellationToken cancellationToken)
     {
         return await this.dbContext.Authors

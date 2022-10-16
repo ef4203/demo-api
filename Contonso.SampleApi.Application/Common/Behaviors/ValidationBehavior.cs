@@ -14,7 +14,9 @@ internal class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequ
         this.validators = validators ?? throw new ArgumentNullException(nameof(validators));
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+    public async Task<TResponse> Handle(
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
         _ = request ?? throw new ArgumentNullException(nameof(request));
@@ -30,7 +32,9 @@ internal class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequ
         var validationResults = await Task.WhenAll(
             this.validators.Select(v => v.ValidateAsync(context, cancellationToken)));
 
-        var failures = validationResults.Where(r => r.Errors.Any()).SelectMany(r => r.Errors)
+        var failures = validationResults
+            .Where(r => r!.Errors!.Any())
+            .SelectMany(r => r!.Errors!)
             .ToList();
 
         if (failures.Any())

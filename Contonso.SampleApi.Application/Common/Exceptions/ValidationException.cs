@@ -4,6 +4,16 @@ using FluentValidation.Results;
 
 public class ValidationException : Exception
 {
+    public ValidationException(string message)
+        : base(message)
+    {
+    }
+
+    public ValidationException(string message, Exception innerException)
+        : base(message, innerException)
+    {
+    }
+
     public ValidationException()
         : base("One or more validation failures have occurred.")
     {
@@ -18,5 +28,5 @@ public class ValidationException : Exception
             .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
     }
 
-    public IDictionary<string, string[]> Errors { get; }
+    public IDictionary<string, string[]> Errors { get; } = null!;
 }

@@ -12,22 +12,25 @@ public class BookTests : BaseTest
     [Test]
     public void CreateBookCommandRCannotBeNull()
     {
-        Assert.Throws<ArgumentNullException>(() =>
-            this.Mediator.Send((CreateBookCommand)null));
+        Assert.Throws<ArgumentNullException>(
+            () =>
+                this.Mediator.Send((CreateBookCommand)null));
     }
 
     [Test]
     public void DeleteBookCommandCannotBeNull()
     {
-        Assert.Throws<ArgumentNullException>(() =>
-            this.Mediator.Send((DeleteBookCommand)null));
+        Assert.Throws<ArgumentNullException>(
+            () =>
+                this.Mediator.Send((DeleteBookCommand)null));
     }
 
     [Test]
     public void UpdateBookCommandCannotBeNull()
     {
-        Assert.Throws<ArgumentNullException>(() =>
-            this.Mediator.Send((UpdateBookCommand)null));
+        Assert.Throws<ArgumentNullException>(
+            () =>
+                this.Mediator.Send((UpdateBookCommand)null));
     }
 
     [Test]
@@ -42,8 +45,9 @@ public class BookTests : BaseTest
             PublishDate = DateTime.Now.AddYears(10),
         };
 
-        Assert.ThrowsAsync<ValidationException>(async () =>
-            await this.Mediator.Send(command));
+        Assert.ThrowsAsync<ValidationException>(
+            async () =>
+                await this.Mediator.Send(command));
     }
 
     [Test]
@@ -53,7 +57,8 @@ public class BookTests : BaseTest
 
         var command = new CreateBookCommand
         {
-            Title = commerceDataSet.ProductName(), AuthorId = Guid.NewGuid(),
+            Title = commerceDataSet.ProductName(),
+            AuthorId = Guid.NewGuid(),
         };
 
         Assert.ThrowsAsync<ValidationException>(async () => await this.Mediator.Send(command));
@@ -64,7 +69,9 @@ public class BookTests : BaseTest
     {
         var command = new CreateBookCommand
         {
-            Title = null, AuthorId = Guid.NewGuid(), PublishDate = DateTime.Now.AddYears(-10),
+            Title = null,
+            AuthorId = Guid.NewGuid(),
+            PublishDate = DateTime.Now.AddYears(-10),
         };
 
         Assert.ThrowsAsync<ValidationException>(async () => await this.Mediator.Send(command));

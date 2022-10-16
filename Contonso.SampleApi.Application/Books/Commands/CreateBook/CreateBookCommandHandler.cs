@@ -17,7 +17,9 @@ internal class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Gui
 
         var entity = new Book
         {
-            PublishDate = request.PublishDate, AuthorId = request.AuthorId, Title = request.Title,
+            PublishDate = request.PublishDate,
+            AuthorId = request.AuthorId,
+            Title = request.Title,
         };
 
         await this.dbContext.Books.AddAsync(entity, cancellationToken);

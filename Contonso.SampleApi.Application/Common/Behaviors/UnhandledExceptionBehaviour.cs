@@ -14,7 +14,9 @@ internal class UnhandledExceptionBehaviour<TRequest, TResponse>
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+    public async Task<TResponse> Handle(
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
         _ = request ?? throw new ArgumentNullException(nameof(request));
@@ -26,7 +28,7 @@ internal class UnhandledExceptionBehaviour<TRequest, TResponse>
         }
         catch (Exception ex)
         {
-            this.logger.LogError(ex, "Unhandled exception in {0}", typeof(TRequest).Name);
+            this.logger.LogError(ex, "Unhandled exception in {RequestName}", typeof(TRequest).Name);
             throw;
         }
     }

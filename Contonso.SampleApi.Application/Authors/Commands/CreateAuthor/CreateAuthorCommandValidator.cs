@@ -6,12 +6,12 @@ internal class CreateAuthorCommandValidator : AbstractValidator<CreateAuthorComm
 {
     public CreateAuthorCommandValidator()
     {
-        this.RuleFor(o => o.FirstName)
-            .MinimumLength(1)
+        this.RuleFor(o => o.FirstName)?
+            .MinimumLength(1)?
             .NotEmpty();
 
-        this.RuleFor(o => o.LastName)
-            .MinimumLength(1)
+        this.RuleFor(o => o.LastName)?
+            .MinimumLength(1)?
             .NotEmpty();
     }
 }

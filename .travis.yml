@@ -20,6 +20,6 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then wget https://download.visualstudio.microsoft.com/download/pr/554fb42f-36ae-4f2f-b7e1-6b447ebb1867/a512568a4574fc3494b73c187a5316d8/dotnet-sdk-6.0.402-win-x64.zip ; 7z x dotnet-sdk-6.0.402-win-x64.zip -o$HOME/dotnet ; fi
 
 script:
-  - $HOME/dotnet/dotnet restore
-  - $HOME/dotnet/dotnet test
-  - $HOME/dotnet/dotnet publish --configuration Release
+ - $HOME/dotnet/dotnet restore
+ - $HOME/dotnet/dotnet test
+ - $HOME/dotnet/dotnet publish

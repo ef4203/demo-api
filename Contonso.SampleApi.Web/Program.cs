@@ -4,6 +4,7 @@ using Contonso.SampleApi.Application;
 using Contonso.SampleApi.Infrastructure;
 using Contonso.SampleApi.Web.Filter;
 using Microsoft.AspNetCore.OData;
+using Prometheus;
 using Serilog;
 
 internal class Program
@@ -44,7 +45,10 @@ internal class Program
             app.UseSwaggerUI();
         }
 
+        app.UseInfrastructureServices();
         app.UseHealthChecks("/health");
+        app.UseMetricServer();
+        app.UseHttpMetrics();
         app.UseHttpsRedirection();
         app.UseAuthorization();
         app.MapControllers();

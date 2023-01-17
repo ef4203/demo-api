@@ -1,14 +1,18 @@
 namespace Contonso.SampleApi.Application.Authors.Commands.CreateAuthor;
 
+using Contonso.SampleApi.Application.Authors.Events;
 using MediatR;
 
 internal class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand, Guid>
 {
     private readonly IApplicationDbContext dbContext;
 
-    public CreateAuthorCommandHandler(IApplicationDbContext dbContext)
+    private readonly IMediator mediator;
+
+    public CreateAuthorCommandHandler(IApplicationDbContext dbContext, IMediator mediator)
     {
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 
     public async Task<Guid> Handle(CreateAuthorCommand request, CancellationToken cancellationToken)
@@ -23,6 +27,7 @@ internal class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand,
 
         await this.dbContext.Authors.AddAsync(entity, cancellationToken);
         await this.dbContext.SaveChangesAsync(cancellationToken);
+        await this.mediator.Publish(new AuthorCreatedEvent(), cancellationToken);
 
         return entity.Id;
     }

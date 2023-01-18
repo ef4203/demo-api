@@ -9,15 +9,24 @@ public class AuthorCreatedEventHandler : INotificationHandler<AuthorCreatedEvent
 {
     private readonly ILogger logger;
 
-    public AuthorCreatedEventHandler(ILogger<AuthorCreatedEvent> logger)
+    private readonly IApplicationBackgroundJobService applicationBackgroundJobService;
+
+    public AuthorCreatedEventHandler(ILogger<AuthorCreatedEvent> logger, IApplicationBackgroundJobService applicationBackgroundJobService)
     {
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.applicationBackgroundJobService = applicationBackgroundJobService ??
+                                               throw new ArgumentNullException(nameof(applicationBackgroundJobService));
     }
 
     public Task Handle(AuthorCreatedEvent notification, CancellationToken cancellationToken)
     {
-        this.logger.LogInformation("AUTHOR CREATED");
+        this.applicationBackgroundJobService.Enqueue(() => this.Event());
+        return Task.CompletedTask;
+    }
 
+    public Task Event()
+    {
+        this.logger.LogInformation("AUTHOR CREATED");
         return Task.CompletedTask;
     }
 }

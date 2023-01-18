@@ -1,3 +1,5 @@
+using Contonso.SampleApi.Infrastructure.Scheduling;
+
 namespace Contonso.SampleApi.Infrastructure;
 
 using Hangfire;
@@ -15,7 +17,7 @@ public static class ConfigureServicesExtension
             o => o
                 .UseInMemoryDatabase("ExampleApi"));
 
-        services.AddTransient(typeof(IApplicationDbContext), typeof(ApplicationDbContext));
+        services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
 
         services.AddHangfire(
             configuration => configuration
@@ -24,6 +26,7 @@ public static class ConfigureServicesExtension
                 .UseMemoryStorage());
 
         services.AddHangfireServer();
+        services.AddTransient<IApplicationBackgroundJobService, ApplicationBackgroundJobService>();
 
         return services;
     }

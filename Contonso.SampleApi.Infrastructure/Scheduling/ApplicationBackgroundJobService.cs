@@ -1,7 +1,6 @@
-using System.Linq.Expressions;
-
 namespace Contonso.SampleApi.Infrastructure.Scheduling;
 
+using System.Linq.Expressions;
 using Hangfire;
 
 public class ApplicationBackgroundJobService : IApplicationBackgroundJobService
@@ -9,14 +8,14 @@ public class ApplicationBackgroundJobService : IApplicationBackgroundJobService
     private readonly IBackgroundJobClient backgroundJobClient;
 
     private readonly IRecurringJobManager recurringJobManager;
-    
+
     public ApplicationBackgroundJobService(IBackgroundJobClient backgroundJobClient, IRecurringJobManager recurringJobManager)
     {
         this.backgroundJobClient =
             backgroundJobClient ?? throw new ArgumentNullException(nameof(backgroundJobClient));
         this.recurringJobManager = recurringJobManager ?? throw new ArgumentNullException(nameof(recurringJobManager));
     }
-    
+
     public string Enqueue(Expression<Action> methodCall)
         => this.backgroundJobClient.Enqueue(methodCall);
 

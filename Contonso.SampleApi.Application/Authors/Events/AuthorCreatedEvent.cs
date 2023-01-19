@@ -14,8 +14,8 @@ public class AuthorCreatedEventHandler : INotificationHandler<AuthorCreatedEvent
     public AuthorCreatedEventHandler(ILogger<AuthorCreatedEvent> logger, IApplicationBackgroundJobService applicationBackgroundJobService)
     {
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        this.applicationBackgroundJobService = applicationBackgroundJobService ??
-                                               throw new ArgumentNullException(nameof(applicationBackgroundJobService));
+        this.applicationBackgroundJobService =
+            applicationBackgroundJobService ?? throw new ArgumentNullException(nameof(applicationBackgroundJobService));
     }
 
     public Task Handle(AuthorCreatedEvent notification, CancellationToken cancellationToken)

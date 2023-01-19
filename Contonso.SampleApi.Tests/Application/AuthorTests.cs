@@ -14,7 +14,7 @@ public class AuthorTests : BaseTest
     {
         Assert.Throws<ArgumentNullException>(
             () =>
-                this.Mediator.Send((CreateAuthorCommand)null));
+                this.Mediator.Send((CreateAuthorCommand)null!));
     }
 
     [Test]
@@ -22,7 +22,7 @@ public class AuthorTests : BaseTest
     {
         Assert.Throws<ArgumentNullException>(
             () =>
-                this.Mediator.Send((DeleteAuthorCommand)null));
+                this.Mediator.Send((DeleteAuthorCommand)null!));
     }
 
     [Test]
@@ -30,7 +30,7 @@ public class AuthorTests : BaseTest
     {
         Assert.Throws<ArgumentNullException>(
             () =>
-                this.Mediator.Send((UpdateAuthorCommand)null));
+                this.Mediator.Send((UpdateAuthorCommand)null!));
     }
 
     [Test]
@@ -38,7 +38,7 @@ public class AuthorTests : BaseTest
     {
         Assert.Throws<ArgumentNullException>(
             () =>
-                this.Mediator.Send((GetAuthorsQuery)null));
+                this.Mediator.Send((GetAuthorsQuery)null!));
     }
 
     [Test]

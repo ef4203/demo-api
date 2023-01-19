@@ -1,6 +1,6 @@
-using System.Linq.Expressions;
-
 namespace Contonso.SampleApi.Application.Common.Abstraction;
+
+using System.Linq.Expressions;
 
 public interface IApplicationBackgroundJobService
 {

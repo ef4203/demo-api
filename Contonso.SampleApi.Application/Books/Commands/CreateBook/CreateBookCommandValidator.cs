@@ -7,7 +7,7 @@ public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
     public CreateBookCommandValidator()
     {
         this.RuleFor(o => o.Title)
-            .MinimumLength(1)
+            .MinimumLength(1)?
             .NotEmpty();
 
         this.RuleFor(o => o.AuthorId)

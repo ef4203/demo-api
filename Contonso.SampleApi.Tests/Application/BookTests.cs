@@ -15,7 +15,7 @@ public class BookTests : BaseTest
     {
         Assert.Throws<ArgumentNullException>(
             () =>
-                this.Mediator.Send((CreateBookCommand)null));
+                this.Mediator.Send((CreateBookCommand)null!));
     }
 
     [Test]
@@ -23,7 +23,7 @@ public class BookTests : BaseTest
     {
         Assert.Throws<ArgumentNullException>(
             () =>
-                this.Mediator.Send((DeleteBookCommand)null));
+                this.Mediator.Send((DeleteBookCommand)null!));
     }
 
     [Test]
@@ -31,7 +31,7 @@ public class BookTests : BaseTest
     {
         Assert.Throws<ArgumentNullException>(
             () =>
-                this.Mediator.Send((UpdateBookCommand)null));
+                this.Mediator.Send((UpdateBookCommand)null!));
     }
 
     [Test]

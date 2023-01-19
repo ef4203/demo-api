@@ -5,6 +5,7 @@ using Contonso.SampleApi.Application;
 using Contonso.SampleApi.Application.Authors.Commands.CreateAuthor;
 using Contonso.SampleApi.Application.Authors.Commands.DeleteAuthor;
 using Contonso.SampleApi.Application.Authors.Commands.UpdateAuthor;
+using Contonso.SampleApi.Application.Authors.Events;
 using Contonso.SampleApi.Application.Authors.Queries.GetAuthors;
 using Contonso.SampleApi.Application.Books.Commands.CreateBook;
 using Contonso.SampleApi.Application.Books.Commands.DeleteBook;
@@ -49,7 +50,8 @@ internal static class ServiceCollectionExtension
             o =>
                 o.UseInMemoryDatabase("ExampleApi"));
 
-        services.AddTransient(typeof(IApplicationDbContext), typeof(ApplicationDbContext));
+        services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
+        services.AddTransient(o => Mock.Of<IApplicationBackgroundJobService>()!);
         services.AddTransient(o => Mock.Of<ILogger>()!);
         services.AddTransient(o => Mock.Of<ILogger<CreateBookCommand>>()!);
         services.AddTransient(o => Mock.Of<ILogger<DeleteBookCommand>>()!);
@@ -59,6 +61,7 @@ internal static class ServiceCollectionExtension
         services.AddTransient(o => Mock.Of<ILogger<UpdateAuthorCommand>>()!);
         services.AddTransient(o => Mock.Of<ILogger<DeleteAuthorCommand>>()!);
         services.AddTransient(o => Mock.Of<ILogger<GetAuthorsQuery>>()!);
+        services.AddTransient(o => Mock.Of<ILogger<AuthorCreatedEvent>>()!);
 
         return services;
     }

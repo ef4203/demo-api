@@ -1,10 +1,11 @@
 namespace Contonso.SampleApi.Application.Common.Behaviors;
 
+using Contonso.SampleApi.Application.Common.LoggerMessages;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-internal class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal sealed class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
     private readonly ILogger logger;
@@ -22,17 +23,11 @@ internal class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest
         _ = request ?? throw new ArgumentNullException(nameof(request));
         _ = next ?? throw new ArgumentNullException(nameof(next));
 
-        this.logger.LogDebug(
-            "Start of {RequestName}, Request: {RequestObject}",
-            typeof(TRequest).Name,
-            JsonConvert.SerializeObject(request));
+        this.logger.LogRequestStart(typeof(TRequest).Name, JsonConvert.SerializeObject(request));
 
         var response = await next();
 
-        this.logger.LogDebug(
-            "End of {RequestName}, Response: {ResponseObject}",
-            typeof(TRequest).Name,
-            JsonConvert.SerializeObject(response));
+        this.logger.LogRequestEnd(typeof(TRequest).Name, JsonConvert.SerializeObject(response));
 
         return response;
     }

@@ -3,7 +3,7 @@ namespace Contonso.SampleApi.Application.Books.Commands.UpdateBook;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-internal class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, Unit>
+internal sealed class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, Unit>
 {
     private readonly IApplicationDbContext dbContext;
 

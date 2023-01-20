@@ -3,7 +3,7 @@ namespace Contonso.SampleApi.Application.Authors.Commands.DeleteAuthor;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-internal class DeleteAuthorCommandHandler : IRequestHandler<DeleteAuthorCommand, Unit>
+internal sealed class DeleteAuthorCommandHandler : IRequestHandler<DeleteAuthorCommand, Unit>
 {
     private readonly IApplicationDbContext dbContext;
 

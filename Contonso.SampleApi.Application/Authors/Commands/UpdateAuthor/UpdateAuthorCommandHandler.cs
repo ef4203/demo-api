@@ -3,7 +3,7 @@ namespace Contonso.SampleApi.Application.Authors.Commands.UpdateAuthor;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-internal class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand, Unit>
+internal sealed class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand, Unit>
 {
     private readonly IApplicationDbContext dbContext;
 

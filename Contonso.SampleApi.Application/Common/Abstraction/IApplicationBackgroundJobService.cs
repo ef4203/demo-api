@@ -8,15 +8,15 @@ public interface IApplicationBackgroundJobService
 
    string Enqueue(Expression<Func<Task>> methodCall);
 
-   string Schedule(Func<Action> methodCall, TimeSpan delay);
+   string Schedule(Expression<Action> methodCall, TimeSpan delay);
 
-   string Schedule(Func<Task> methodCall, TimeSpan delay);
+   string Schedule(Expression<Func<Task>> methodCall, TimeSpan delay);
 
-   void AddOrUpdate(string jobName, Func<Action> methodCall, string ctronPattern);
+   void AddOrUpdate(string recurringJobId, Expression<Action> methodCall, string cronPattern);
 
-   void AddOrUpdate(string jobName, Func<Task> methodCall, string cronPattern);
+   void AddOrUpdate(string recurringJobId, Expression<Func<Task>> methodCall, string cronPattern);
 
-   string ContinueJobWith(string parentJobId, Func<Action> methodCall);
+   string ContinueJobWith(string parentJobId, Expression<Action> methodCall);
 
-   string ContinueJobWith(string parentJobId, Func<Task> methodCall);
+   string ContinueJobWith(string parentJobId, Expression<Func<Task>> methodCall);
 }

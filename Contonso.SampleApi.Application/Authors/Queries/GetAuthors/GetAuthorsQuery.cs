@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 public record GetAuthorsQuery : IRequest<IEnumerable<AuthorDto>>;
 
-internal class GetAuthorsQueryHandler : IRequestHandler<GetAuthorsQuery, IEnumerable<AuthorDto>>
+internal sealed class GetAuthorsQueryHandler : IRequestHandler<GetAuthorsQuery, IEnumerable<AuthorDto>>
 {
     private readonly IApplicationDbContext dbContext;
 

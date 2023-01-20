@@ -52,16 +52,7 @@ internal static class ServiceCollectionExtension
 
         services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
         services.AddTransient(o => Mock.Of<IApplicationBackgroundJobService>()!);
-        services.AddTransient(o => Mock.Of<ILogger>()!);
-        services.AddTransient(o => Mock.Of<ILogger<CreateBookCommand>>()!);
-        services.AddTransient(o => Mock.Of<ILogger<DeleteBookCommand>>()!);
-        services.AddTransient(o => Mock.Of<ILogger<UpdateBookCommand>>()!);
-        services.AddTransient(o => Mock.Of<ILogger<GetBooksQuery>>()!);
-        services.AddTransient(o => Mock.Of<ILogger<CreateAuthorCommand>>()!);
-        services.AddTransient(o => Mock.Of<ILogger<UpdateAuthorCommand>>()!);
-        services.AddTransient(o => Mock.Of<ILogger<DeleteAuthorCommand>>()!);
-        services.AddTransient(o => Mock.Of<ILogger<GetAuthorsQuery>>()!);
-        services.AddTransient(o => Mock.Of<ILogger<AuthorCreatedEvent>>()!);
+        services.AddLogging();
 
         return services;
     }

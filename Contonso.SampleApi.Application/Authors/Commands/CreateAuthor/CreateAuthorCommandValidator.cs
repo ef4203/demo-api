@@ -2,7 +2,7 @@ namespace Contonso.SampleApi.Application.Authors.Commands.CreateAuthor;
 
 using FluentValidation;
 
-internal class CreateAuthorCommandValidator : AbstractValidator<CreateAuthorCommand>
+internal sealed class CreateAuthorCommandValidator : AbstractValidator<CreateAuthorCommand>
 {
     public CreateAuthorCommandValidator()
     {

@@ -2,7 +2,7 @@ namespace Contonso.SampleApi.Application.Authors.Commands.DeleteAuthor;
 
 using FluentValidation;
 
-internal class DeleteAuthorCommandValidator : AbstractValidator<DeleteAuthorCommand>
+internal sealed class DeleteAuthorCommandValidator : AbstractValidator<DeleteAuthorCommand>
 {
     public DeleteAuthorCommandValidator()
     {

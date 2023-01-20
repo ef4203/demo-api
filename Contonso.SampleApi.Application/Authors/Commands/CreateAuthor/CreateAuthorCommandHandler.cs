@@ -3,7 +3,7 @@ namespace Contonso.SampleApi.Application.Authors.Commands.CreateAuthor;
 using Contonso.SampleApi.Application.Authors.Events;
 using MediatR;
 
-internal class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand, Guid>
+internal sealed class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand, Guid>
 {
     private readonly IApplicationDbContext dbContext;
 

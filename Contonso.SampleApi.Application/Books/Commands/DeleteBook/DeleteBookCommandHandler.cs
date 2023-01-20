@@ -3,7 +3,7 @@ namespace Contonso.SampleApi.Application.Books.Commands.DeleteBook;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-internal class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand, Unit>
+internal sealed class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand, Unit>
 {
     private readonly IApplicationDbContext dbContext;
 

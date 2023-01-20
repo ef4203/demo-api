@@ -2,7 +2,7 @@ namespace Contonso.SampleApi.Application.Books.Commands.CreateBook;
 
 using MediatR;
 
-internal class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Guid>
+internal sealed class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Guid>
 {
     private readonly IApplicationDbContext dbContext;
 

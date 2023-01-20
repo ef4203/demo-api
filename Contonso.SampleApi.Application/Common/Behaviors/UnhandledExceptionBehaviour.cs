@@ -3,7 +3,7 @@ namespace Contonso.SampleApi.Application.Common.Behaviors;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-internal class UnhandledExceptionBehaviour<TRequest, TResponse>
+internal sealed class UnhandledExceptionBehaviour<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {

@@ -7,18 +7,16 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        this.ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
+        this.ApplyMappingsFromAssembly(typeof(MappingProfile).Assembly);
     }
 
     private void ApplyMappingsFromAssembly(Assembly assembly)
     {
-        var mapFromType = typeof(IMapFrom<>);
+        const string mappingMethodName = nameof(IMapFrom<object>.Mapping);
 
-        var mappingMethodName = nameof(IMapFrom<object>.Mapping);
-
-        bool HasInterface(Type t)
+        static bool HasInterface(Type t)
         {
-            return t.IsGenericType && t.GetGenericTypeDefinition() == mapFromType;
+            return t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IMapFrom<>);
         }
 
         var types = assembly.GetExportedTypes()

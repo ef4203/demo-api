@@ -16,7 +16,13 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Author> Authors { get; set; } = null!;
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public Task<int> SaveChangesAsync()
+    {
+        this.ProcessInternalChanges();
+        return base.SaveChangesAsync();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
         this.ProcessInternalChanges();
         return base.SaveChangesAsync(cancellationToken);

@@ -11,9 +11,9 @@ public static class ConfigureServicesExtension
     {
         _ = services ?? throw new ArgumentNullException(nameof(services));
 
-        services.AddMediatR(Assembly.GetExecutingAssembly());
-        services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddMediatR(typeof(ConfigureServicesExtension).Assembly);
+        services.AddAutoMapper(typeof(ConfigureServicesExtension).Assembly);
+        services.AddValidatorsFromAssembly(typeof(ConfigureServicesExtension).Assembly);
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));

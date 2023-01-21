@@ -16,12 +16,14 @@ public static class LoggingBehaviorMessages
             new EventId(1, null),
             "End of {RequestName}, Response: {RequestObject}");
 
-    public static void LogRequestStart(this ILogger logger, string requestName, string requestObject)
+    public static void LogRequestStart(
+        this ILogger logger, string requestName, string requestObject)
     {
         BeginMsg(logger, requestName, requestObject, null!);
     }
 
-    public static void LogRequestEnd(this ILogger logger, string requestName, string requestObject)
+    public static void LogRequestEnd(
+        this ILogger logger, string requestName, string requestObject)
     {
         EndMsg(logger, requestName, requestObject, null!);
     }

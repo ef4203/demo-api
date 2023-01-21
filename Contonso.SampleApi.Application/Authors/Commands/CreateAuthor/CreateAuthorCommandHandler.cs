@@ -15,7 +15,8 @@ internal sealed class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorC
         this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 
-    public async Task<Guid> Handle(CreateAuthorCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(
+        CreateAuthorCommand request, CancellationToken cancellationToken)
     {
         _ = request ?? throw new ArgumentNullException(nameof(request));
 

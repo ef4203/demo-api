@@ -1,6 +1,5 @@
 namespace Contonso.SampleApi.Infrastructure;
 
-using Contonso.SampleApi.Infrastructure.Scheduling;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.EntityFrameworkCore;

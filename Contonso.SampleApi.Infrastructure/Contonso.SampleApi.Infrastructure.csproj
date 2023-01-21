@@ -2,8 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        <NeutralLanguage>en-001</NeutralLanguage>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <CodeAnalysisRuleSet>..\Contonso.ruleset</CodeAnalysisRuleSet>

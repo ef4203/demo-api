@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.OData;
 using Prometheus;
 using Serilog;
 
-internal sealed class Program
+internal static class Program
 {
     public static void Main(string[] args)
     {

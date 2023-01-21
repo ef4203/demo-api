@@ -9,7 +9,9 @@ public class ApplicationBackgroundJobService : IApplicationBackgroundJobService
 
     private readonly IRecurringJobManager recurringJobManager;
 
-    public ApplicationBackgroundJobService(IBackgroundJobClient backgroundJobClient, IRecurringJobManager recurringJobManager)
+    public ApplicationBackgroundJobService(
+        IBackgroundJobClient backgroundJobClient,
+        IRecurringJobManager recurringJobManager)
     {
         this.backgroundJobClient =
             backgroundJobClient ?? throw new ArgumentNullException(nameof(backgroundJobClient));
@@ -17,26 +19,42 @@ public class ApplicationBackgroundJobService : IApplicationBackgroundJobService
     }
 
     public string Enqueue(Expression<Action> methodCall)
-        => this.backgroundJobClient.Enqueue(methodCall);
+    {
+        return this.backgroundJobClient.Enqueue(methodCall);
+    }
 
     public string Enqueue(Expression<Func<Task>> methodCall)
-        => this.backgroundJobClient.Enqueue(methodCall);
+    {
+        return this.backgroundJobClient.Enqueue(methodCall);
+    }
 
     public string Schedule(Expression<Action> methodCall, TimeSpan delay)
-        => this.backgroundJobClient.Schedule(methodCall, delay);
+    {
+        return this.backgroundJobClient.Schedule(methodCall, delay);
+    }
 
     public string Schedule(Expression<Func<Task>> methodCall, TimeSpan delay)
-        => this.backgroundJobClient.Schedule(methodCall, delay);
+    {
+        return this.backgroundJobClient.Schedule(methodCall, delay);
+    }
 
     public void AddOrUpdate(string recurringJobId, Expression<Action> methodCall, string cronPattern)
-        => this.recurringJobManager.AddOrUpdate(recurringJobId, methodCall, cronPattern);
+    {
+        this.recurringJobManager.AddOrUpdate(recurringJobId, methodCall, cronPattern);
+    }
 
     public void AddOrUpdate(string recurringJobId, Expression<Func<Task>> methodCall, string cronPattern)
-        => this.recurringJobManager.AddOrUpdate(recurringJobId, methodCall, cronPattern);
+    {
+        this.recurringJobManager.AddOrUpdate(recurringJobId, methodCall, cronPattern);
+    }
 
     public string ContinueJobWith(string parentJobId, Expression<Action> methodCall)
-        => this.backgroundJobClient.ContinueJobWith(parentJobId, methodCall);
+    {
+        return this.backgroundJobClient.ContinueJobWith(parentJobId, methodCall);
+    }
 
     public string ContinueJobWith(string parentJobId, Expression<Func<Task>> methodCall)
-        => this.backgroundJobClient.ContinueJobWith(parentJobId, methodCall);
+    {
+        return this.backgroundJobClient.ContinueJobWith(parentJobId, methodCall);
+    }
 }

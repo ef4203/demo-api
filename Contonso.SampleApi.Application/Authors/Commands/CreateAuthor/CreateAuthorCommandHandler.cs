@@ -16,7 +16,8 @@ internal sealed class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorC
     }
 
     public async Task<Guid> Handle(
-        CreateAuthorCommand request, CancellationToken cancellationToken)
+        CreateAuthorCommand request,
+        CancellationToken cancellationToken)
     {
         _ = request ?? throw new ArgumentNullException(nameof(request));
 

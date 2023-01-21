@@ -2,21 +2,11 @@ namespace Contonso.SampleApi.Tests.Application.Common;
 
 using AutoMapper;
 using Contonso.SampleApi.Application;
-using Contonso.SampleApi.Application.Authors.Commands.CreateAuthor;
-using Contonso.SampleApi.Application.Authors.Commands.DeleteAuthor;
-using Contonso.SampleApi.Application.Authors.Commands.UpdateAuthor;
-using Contonso.SampleApi.Application.Authors.Events;
-using Contonso.SampleApi.Application.Authors.Queries.GetAuthors;
-using Contonso.SampleApi.Application.Books.Commands.CreateBook;
-using Contonso.SampleApi.Application.Books.Commands.DeleteBook;
-using Contonso.SampleApi.Application.Books.Commands.UpdateBook;
-using Contonso.SampleApi.Application.Books.Queries.GetBooks;
 using Contonso.SampleApi.Application.Common.Abstraction;
 using Contonso.SampleApi.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Moq;
 
 public class BaseTest

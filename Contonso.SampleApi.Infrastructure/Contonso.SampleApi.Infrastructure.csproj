@@ -9,12 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Hangfire.AspNetCore" Version="1.7.32" />
-        <PackageReference Include="Hangfire.Core" Version="1.7.32" />
-        <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
-        <PackageReference Include="Hangfire.SqlServer" Version="1.7.32" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.10" />
+        <PackageReference Include="Hangfire.AspNetCore" Version="1.7.32"/>
+        <PackageReference Include="Hangfire.Core" Version="1.7.32"/>
+        <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0"/>
+        <PackageReference Include="Hangfire.SqlServer" Version="1.7.32"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.10"/>
         <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Contonso.SampleApi.Application\Contonso.SampleApi.Application.csproj" />
+        <ProjectReference Include="..\Contonso.SampleApi.Application\Contonso.SampleApi.Application.csproj"/>
     </ItemGroup>
 
 </Project>

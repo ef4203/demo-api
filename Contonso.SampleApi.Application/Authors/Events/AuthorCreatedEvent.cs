@@ -7,11 +7,13 @@ public record AuthorCreatedEvent : INotification;
 
 public class AuthorCreatedEventHandler : INotificationHandler<AuthorCreatedEvent>
 {
-    private readonly ILogger logger;
-
     private readonly IApplicationBackgroundJobService applicationBackgroundJobService;
 
-    public AuthorCreatedEventHandler(ILogger<AuthorCreatedEvent> logger, IApplicationBackgroundJobService applicationBackgroundJobService)
+    private readonly ILogger logger;
+
+    public AuthorCreatedEventHandler(
+        ILogger<AuthorCreatedEvent> logger,
+        IApplicationBackgroundJobService applicationBackgroundJobService)
     {
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         this.applicationBackgroundJobService =

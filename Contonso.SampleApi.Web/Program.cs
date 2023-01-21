@@ -31,7 +31,7 @@ internal sealed class Program
                 o =>
                     o.Filters.Add<ApiExceptionFilterAttribute>())
             .AddNewtonsoftJson()
-            .AddOData(o => { o.EnableQueryFeatures(1000); });
+            .AddOData(o => { o.EnableQueryFeatures(); });
 
         builder.Services.AddApplicationServices();
         builder.Services.AddInfrastructureServices();

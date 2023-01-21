@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <NeutralLanguage>en-001</NeutralLanguage>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>

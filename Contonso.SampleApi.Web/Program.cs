@@ -28,8 +28,7 @@ internal static class Program
         builder.Services.AddHealthChecks();
 
         builder.Services.AddControllersWithViews(
-                o =>
-                    o.Filters.Add<ApiExceptionFilterAttribute>())
+                o => o.Filters.Add<ApiExceptionFilterAttribute>())
             .AddNewtonsoftJson()
             .AddOData(o => { o.EnableQueryFeatures(); });
 

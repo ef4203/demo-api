@@ -7,17 +7,16 @@ using Contonso.SampleApi.Domain.Common;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.Extensions.Configuration;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     private readonly SqlConnection sqlConnection;
 
-    public ApplicationDbContext(DbContextOptions options, IConfiguration configuration)
+    public ApplicationDbContext(DbContextOptions options /*, IConfiguration configuration */)
         : base(options)
     {
-        var connectionString = configuration.GetConnectionString("Database") ?? string.Empty;
-        this.sqlConnection = new SqlConnection(connectionString);
+        // var connectionString = configuration.GetConnectionString("Database") ?? string.Empty;
+        //this.sqlConnection = new SqlConnection(connectionString);
     }
 
     public DbSet<Book> Books { get; set; } = null!;

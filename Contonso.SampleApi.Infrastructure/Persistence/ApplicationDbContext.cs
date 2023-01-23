@@ -1,15 +1,23 @@
 namespace Contonso.SampleApi.Infrastructure.Persistence;
 
+using System.Data;
+using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
 using Contonso.SampleApi.Domain.Common;
+using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Configuration;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
-    public ApplicationDbContext(DbContextOptions options)
+    private readonly SqlConnection sqlConnection;
+
+    public ApplicationDbContext(DbContextOptions options, IConfiguration configuration)
         : base(options)
     {
+        var connectionString = configuration.GetConnectionString("Database") ?? string.Empty;
+        this.sqlConnection = new SqlConnection(connectionString);
     }
 
     public DbSet<Book> Books { get; set; } = null!;
@@ -22,10 +30,44 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         return base.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task<IReadOnlyList<T>> QueryAsync<T>(
+        string sql,
+        object param = null,
+        IDbTransaction transaction = null,
+        CancellationToken cancellationToken = default)
+    {
+        return (await this.sqlConnection.QueryAsync<T>(sql, param, transaction)).AsList();
+    }
+
+    public async Task<T> QueryFirstOrDefaultAsync<T>(
+        string sql,
+        object param = null,
+        IDbTransaction transaction = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await this.sqlConnection.QueryFirstOrDefaultAsync<T>(sql, param, transaction);
+    }
+
+    public async Task<T> QuerySingleAsync<T>(
+        string sql,
+        object param = null,
+        IDbTransaction transaction = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await this.sqlConnection.QuerySingleAsync<T>(sql, param, transaction);
+    }
+
     public Task<int> SaveChangesAsync()
     {
         this.ProcessInternalChanges();
         return base.SaveChangesAsync();
+    }
+
+    public override void Dispose()
+    {
+        this.sqlConnection.Dispose();
+        GC.SuppressFinalize(this);
+        base.Dispose();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -2,7 +2,7 @@ namespace Contonso.SampleApi.Application.Authors.Commands.UpdateAuthor;
 
 using FluentValidation;
 
-internal sealed class UpdateAuthorCommandValidator : AbstractValidator<UpdateAuthorCommand>
+public sealed class UpdateAuthorCommandValidator : AbstractValidator<UpdateAuthorCommand>
 {
     public UpdateAuthorCommandValidator()
     {

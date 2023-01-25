@@ -16,9 +16,10 @@ public class MappingTests : BaseTest
         _ = source ?? throw new ArgumentNullException(nameof(source));
         _ = destination ?? throw new ArgumentNullException(nameof(destination));
 
-        var instance = GetInstanceOf(source);
+        var action =
+            () => this.Mapper.Map(GetInstanceOf(source), source, destination);
 
-        this.Mapper.Map(instance, source, destination);
+        action.Should().NotThrow();
     }
 
     private static object GetInstanceOf(Type type)

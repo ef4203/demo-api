@@ -1,153 +1,187 @@
 namespace Contonso.SampleApi.Tests.Application;
 
-using Bogus.DataSets;
+using Bogus;
 using Contonso.SampleApi.Application.Authors.Commands.CreateAuthor;
 using Contonso.SampleApi.Application.Authors.Commands.DeleteAuthor;
 using Contonso.SampleApi.Application.Authors.Commands.UpdateAuthor;
 using Contonso.SampleApi.Application.Authors.Queries.GetAuthors;
+using Contonso.SampleApi.Application.Common.Exceptions;
 using Contonso.SampleApi.Tests.Application.Common;
+using ValidationException = Contonso.SampleApi.Application.Common.Exceptions.ValidationException;
 
 public class AuthorTests : BaseTest
 {
+    private readonly Faker<CreateAuthorCommand> createAuthorCommandFaker;
+
+    private readonly Faker<UpdateAuthorCommand> updateAuthorCommandFaker;
+
+    public AuthorTests()
+    {
+        this.updateAuthorCommandFaker = new Faker<UpdateAuthorCommand>()
+            .RuleFor(o => o.Id, f => f.Random.Guid())
+            .RuleFor(o => o.FirstName, f => f.Name.FirstName())
+            .RuleFor(o => o.LastName, f => f.Name.LastName());
+        this.createAuthorCommandFaker = new Faker<CreateAuthorCommand>()
+            .RuleFor(o => o.FirstName, f => f.Name.FirstName())
+            .RuleFor(o => o.LastName, f => f.Name.LastName());
+    }
+
     [Test]
     public void CreateAuthorCommandRCannotBeNull()
     {
-        Assert.Throws<ArgumentNullException>(
-            () =>
-                this.Mediator.Send((CreateAuthorCommand)null!));
+        var action =
+            async () => await this.Mediator.Send((CreateAuthorCommand)null!);
+
+        action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
     public void DeleteAuthorCommandCannotBeNull()
     {
-        Assert.Throws<ArgumentNullException>(
-            () =>
-                this.Mediator.Send((DeleteAuthorCommand)null!));
+        var action =
+            async () => await this.Mediator.Send((DeleteAuthorCommand)null!);
+
+        action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
     public void UpdateAuthorCommandCannotBeNull()
     {
-        Assert.Throws<ArgumentNullException>(
-            () =>
-                this.Mediator.Send((UpdateAuthorCommand)null!));
+        var action =
+            async () => await this.Mediator.Send((UpdateAuthorCommand)null!);
+
+        action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
     public void GetAuthorQueryCannotBeNull()
     {
-        Assert.Throws<ArgumentNullException>(
-            () =>
-                this.Mediator.Send((GetAuthorsQuery)null!));
+        var action =
+            async () => await this.Mediator.Send((GetAuthorsQuery)null!);
+
+        action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
     public async Task CreateAuthor()
     {
-        var nameDataSet = new Name();
+        var command = this.createAuthorCommandFaker.Generate();
+        var result = await this.Mediator.Send(command);
 
-        var command = new CreateAuthorCommand
-        {
-            FirstName = nameDataSet.FirstName(),
-            LastName = nameDataSet.LastName(),
-        };
-
-        await this.Mediator.Send(command);
+        result.Should().NotBeEmpty();
     }
 
     [Test]
     public async Task FirstNameCannotBeNullOnCreate()
     {
-        var nameDataSet = new Name();
+        var command = this.createAuthorCommandFaker.Generate();
+        command.FirstName = null;
 
-        var command = new CreateAuthorCommand
-        {
-            FirstName = null,
-            LastName = nameDataSet.LastName(),
-        };
+        var action =
+            async () => await this.Mediator.Send(command);
 
-        await this.Mediator.Send(command);
+        await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
     public async Task FirstNameCannotBeEmptyStringOnCreate()
     {
-        var nameDataSet = new Name();
+        var command = this.createAuthorCommandFaker.Generate();
+        command.FirstName = string.Empty;
 
-        var command = new CreateAuthorCommand
-        {
-            FirstName = string.Empty,
-            LastName = nameDataSet.LastName(),
-        };
+        var action =
+            async () => await this.Mediator.Send(command);
 
-        await this.Mediator.Send(command);
+        await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
     public async Task LastNameCannotBeNullOnCreate()
     {
-        var nameDataSet = new Name();
+        var command = this.createAuthorCommandFaker.Generate();
+        command.LastName = null;
 
-        var command = new CreateAuthorCommand
-        {
-            FirstName = nameDataSet.FirstName(),
-            LastName = null,
-        };
+        var action =
+            async () => await this.Mediator.Send(command);
 
-        await this.Mediator.Send(command);
+        await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
     public async Task LastNameCannotBeEmptyStringOnCreate()
     {
-        var nameDataSet = new Name();
+        var command = this.createAuthorCommandFaker.Generate();
+        command.LastName = string.Empty;
 
-        var command = new CreateAuthorCommand
-        {
-            FirstName = nameDataSet.FirstName(),
-            LastName = string.Empty,
-        };
+        var action =
+            async () => await this.Mediator.Send(command);
 
-        await this.Mediator.Send(command);
+        await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
     public async Task DeleteAuthor()
     {
-        var nameDataSet = new Name();
-
-        var command = new CreateAuthorCommand
-        {
-            FirstName = nameDataSet.FirstName(),
-            LastName = nameDataSet.LastName(),
-        };
-
+        var command = this.createAuthorCommandFaker.Generate();
         var id = await this.Mediator.Send(command);
-        Assert.That(id, Is.Not.Empty);
-        await this.Mediator.Send(new DeleteAuthorCommand(id));
+
+        id.Should().NotBeEmpty();
+
+        var action =
+            async () => await this.Mediator.Send(new DeleteAuthorCommand(id));
+
+        await action.Should().NotThrowAsync();
     }
 
     [Test]
     public async Task UpdateAuthor()
     {
-        var nameDataSet = new Name();
-
-        var createCommand = new CreateAuthorCommand
-        {
-            FirstName = nameDataSet.FirstName(),
-            LastName = nameDataSet.LastName(),
-        };
-
+        var createCommand = this.createAuthorCommandFaker.Generate();
         var id = await this.Mediator.Send(createCommand);
-        Assert.That(id, Is.Not.Empty);
 
-        var updateCommand = new UpdateAuthorCommand
+        id.Should().NotBeEmpty();
+
+        var updateCommand = this.updateAuthorCommandFaker.Generate();
+        updateCommand.Id = id;
+
+        var action =
+            async () => await this.Mediator.Send(updateCommand);
+
+        await action.Should().NotThrowAsync();
+    }
+
+    [Test]
+    public async Task CannotUpdateNonExistingAuthor()
+    {
+        var updateCommand = this.updateAuthorCommandFaker.Generate();
+
+        var action =
+            async () => await this.Mediator.Send(updateCommand);
+
+        await action.Should().ThrowAsync<NotFoundException>();
+    }
+
+    [Test]
+    public async Task CannotDeleteNonExistingAuthor()
+    {
+        var action =
+            async () => await this.Mediator.Send(new DeleteAuthorCommand(Guid.NewGuid()));
+
+        await action.Should().ThrowAsync<NotFoundException>();
+    }
+
+    [Test]
+    public async Task GetAuthors()
+    {
+        for (var i = 0; i < 10; i++)
         {
-            Id = id,
-            FirstName = nameDataSet.FirstName(),
-            LastName = nameDataSet.LastName(),
-        };
+            var command = this.createAuthorCommandFaker.Generate();
+            await this.Mediator.Send(command);
+        }
 
-        await this.Mediator.Send(updateCommand);
+        var result =
+            await this.Mediator.Send(new GetAuthorsQuery());
+
+        result.Should().NotBeEmpty().And.NotBeNull();
     }
 }

@@ -8,7 +8,6 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <CodeAnalysisRuleSet>..\Contonso.ruleset</CodeAnalysisRuleSet>
         <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>

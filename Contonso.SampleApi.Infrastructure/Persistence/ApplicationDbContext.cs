@@ -16,23 +16,17 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         : base(options)
     {
         // var connectionString = configuration.GetConnectionString("Database") ?? string.Empty;
-        //this.sqlConnection = new SqlConnection(connectionString);
+        // this.sqlConnection = new SqlConnection(connectionString);
     }
 
     public DbSet<Book> Books { get; set; } = null!;
 
     public DbSet<Author> Authors { get; set; } = null!;
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
-    {
-        this.ProcessInternalChanges();
-        return base.SaveChangesAsync(cancellationToken);
-    }
-
     public async Task<IReadOnlyList<T>> QueryAsync<T>(
         string sql,
-        object param = null,
-        IDbTransaction transaction = null,
+        object? param = null,
+        IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
         return (await this.sqlConnection.QueryAsync<T>(sql, param, transaction)).AsList();
@@ -40,8 +34,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public async Task<T> QueryFirstOrDefaultAsync<T>(
         string sql,
-        object param = null,
-        IDbTransaction transaction = null,
+        object? param = null,
+        IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
         return await this.sqlConnection.QueryFirstOrDefaultAsync<T>(sql, param, transaction);
@@ -49,17 +43,17 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public async Task<T> QuerySingleAsync<T>(
         string sql,
-        object param = null,
-        IDbTransaction transaction = null,
+        object? param = null,
+        IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
         return await this.sqlConnection.QuerySingleAsync<T>(sql, param, transaction);
     }
 
-    public Task<int> SaveChangesAsync()
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         this.ProcessInternalChanges();
-        return base.SaveChangesAsync();
+        return base.SaveChangesAsync(cancellationToken);
     }
 
     public override void Dispose()

@@ -1,208 +1,193 @@
 namespace Contonso.SampleApi.Tests.Application;
 
-using Bogus.DataSets;
+using Bogus;
 using Contonso.SampleApi.Application.Books.Commands.CreateBook;
 using Contonso.SampleApi.Application.Books.Commands.DeleteBook;
 using Contonso.SampleApi.Application.Books.Commands.UpdateBook;
 using Contonso.SampleApi.Application.Books.Queries.GetBooks;
 using Contonso.SampleApi.Application.Common.Exceptions;
 using Contonso.SampleApi.Tests.Application.Common;
+using ValidationException = Contonso.SampleApi.Application.Common.Exceptions.ValidationException;
 
 public class BookTests : BaseTest
 {
+    private readonly Faker<CreateBookCommand> createBookCommandFaker;
+
+    private readonly Faker<UpdateBookCommand> updateBookCommandFaker;
+
+    public BookTests()
+    {
+        this.createBookCommandFaker = new Faker<CreateBookCommand>()
+            .RuleFor(o => o.Title, f => f.Commerce.ProductName())
+            .RuleFor(o => o.AuthorId, f => f.Random.Guid())
+            .RuleFor(o => o.PublishDate, f => f.Date.Past());
+        this.updateBookCommandFaker = new Faker<UpdateBookCommand>()
+            .RuleFor(o => o.Id, f => f.Random.Guid())
+            .RuleFor(o => o.Title, f => f.Commerce.ProductName())
+            .RuleFor(o => o.AuthorId, f => f.Random.Guid())
+            .RuleFor(o => o.PublishDate, f => f.Date.Past());
+    }
+
     [Test]
     public void CreateBookCommandRCannotBeNull()
     {
-        Assert.Throws<ArgumentNullException>(
-            () =>
-                this.Mediator.Send((CreateBookCommand)null!));
+        var action =
+            async () => await this.Mediator.Send((CreateBookCommand)null!);
+
+        action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
     public void DeleteBookCommandCannotBeNull()
     {
-        Assert.Throws<ArgumentNullException>(
-            () =>
-                this.Mediator.Send((DeleteBookCommand)null!));
+        var action =
+            async () => await this.Mediator.Send((DeleteBookCommand)null!);
+
+        action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
     public void UpdateBookCommandCannotBeNull()
     {
-        Assert.Throws<ArgumentNullException>(
-            () =>
-                this.Mediator.Send((UpdateBookCommand)null!));
+        var action =
+            async () => await this.Mediator.Send((UpdateBookCommand)null!);
+
+        action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
-    public void BookPublishDateCannotBeInTheFutureOnCreate()
+    public async Task BookPublishDateCannotBeInTheFutureOnCreate()
     {
-        var commerceDataSet = new Commerce();
+        var command = this.createBookCommandFaker.Generate();
+        command.PublishDate = DateTime.Now.AddYears(10);
 
-        var command = new CreateBookCommand
-        {
-            Title = commerceDataSet.ProductName(),
-            AuthorId = Guid.NewGuid(),
-            PublishDate = DateTime.Now.AddYears(10),
-        };
+        var action =
+            async () => await this.Mediator.Send(command);
 
-        Assert.ThrowsAsync<ValidationException>(
-            async () =>
-                await this.Mediator.Send(command));
+        await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public void BookPublishDateCannotBeNullOnCreate()
+    public async Task BookPublishDateCannotBeNullOnCreate()
     {
-        var commerceDataSet = new Commerce();
+        var command = this.createBookCommandFaker.Generate();
+        command.PublishDate = default;
 
-        var command = new CreateBookCommand
-        {
-            Title = commerceDataSet.ProductName(),
-            AuthorId = Guid.NewGuid(),
-        };
+        var action =
+            async () => await this.Mediator.Send(command);
 
-        Assert.ThrowsAsync<ValidationException>(async () => await this.Mediator.Send(command));
+        await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public void BookTitleCannotBeNullOnCreate()
+    public async Task BookTitleCannotBeNullOnCreate()
     {
-        var command = new CreateBookCommand
-        {
-            Title = null,
-            AuthorId = Guid.NewGuid(),
-            PublishDate = DateTime.Now.AddYears(-10),
-        };
+        var command = this.createBookCommandFaker.Generate();
+        command.Title = null;
 
-        Assert.ThrowsAsync<ValidationException>(async () => await this.Mediator.Send(command));
+        var action =
+            async () => await this.Mediator.Send(command);
+
+        await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public void BookTitleCannotBeEmptyStringOnCreate()
+    public async Task BookTitleCannotBeEmptyStringOnCreate()
     {
-        var command = new CreateBookCommand
-        {
-            Title = string.Empty,
-            AuthorId = Guid.NewGuid(),
-            PublishDate = DateTime.Now.AddYears(-10),
-        };
+        var command = this.createBookCommandFaker.Generate();
+        command.Title = string.Empty;
 
-        Assert.ThrowsAsync<ValidationException>(async () => await this.Mediator.Send(command));
+        var action =
+            async () => await this.Mediator.Send(command);
+
+        await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public void BookAuthorIdCannotBeNullOnCreate()
+    public async Task BookAuthorIdCannotBeNullOnCreate()
     {
-        var commerceDataSet = new Commerce();
+        var command = this.createBookCommandFaker.Generate();
+        command.AuthorId = Guid.Empty;
 
-        var command = new CreateBookCommand
-        {
-            Title = commerceDataSet.ProductName(),
-            AuthorId = Guid.Empty,
-            PublishDate = DateTime.Now.AddYears(-10),
-        };
+        var action =
+            async () => await this.Mediator.Send(command);
 
-        Assert.ThrowsAsync<ValidationException>(async () => await this.Mediator.Send(command));
+        await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
     public async Task DeleteBook()
     {
-        var commerceDataSet = new Commerce();
-
-        var command = new CreateBookCommand
-        {
-            Title = commerceDataSet.ProductName(),
-            AuthorId = Guid.NewGuid(),
-            PublishDate = DateTime.Now.AddYears(-10),
-        };
-
+        var command = this.createBookCommandFaker.Generate();
         var id = await this.Mediator.Send(command);
-        Assert.That(id, Is.Not.Empty);
-        await this.Mediator.Send(new DeleteBookCommand(id));
+
+        id.Should().NotBeEmpty();
+
+        var action =
+            async () => await this.Mediator.Send(new DeleteBookCommand(id));
+
+        await action.Should().NotThrowAsync();
     }
 
     [Test]
     public async Task CreateBook()
     {
-        var commerceDataSet = new Commerce();
-
-        var command = new CreateBookCommand
-        {
-            Title = commerceDataSet.ProductName(),
-            AuthorId = Guid.NewGuid(),
-            PublishDate = DateTime.Now.AddYears(-10),
-        };
-
+        var command = this.createBookCommandFaker.Generate();
         var id = await this.Mediator.Send(command);
-        Assert.That(id, Is.Not.Empty);
+
+        id.Should().NotBeEmpty();
     }
 
     [Test]
     public async Task UpdateBook()
     {
-        var commerceDataSet = new Commerce();
-
-        var createCommand = new CreateBookCommand
-        {
-            Title = commerceDataSet.ProductName(),
-            AuthorId = Guid.NewGuid(),
-            PublishDate = DateTime.Now.AddYears(-10),
-        };
+        var createCommand = this.createBookCommandFaker.Generate();
 
         var id = await this.Mediator.Send(createCommand);
-        Assert.That(id, Is.Not.Empty);
 
-        var updateCommand = new UpdateBookCommand
-        {
-            Id = id,
-            Title = commerceDataSet.ProductName(),
-            AuthorId = Guid.NewGuid(),
-            PublishDate = DateTime.Now.AddYears(-10),
-        };
+        id.Should().NotBeEmpty();
 
-        await this.Mediator.Send(updateCommand);
+        var updateCommand = this.updateBookCommandFaker.Generate();
+        updateCommand.Id = id;
+
+        var action =
+            async () => await this.Mediator.Send(updateCommand);
+
+        await action.Should().NotThrowAsync();
     }
 
     [Test]
     public async Task CannotUpdateNonExistingBook()
     {
-        var commerceDataSet = new Commerce();
+        var updateCommand = this.updateBookCommandFaker.Generate();
 
-        var createCommand = new CreateBookCommand
-        {
-            Title = commerceDataSet.ProductName(),
-            AuthorId = Guid.NewGuid(),
-            PublishDate = DateTime.Now.AddYears(-10),
-        };
+        var action =
+            async () => await this.Mediator.Send(updateCommand);
 
-        var id = await this.Mediator.Send(createCommand);
-        Assert.That(id, Is.Not.Empty);
-
-        var updateCommand = new UpdateBookCommand
-        {
-            Id = Guid.NewGuid(),
-            Title = commerceDataSet.ProductName(),
-            AuthorId = Guid.NewGuid(),
-            PublishDate = DateTime.Now.AddYears(-10),
-        };
-
-        Assert.ThrowsAsync<NotFoundException>(async () => await this.Mediator.Send(updateCommand));
+        await action.Should().ThrowAsync<NotFoundException>();
     }
 
     [Test]
-    public void CannotDeleteNonExistingBook()
+    public async Task CannotDeleteNonExistingBook()
     {
-        Assert.ThrowsAsync<NotFoundException>(
-            async () =>
-                await this.Mediator.Send(new DeleteBookCommand(Guid.NewGuid())));
+        var action =
+            async () => await this.Mediator.Send(new DeleteBookCommand(Guid.NewGuid()));
+
+        await action.Should().ThrowAsync<NotFoundException>();
     }
 
     [Test]
     public async Task GetBooks()
     {
-        var result = await this.Mediator.Send(new GetBooksQuery());
-        Assert.That(result, Is.Not.Null.Or.Empty);
+        for (var i = 0; i < 10; i++)
+        {
+            var command = this.createBookCommandFaker.Generate();
+            await this.Mediator.Send(command);
+        }
+
+        var result =
+            await this.Mediator.Send(new GetBooksQuery());
+
+        result.Should().NotBeEmpty().And.NotBeNull();
     }
 }

@@ -15,7 +15,8 @@ public class ApplicationBackgroundJobService : IApplicationBackgroundJobService
     {
         this.backgroundJobClient =
             backgroundJobClient ?? throw new ArgumentNullException(nameof(backgroundJobClient));
-        this.recurringJobManager = recurringJobManager ?? throw new ArgumentNullException(nameof(recurringJobManager));
+        this.recurringJobManager =
+            recurringJobManager ?? throw new ArgumentNullException(nameof(recurringJobManager));
     }
 
     public string Enqueue(Expression<Action> methodCall)

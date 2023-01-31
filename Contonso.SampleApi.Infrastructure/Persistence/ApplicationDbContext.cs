@@ -1,22 +1,24 @@
 namespace Contonso.SampleApi.Infrastructure.Persistence;
 
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.Common;
 using System.Runtime.CompilerServices;
 using Contonso.SampleApi.Domain.Common;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext
+public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 {
-    private readonly SqlConnection sqlConnection;
+    private readonly DbConnection? sqlConnection;
 
-    public ApplicationDbContext(DbContextOptions options /*, IConfiguration configuration */)
+    public ApplicationDbContext(DbContextOptions options)
         : base(options)
     {
-        // var connectionString = configuration.GetConnectionString("Database") ?? string.Empty;
-        // this.sqlConnection = new SqlConnection(connectionString);
+        if (this.Database.IsRelational())
+        {
+            this.sqlConnection = this.Database.GetDbConnection();
+        }
     }
 
     public DbSet<Book> Books { get; set; } = null!;
@@ -58,7 +60,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public override void Dispose()
     {
-        this.sqlConnection.Dispose();
+        this.sqlConnection?.Dispose();
         GC.SuppressFinalize(this);
         base.Dispose();
     }

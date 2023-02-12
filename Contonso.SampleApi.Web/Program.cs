@@ -15,7 +15,7 @@ internal static class Program
 
         // Configure logging.
         Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug()
+            .MinimumLevel.Information()
             .WriteTo.Console()
             .CreateLogger();
 
@@ -45,6 +45,7 @@ internal static class Program
         }
 
         app.UseInfrastructureServices();
+
         app.UseHealthChecks("/health");
         app.UseMetricServer();
         app.UseHttpMetrics();

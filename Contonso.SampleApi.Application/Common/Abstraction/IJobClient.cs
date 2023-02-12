@@ -2,7 +2,7 @@ namespace Contonso.SampleApi.Application.Common.Abstraction;
 
 using System.Linq.Expressions;
 
-public interface IApplicationBackgroundJobService
+public interface IJobClient
 {
     string Enqueue(Expression<Action> methodCall);
 

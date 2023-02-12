@@ -1,34 +1,30 @@
 namespace Contonso.SampleApi.Application.Authors.Events;
 
+using Contonso.SampleApi.Application.Common.Abstraction;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-public record AuthorCreatedEvent : INotification;
+public record AuthorCreatedEvent(Guid Id) : INotification
+{
+    public Guid Id { get; set; } = Id;
+}
 
 public class AuthorCreatedEventHandler : INotificationHandler<AuthorCreatedEvent>
 {
-    private readonly IApplicationBackgroundJobService applicationBackgroundJobService;
-
     private readonly ILogger logger;
 
     public AuthorCreatedEventHandler(
         ILogger<AuthorCreatedEvent> logger,
-        IApplicationBackgroundJobService applicationBackgroundJobService)
+        IJobClient jobClient)
     {
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        this.applicationBackgroundJobService =
-            applicationBackgroundJobService ?? throw new ArgumentNullException(nameof(applicationBackgroundJobService));
     }
 
-    public Task Handle(AuthorCreatedEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(AuthorCreatedEvent notification, CancellationToken cancellationToken)
     {
-        this.applicationBackgroundJobService.Enqueue(() => this.Event());
-        return Task.CompletedTask;
-    }
+        _ = notification ?? throw new ArgumentNullException(nameof(notification));
 
-    public Task Event()
-    {
-        this.logger.LogInformation("AUTHOR CREATED");
-        return Task.CompletedTask;
+        await Task.Delay(5000, cancellationToken);
+        this.logger.LogInformation("Author with id '{Id}' created.", notification.Id);
     }
 }

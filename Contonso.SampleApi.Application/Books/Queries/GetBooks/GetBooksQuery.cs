@@ -2,6 +2,7 @@ namespace Contonso.SampleApi.Application.Books.Queries.GetBooks;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Contonso.SampleApi.Application.Common.Abstraction;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,11 +10,11 @@ public record GetBooksQuery : IRequest<IEnumerable<BookDto>>;
 
 public class GetBooksQueryHandler : IRequestHandler<GetBooksQuery, IEnumerable<BookDto>>
 {
-    private readonly IApplicationDbContext dbContext;
+    private readonly IAppDbContext dbContext;
 
     private readonly IMapper mapper;
 
-    public GetBooksQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
+    public GetBooksQueryHandler(IAppDbContext dbContext, IMapper mapper)
     {
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

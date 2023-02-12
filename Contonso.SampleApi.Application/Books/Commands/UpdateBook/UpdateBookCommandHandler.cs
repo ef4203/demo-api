@@ -1,13 +1,16 @@
 namespace Contonso.SampleApi.Application.Books.Commands.UpdateBook;
 
+using Contonso.SampleApi.Application.Common.Abstraction;
+using Contonso.SampleApi.Application.Common.Exceptions;
+using Contonso.SampleApi.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 internal sealed class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, Unit>
 {
-    private readonly IApplicationDbContext dbContext;
+    private readonly IAppDbContext dbContext;
 
-    public UpdateBookCommandHandler(IApplicationDbContext dbContext)
+    public UpdateBookCommandHandler(IAppDbContext dbContext)
     {
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }

@@ -1,18 +1,24 @@
 namespace Contonso.SampleApi.Application.Authors.Commands.CreateAuthor;
 
 using Contonso.SampleApi.Application.Authors.Events;
+using Contonso.SampleApi.Application.Common.Abstraction;
+using Contonso.SampleApi.Application.Common.Extensions;
+using Contonso.SampleApi.Domain.Entities;
 using MediatR;
 
 internal sealed class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand, Guid>
 {
-    private readonly IApplicationDbContext dbContext;
+    private readonly IAppDbContext dbContext;
 
-    private readonly IMediator mediator;
+    private readonly IJobClient jobClient;
 
-    public CreateAuthorCommandHandler(IApplicationDbContext dbContext, IMediator mediator)
+    private readonly IPublisher mediator;
+
+    public CreateAuthorCommandHandler(IAppDbContext dbContext, IPublisher mediator, IJobClient jobClient)
     {
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        this.jobClient = jobClient ?? throw new ArgumentNullException(nameof(jobClient));
     }
 
     public async Task<Guid> Handle(
@@ -29,7 +35,7 @@ internal sealed class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorC
 
         await this.dbContext.Authors.AddAsync(entity, cancellationToken);
         await this.dbContext.SaveChangesAsync(cancellationToken);
-        await this.mediator.Publish(new AuthorCreatedEvent(), cancellationToken);
+        this.mediator.PublishInBackground(new AuthorCreatedEvent(entity.Id), this.jobClient, cancellationToken);
 
         return entity.Id;
     }

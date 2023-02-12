@@ -1,15 +1,18 @@
 namespace Contonso.SampleApi.Infrastructure.Scheduling;
 
 using System.Linq.Expressions;
+using Contonso.SampleApi.Application.Common.Abstraction;
 using Hangfire;
+using Hangfire.Common;
+using Hangfire.States;
 
-public class ApplicationBackgroundJobService : IApplicationBackgroundJobService
+public class JobClient : IJobClient
 {
     private readonly IBackgroundJobClient backgroundJobClient;
 
     private readonly IRecurringJobManager recurringJobManager;
 
-    public ApplicationBackgroundJobService(
+    public JobClient(
         IBackgroundJobClient backgroundJobClient,
         IRecurringJobManager recurringJobManager)
     {
@@ -57,5 +60,30 @@ public class ApplicationBackgroundJobService : IApplicationBackgroundJobService
     public string ContinueJobWith(string parentJobId, Expression<Func<Task>> methodCall)
     {
         return this.backgroundJobClient.ContinueJobWith(parentJobId, methodCall);
+    }
+
+    public string Create(Job job, IState state)
+    {
+        return this.backgroundJobClient.Create(job, state);
+    }
+
+    public bool ChangeState(string jobId, IState state, string expectedState)
+    {
+        return this.backgroundJobClient.ChangeState(jobId, state, expectedState);
+    }
+
+    public void AddOrUpdate(string recurringJobId, Job job, string cronExpression, RecurringJobOptions options)
+    {
+        this.recurringJobManager.AddOrUpdate(recurringJobId, job, cronExpression, options);
+    }
+
+    public void Trigger(string recurringJobId)
+    {
+        this.recurringJobManager.Trigger(recurringJobId);
+    }
+
+    public void RemoveIfExists(string recurringJobId)
+    {
+        this.recurringJobManager.RemoveIfExists(recurringJobId);
     }
 }

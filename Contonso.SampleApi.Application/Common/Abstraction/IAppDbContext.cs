@@ -1,9 +1,10 @@
 namespace Contonso.SampleApi.Application.Common.Abstraction;
 
 using System.Data;
+using Contonso.SampleApi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-public interface IApplicationDbContext
+public interface IAppDbContext
 {
     DbSet<Book> Books { get; }
 

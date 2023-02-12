@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using Respawn;
 
 public class BaseTest
 {
@@ -17,16 +18,30 @@ public class BaseTest
             .ConfigureServices()
             .BuildServiceProvider();
 
-        this.DbContext = serviceProvider.GetRequiredService<IApplicationDbContext>();
+        this.DbContext = serviceProvider.GetRequiredService<IAppDbContext>();
         this.Mapper = serviceProvider.GetRequiredService<IMapper>();
         this.Mediator = serviceProvider.GetRequiredService<ISender>();
+
+        StartRespawner(serviceProvider);
     }
 
-    public IApplicationDbContext DbContext { get; }
+    public IAppDbContext DbContext { get; }
 
     public IMapper Mapper { get; }
 
     public ISender Mediator { get; }
+
+    private static void StartRespawner(IServiceProvider service)
+    {
+        var ctx = service.GetRequiredService<AppDbContext>();
+        if (!ctx.Database.IsRelational())
+        {
+            return;
+        }
+
+        var respawn = Respawner.CreateAsync(ctx.Database.GetDbConnection());
+        respawn.RunSynchronously();
+    }
 }
 
 internal static class ServiceCollectionExtension
@@ -36,12 +51,12 @@ internal static class ServiceCollectionExtension
         _ = services ?? throw new ArgumentNullException(nameof(services));
 
         services.AddApplicationServices();
-        services.AddDbContext<ApplicationDbContext>(
+        services.AddDbContext<AppDbContext>(
             o =>
                 o.UseInMemoryDatabase("ExampleApi"));
 
-        services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
-        services.AddTransient(o => Mock.Of<IApplicationBackgroundJobService>()!);
+        services.AddTransient<IAppDbContext, AppDbContext>();
+        services.AddTransient(o => Mock.Of<IJobClient>()!);
         services.AddLogging();
 
         return services;

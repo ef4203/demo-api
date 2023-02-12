@@ -1,5 +1,7 @@
 namespace Contonso.SampleApi.Domain.Entities;
 
+using Contonso.SampleApi.Domain.Common;
+
 public class Author : ApplicationEntity<Guid>, ICreationTracker, IModificationTracker, IArchivable
 {
     public string? FirstName { get; set; }

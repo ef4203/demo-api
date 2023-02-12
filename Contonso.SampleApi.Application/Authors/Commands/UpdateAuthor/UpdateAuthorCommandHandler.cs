@@ -1,13 +1,16 @@
 namespace Contonso.SampleApi.Application.Authors.Commands.UpdateAuthor;
 
+using Contonso.SampleApi.Application.Common.Abstraction;
+using Contonso.SampleApi.Application.Common.Exceptions;
+using Contonso.SampleApi.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 internal sealed class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand, Unit>
 {
-    private readonly IApplicationDbContext dbContext;
+    private readonly IAppDbContext dbContext;
 
-    public UpdateAuthorCommandHandler(IApplicationDbContext dbContext)
+    public UpdateAuthorCommandHandler(IAppDbContext dbContext)
     {
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }

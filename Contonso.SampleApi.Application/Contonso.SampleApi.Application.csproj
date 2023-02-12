@@ -36,13 +36,4 @@
         <ProjectReference Include="..\Contonso.SampleApi.Domain\Contonso.SampleApi.Domain.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-            <HintPath>..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\6.0.9\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-        </Reference>
-        <Reference Include="Microsoft.Extensions.Logging.Abstractions">
-            <HintPath>..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\6.0.9\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-        </Reference>
-    </ItemGroup>
-
 </Project>

@@ -1,5 +1,6 @@
 namespace Contonso.SampleApi.Application.Common.Behaviors;
 
+using Contonso.SampleApi.Application.Common.LoggerMessages;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

@@ -1,12 +1,14 @@
 namespace Contonso.SampleApi.Application.Books.Commands.CreateBook;
 
+using Contonso.SampleApi.Application.Common.Abstraction;
+using Contonso.SampleApi.Domain.Entities;
 using MediatR;
 
 internal sealed class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Guid>
 {
-    private readonly IApplicationDbContext dbContext;
+    private readonly IAppDbContext dbContext;
 
-    public CreateBookCommandHandler(IApplicationDbContext dbContext)
+    public CreateBookCommandHandler(IAppDbContext dbContext)
     {
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }

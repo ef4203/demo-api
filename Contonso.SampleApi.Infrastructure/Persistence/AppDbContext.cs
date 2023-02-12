@@ -3,16 +3,18 @@ namespace Contonso.SampleApi.Infrastructure.Persistence;
 using System.Data;
 using System.Data.Common;
 using System.Runtime.CompilerServices;
+using Contonso.SampleApi.Application.Common.Abstraction;
 using Contonso.SampleApi.Domain.Common;
+using Contonso.SampleApi.Domain.Entities;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
+public sealed class AppDbContext : DbContext, IAppDbContext
 {
     private readonly DbConnection? sqlConnection;
 
-    public ApplicationDbContext(DbContextOptions options)
+    public AppDbContext(DbContextOptions options)
         : base(options)
     {
         if (this.Database.IsRelational())

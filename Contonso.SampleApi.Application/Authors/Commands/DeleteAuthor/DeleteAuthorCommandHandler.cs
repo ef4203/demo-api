@@ -8,7 +8,7 @@ using Contonso.SampleApi.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-public sealed class DeleteAuthorCommandHandler : IRequestHandler<DeleteAuthorCommand, Unit>
+public sealed class DeleteAuthorCommandHandler : IRequestHandler<DeleteAuthorCommand>
 {
     private readonly IAppDbContext dbContext;
 
@@ -23,7 +23,7 @@ public sealed class DeleteAuthorCommandHandler : IRequestHandler<DeleteAuthorCom
         this.jobClient = jobClient ?? throw new ArgumentNullException(nameof(jobClient));
     }
 
-    public async Task<Unit> Handle(DeleteAuthorCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteAuthorCommand request, CancellationToken cancellationToken)
     {
         _ = request ?? throw new ArgumentNullException(nameof(request));
 
@@ -38,7 +38,5 @@ public sealed class DeleteAuthorCommandHandler : IRequestHandler<DeleteAuthorCom
         this.dbContext.Authors.Remove(entity);
         await this.dbContext.SaveChangesAsync(cancellationToken);
         this.mediator.PublishInBackground(new AuthorDeletedEvent(entity.Id), this.jobClient, cancellationToken);
-
-        return Unit.Value;
     }
 }

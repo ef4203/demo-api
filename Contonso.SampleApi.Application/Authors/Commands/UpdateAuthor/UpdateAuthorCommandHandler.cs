@@ -6,7 +6,7 @@ using Contonso.SampleApi.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-internal sealed class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand, Unit>
+internal sealed class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand>
 {
     private readonly IAppDbContext dbContext;
 
@@ -15,7 +15,7 @@ internal sealed class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorC
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    public async Task<Unit> Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
     {
         _ = request ?? throw new ArgumentNullException(nameof(request));
 
@@ -31,7 +31,5 @@ internal sealed class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorC
         entity.LastName = request.LastName;
 
         await this.dbContext.SaveChangesAsync(cancellationToken);
-
-        return Unit.Value;
     }
 }

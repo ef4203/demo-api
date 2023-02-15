@@ -6,7 +6,7 @@ using Contonso.SampleApi.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-internal sealed class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, Unit>
+internal sealed class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
 {
     private readonly IAppDbContext dbContext;
 
@@ -15,7 +15,7 @@ internal sealed class UpdateBookCommandHandler : IRequestHandler<UpdateBookComma
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    public async Task<Unit> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateBookCommand request, CancellationToken cancellationToken)
     {
         _ = request ?? throw new ArgumentNullException(nameof(request));
 
@@ -33,7 +33,5 @@ internal sealed class UpdateBookCommandHandler : IRequestHandler<UpdateBookComma
         entity.PublishDate = request.PublishDate;
 
         await this.dbContext.SaveChangesAsync(cancellationToken);
-
-        return Unit.Value;
     }
 }

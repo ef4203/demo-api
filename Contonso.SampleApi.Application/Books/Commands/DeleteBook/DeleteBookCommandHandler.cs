@@ -6,7 +6,7 @@ using Contonso.SampleApi.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-internal sealed class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand, Unit>
+internal sealed class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand>
 {
     private readonly IAppDbContext dbContext;
 
@@ -15,7 +15,7 @@ internal sealed class DeleteBookCommandHandler : IRequestHandler<DeleteBookComma
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    public async Task<Unit> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteBookCommand request, CancellationToken cancellationToken)
     {
         _ = request ?? throw new ArgumentNullException(nameof(request));
 
@@ -30,7 +30,5 @@ internal sealed class DeleteBookCommandHandler : IRequestHandler<DeleteBookComma
 
         this.dbContext.Books.Remove(entity);
         await this.dbContext.SaveChangesAsync(cancellationToken);
-
-        return Unit.Value;
     }
 }

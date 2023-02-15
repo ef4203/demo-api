@@ -5,6 +5,7 @@ using Contonso.SampleApi.Application.Common.Abstraction;
 using Contonso.SampleApi.Application.Common.Behaviors;
 using FluentValidation;
 using MediatR;
+using MediatR.NotificationPublishers;
 using Microsoft.Extensions.DependencyInjection;
 
 public static class ConfigureServicesExtension
@@ -13,8 +14,8 @@ public static class ConfigureServicesExtension
     {
         _ = services ?? throw new ArgumentNullException(nameof(services));
 
-        services.AddMediatR(typeof(ConfigureServicesExtension).Assembly);
         services.AddAutoMapper(typeof(ConfigureServicesExtension).Assembly);
+        services.AddMediatorFromAssembly(typeof(ConfigureServicesExtension).Assembly);
         services.AddValidatorsFromAssembly(typeof(ConfigureServicesExtension).Assembly);
         services.AddJobsFromAssembly(typeof(ConfigureServicesExtension).Assembly);
 
@@ -38,6 +39,15 @@ public static class ConfigureServicesExtension
         {
             services.AddTransient(jobType);
         }
+
+        return services;
+    }
+
+    private static IServiceCollection AddMediatorFromAssembly(this IServiceCollection services, Assembly assembly)
+    {
+        _ = services ?? throw new ArgumentNullException(nameof(services));
+
+        services.AddMediatR(x => { x.RegisterServicesFromAssemblies(assembly); });
 
         return services;
     }

@@ -2,7 +2,7 @@ namespace Contonso.SampleApi.Application.Books.Commands.UpdateBook;
 
 using MediatR;
 
-public record UpdateBookCommand : IRequest<Unit>
+public record UpdateBookCommand : IRequest
 {
     public Guid Id { get; set; }
 

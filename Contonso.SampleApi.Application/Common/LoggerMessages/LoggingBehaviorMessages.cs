@@ -2,7 +2,7 @@ namespace Contonso.SampleApi.Application.Common.LoggerMessages;
 
 using Microsoft.Extensions.Logging;
 
-public static class LoggingBehaviorMessages
+internal static class LoggingBehaviorMessages
 {
     private static readonly Action<ILogger, string, string, Exception> BeginMsg =
         LoggerMessage.Define<string, string>(

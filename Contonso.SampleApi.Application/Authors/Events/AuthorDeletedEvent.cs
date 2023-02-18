@@ -8,7 +8,7 @@ public record AuthorDeletedEvent(Guid Id) : INotification
     public Guid Id { get; set; } = Id;
 }
 
-public class AuthorDeletedEventHandler : INotificationHandler<AuthorDeletedEvent>
+internal class AuthorDeletedEventHandler : INotificationHandler<AuthorDeletedEvent>
 {
     private readonly ILogger<AuthorDeletedEvent> logger;
 
@@ -17,11 +17,12 @@ public class AuthorDeletedEventHandler : INotificationHandler<AuthorDeletedEvent
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task Handle(AuthorDeletedEvent notification, CancellationToken cancellationToken)
+    public Task Handle(AuthorDeletedEvent notification, CancellationToken cancellationToken)
     {
         _ = notification ?? throw new ArgumentNullException(nameof(notification));
 
-        await Task.Delay(5000, cancellationToken);
         this.logger.LogInformation("Author with id '{Id}' deleted.", notification.Id);
+
+        return Task.CompletedTask;
     }
 }

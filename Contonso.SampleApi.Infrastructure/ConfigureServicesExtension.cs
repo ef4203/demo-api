@@ -7,6 +7,7 @@ using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 public static class ConfigureServicesExtension
 {
@@ -24,6 +25,11 @@ public static class ConfigureServicesExtension
             configuration => configuration
                 .UseSimpleAssemblyNameTypeSerializer()?
                 .UseRecommendedSerializerSettings()?
+                .UseSerializerSettings(
+                    new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    })
                 .UseMemoryStorage());
 
         services.AddHangfireServer();

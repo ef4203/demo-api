@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 public record GetBooksQuery : IRequest<IEnumerable<BookDto>>;
 
-public class GetBooksQueryHandler : IRequestHandler<GetBooksQuery, IEnumerable<BookDto>>
+internal sealed class GetBooksQueryHandler : IRequestHandler<GetBooksQuery, IEnumerable<BookDto>>
 {
     private readonly IAppDbContext dbContext;
 

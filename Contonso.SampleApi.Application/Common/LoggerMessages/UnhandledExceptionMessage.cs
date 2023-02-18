@@ -2,7 +2,7 @@ namespace Contonso.SampleApi.Application.Common.LoggerMessages;
 
 using Microsoft.Extensions.Logging;
 
-public static class UnhandledExceptionMessage
+internal static class UnhandledExceptionMessage
 {
     private static readonly Action<ILogger, string, Exception> Message =
         LoggerMessage.Define<string>(

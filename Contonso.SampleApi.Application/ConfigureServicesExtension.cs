@@ -47,7 +47,12 @@ public static class ConfigureServicesExtension
     {
         _ = services ?? throw new ArgumentNullException(nameof(services));
 
-        services.AddMediatR(x => { x.RegisterServicesFromAssemblies(assembly); });
+        services.AddMediatR(
+            x =>
+            {
+                x.RegisterServicesFromAssemblies(assembly);
+                x.NotificationPublisher = new TaskWhenAllPublisher();
+            });
 
         return services;
     }

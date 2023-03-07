@@ -20,7 +20,7 @@
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1"/>
         <PackageReference Include="MediatR" Version="12.0.1"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3"/>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.53.0.62665">
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.54.0.64047">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

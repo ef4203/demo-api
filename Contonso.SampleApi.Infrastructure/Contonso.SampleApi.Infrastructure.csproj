@@ -22,7 +22,7 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.4"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.4"/>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.54.0.64047">
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.55.0.65544">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

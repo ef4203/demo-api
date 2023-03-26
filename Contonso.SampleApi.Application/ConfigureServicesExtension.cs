@@ -4,7 +4,6 @@ using System.Reflection;
 using Contonso.SampleApi.Application.Common.Abstraction;
 using Contonso.SampleApi.Application.Common.Behaviors;
 using FluentValidation;
-using MediatR;
 using MediatR.NotificationPublishers;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,10 +17,6 @@ public static class ConfigureServicesExtension
         services.AddMediatorFromAssembly(typeof(ConfigureServicesExtension).Assembly);
         services.AddValidatorsFromAssembly(typeof(ConfigureServicesExtension).Assembly);
         services.AddJobsFromAssembly(typeof(ConfigureServicesExtension).Assembly);
-
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;
     }
@@ -51,6 +46,10 @@ public static class ConfigureServicesExtension
             x =>
             {
                 x.RegisterServicesFromAssemblies(assembly);
+                x.AddOpenBehavior(typeof(LoggingBehavior<,>));
+                x.AddOpenBehavior(typeof(UnhandledExceptionBehaviour<,>));
+                x.AddOpenBehavior(typeof(ValidationBehavior<,>));
+                x.AddOpenBehavior(typeof(StopwatchBehavior<,>));
                 x.NotificationPublisher = new TaskWhenAllPublisher();
             });
 

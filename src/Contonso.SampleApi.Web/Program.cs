@@ -30,7 +30,11 @@ internal static class Program
         builder.Services.AddControllersWithViews(
                 o => o.Filters.Add<ApiExceptionFilterAttribute>())
             .AddNewtonsoftJson()
-            .AddOData(o => { o.EnableQueryFeatures(); });
+            .AddOData(
+                o =>
+                {
+                    o.EnableQueryFeatures();
+                });
 
         builder.Services.AddApplicationServices();
         builder.Services.AddInfrastructureServices();

@@ -8,7 +8,7 @@ public class Author : ApplicationEntity<Guid>, ICreationTracker, IModificationTr
 
     public string? LastName { get; set; }
 
-    public ICollection<Book> Books { get; set; } = new HashSet<Book>();
+    public ICollection<Book> Books { get; } = new HashSet<Book>();
 
     public bool IsDeleted { get; set; }
 

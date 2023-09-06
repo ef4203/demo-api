@@ -79,8 +79,7 @@ public sealed class AppDbContext : DbContext, IAppDbContext
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void EnsureModificationTracking(EntityEntry entry, DateTime now)
     {
-        if (entry.Entity is IModificationTracker modificationTrackable &&
-            (entry.State == EntityState.Modified || entry.State == EntityState.Deleted))
+        if (entry.Entity is IModificationTracker modificationTrackable && (entry.State == EntityState.Modified || entry.State == EntityState.Deleted))
         {
             modificationTrackable.ModifiedOn = now;
         }
@@ -110,8 +109,7 @@ public sealed class AppDbContext : DbContext, IAppDbContext
 
         foreach (var entry in entries)
         {
-            if (entry.State != EntityState.Added && entry.State != EntityState.Modified &&
-                entry.State != EntityState.Deleted)
+            if (entry.State != EntityState.Added && entry.State != EntityState.Modified && entry.State != EntityState.Deleted)
             {
                 continue;
             }

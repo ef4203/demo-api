@@ -20,7 +20,7 @@ public class MappingProfile : Profile
         }
 
         var types = assembly.GetExportedTypes()
-            .Where(t => t.GetInterfaces().Any(HasInterface))
+            .Where(t => Array.Exists(t.GetInterfaces(), HasInterface))
             .ToList();
 
         var argumentTypes = new[]

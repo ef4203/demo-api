@@ -7,5 +7,5 @@ public class ApplicationEntity<TKey>
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public TKey Id { get; set; }
+    public TKey? Id { get; set; }
 }

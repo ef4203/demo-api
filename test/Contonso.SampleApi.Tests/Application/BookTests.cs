@@ -21,6 +21,7 @@ public class BookTests : BaseTest
             .RuleFor(o => o.Title, f => f.Commerce.ProductName())
             .RuleFor(o => o.AuthorId, f => f.Random.Guid())
             .RuleFor(o => o.PublishDate, f => f.Date.Past());
+
         this.updateBookCommandFaker = new Faker<UpdateBookCommand>()
             .RuleFor(o => o.Id, f => f.Random.Guid())
             .RuleFor(o => o.Title, f => f.Commerce.ProductName())

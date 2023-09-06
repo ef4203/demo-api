@@ -14,8 +14,7 @@ public class BaseTest
 {
     protected BaseTest()
     {
-        var serviceProvider = new ServiceCollection()
-            .ConfigureServices()
+        var serviceProvider = ConfigureServices(new ServiceCollection())
             .BuildServiceProvider();
 
         this.DbContext = serviceProvider.GetRequiredService<IAppDbContext>();
@@ -42,11 +41,8 @@ public class BaseTest
         var respawn = Respawner.CreateAsync(ctx.Database.GetDbConnection());
         respawn.RunSynchronously();
     }
-}
 
-internal static class ServiceCollectionExtension
-{
-    public static IServiceCollection ConfigureServices(this IServiceCollection services)
+    private static IServiceCollection ConfigureServices(IServiceCollection services)
     {
         _ = services ?? throw new ArgumentNullException(nameof(services));
 

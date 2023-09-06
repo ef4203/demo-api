@@ -21,6 +21,7 @@ public class AuthorTests : BaseTest
             .RuleFor(o => o.Id, f => f.Random.Guid())
             .RuleFor(o => o.FirstName, f => f.Name.FirstName())
             .RuleFor(o => o.LastName, f => f.Name.LastName());
+
         this.createAuthorCommandFaker = new Faker<CreateAuthorCommand>()
             .RuleFor(o => o.FirstName, f => f.Name.FirstName())
             .RuleFor(o => o.LastName, f => f.Name.LastName());

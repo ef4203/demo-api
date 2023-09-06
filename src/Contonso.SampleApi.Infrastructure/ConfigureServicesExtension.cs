@@ -23,14 +23,14 @@ public static class ConfigureServicesExtension
 
         services.AddHangfire(
             configuration => configuration
-                .UseSimpleAssemblyNameTypeSerializer()?
-                .UseRecommendedSerializerSettings()?
-                .UseSerializerSettings(
+                .UseSimpleAssemblyNameTypeSerializer()
+                ?.UseRecommendedSerializerSettings()
+                ?.UseSerializerSettings(
                     new JsonSerializerSettings
                     {
                         ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                     })
-                .UseMemoryStorage());
+                ?.UseMemoryStorage());
 
         services.AddHangfireServer();
         services.AddTransient<IJobClient, JobClient>();

@@ -8,7 +8,7 @@ public record AuthorCreatedEvent(Guid Id) : INotification
     public Guid Id { get; set; } = Id;
 }
 
-internal class AuthorCreatedEventHandler : INotificationHandler<AuthorCreatedEvent>
+internal sealed class AuthorCreatedEventHandler : INotificationHandler<AuthorCreatedEvent>
 {
     private readonly ILogger logger;
 

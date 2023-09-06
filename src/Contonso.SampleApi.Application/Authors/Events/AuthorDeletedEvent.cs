@@ -8,7 +8,7 @@ public record AuthorDeletedEvent(Guid Id) : INotification
     public Guid Id { get; set; } = Id;
 }
 
-internal class AuthorDeletedEventHandler : INotificationHandler<AuthorDeletedEvent>
+internal sealed class AuthorDeletedEventHandler : INotificationHandler<AuthorDeletedEvent>
 {
     private readonly ILogger<AuthorDeletedEvent> logger;
 

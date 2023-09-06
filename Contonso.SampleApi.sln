@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.SampleApi.Web", "Contonso.SampleApi.Web\Contonso.SampleApi.Web.csproj", "{958CB274-7021-48E4-A029-F553614AF3EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.SampleApi.Web", "src\Contonso.SampleApi.Web\Contonso.SampleApi.Web.csproj", "{958CB274-7021-48E4-A029-F553614AF3EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.SampleApi.Domain", "Contonso.SampleApi.Domain\Contonso.SampleApi.Domain.csproj", "{E3B4722D-F01B-42F0-808F-8F591124D839}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.SampleApi.Domain", "src\Contonso.SampleApi.Domain\Contonso.SampleApi.Domain.csproj", "{E3B4722D-F01B-42F0-808F-8F591124D839}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.SampleApi.Application", "Contonso.SampleApi.Application\Contonso.SampleApi.Application.csproj", "{AC3F0013-1260-4A1F-B090-6D9C42EAF881}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.SampleApi.Application", "src\Contonso.SampleApi.Application\Contonso.SampleApi.Application.csproj", "{AC3F0013-1260-4A1F-B090-6D9C42EAF881}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.SampleApi.Infrastructure", "Contonso.SampleApi.Infrastructure\Contonso.SampleApi.Infrastructure.csproj", "{1C232650-5282-4597-A407-17F79800A203}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.SampleApi.Infrastructure", "src\Contonso.SampleApi.Infrastructure\Contonso.SampleApi.Infrastructure.csproj", "{1C232650-5282-4597-A407-17F79800A203}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.SampleApi.Tests", "Contonso.SampleApi.Tests\Contonso.SampleApi.Tests.csproj", "{34B35837-0B6B-4A87-8F32-5FD55A884CD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contonso.SampleApi.Tests", "test\Contonso.SampleApi.Tests\Contonso.SampleApi.Tests.csproj", "{34B35837-0B6B-4A87-8F32-5FD55A884CD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

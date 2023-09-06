@@ -43,8 +43,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Contonso.SampleApi.Application\Contonso.SampleApi.Application.csproj"/>
-        <ProjectReference Include="..\Contonso.SampleApi.Infrastructure\Contonso.SampleApi.Infrastructure.csproj"/>
+        <ProjectReference Include="..\..\src\Contonso.SampleApi.Application\Contonso.SampleApi.Application.csproj"/>
+        <ProjectReference Include="..\..\src\Contonso.SampleApi.Infrastructure\Contonso.SampleApi.Infrastructure.csproj"/>
     </ItemGroup>
 
 </Project>

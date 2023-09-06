@@ -26,9 +26,9 @@ public class BaseTest
 
     public IAppDbContext DbContext { get; }
 
-    public IMapper Mapper { get; }
+    protected IMapper Mapper { get; }
 
-    public ISender Mediator { get; }
+    protected ISender Mediator { get; }
 
     private static void StartRespawner(IServiceProvider service)
     {

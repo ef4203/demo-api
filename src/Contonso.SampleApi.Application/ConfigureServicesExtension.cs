@@ -11,7 +11,7 @@ public static class ConfigureServicesExtension
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        _ = services ?? throw new ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         services.AddAutoMapper(typeof(ConfigureServicesExtension).Assembly);
         services.AddMediatorFromAssembly(typeof(ConfigureServicesExtension).Assembly);
@@ -23,9 +23,6 @@ public static class ConfigureServicesExtension
 
     private static IServiceCollection AddJobsFromAssembly(this IServiceCollection services, Assembly assembly)
     {
-        _ = services ?? throw new ArgumentNullException(nameof(services));
-        _ = assembly ?? throw new ArgumentNullException(nameof(assembly));
-
         var jobs = assembly
             .GetTypes()
             .Where(x => x.IsClass && x.GetInterface(nameof(IJob)) != null);
@@ -40,8 +37,6 @@ public static class ConfigureServicesExtension
 
     private static IServiceCollection AddMediatorFromAssembly(this IServiceCollection services, Assembly assembly)
     {
-        _ = services ?? throw new ArgumentNullException(nameof(services));
-
         services.AddMediatR(
             x =>
             {

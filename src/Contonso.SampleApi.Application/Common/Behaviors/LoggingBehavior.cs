@@ -10,7 +10,7 @@ internal sealed class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<T
 {
     private readonly ILogger logger;
 
-    public LoggingBehavior(ILogger<TRequest> logger)
+    public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
     {
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
@@ -20,8 +20,8 @@ internal sealed class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<T
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        _ = request ?? throw new ArgumentNullException(nameof(request));
-        _ = next ?? throw new ArgumentNullException(nameof(next));
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(next);
 
         this.logger.LogRequestStart(typeof(TRequest).Name, JsonSerializer.Serialize(request));
 

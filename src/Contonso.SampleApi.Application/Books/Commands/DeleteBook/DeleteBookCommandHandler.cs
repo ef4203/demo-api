@@ -17,7 +17,7 @@ internal sealed class DeleteBookCommandHandler : IRequestHandler<DeleteBookComma
 
     public async Task Handle(DeleteBookCommand request, CancellationToken cancellationToken)
     {
-        _ = request ?? throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var entity = await this.dbContext.Books
             .Where(x => x.Id == request.Id)

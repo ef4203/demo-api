@@ -19,8 +19,8 @@ internal sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavio
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        _ = request ?? throw new ArgumentNullException(nameof(request));
-        _ = next ?? throw new ArgumentNullException(nameof(next));
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(next);
 
         if (!this.validators.Any())
         {

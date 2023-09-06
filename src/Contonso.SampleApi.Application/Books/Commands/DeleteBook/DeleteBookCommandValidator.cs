@@ -7,6 +7,6 @@ public class DeleteBookCommandValidator : AbstractValidator<DeleteBookCommand>
     public DeleteBookCommandValidator()
     {
         this.RuleFor(o => o.Id)
-            .NotEmpty();
+            ?.NotEmpty();
     }
 }

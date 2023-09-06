@@ -6,7 +6,7 @@ public interface IMapFrom<T>
 {
     void Mapping(Profile profile)
     {
-        _ = profile ?? throw new ArgumentNullException(nameof(profile));
+        ArgumentNullException.ThrowIfNull(profile);
 
         profile.CreateMap(typeof(T), this.GetType());
     }

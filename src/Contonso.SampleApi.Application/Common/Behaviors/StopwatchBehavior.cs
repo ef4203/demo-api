@@ -4,23 +4,23 @@ using System.Diagnostics;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-public class StopwatchBehavior<TRequest, TRespose> : IPipelineBehavior<TRequest, TRespose>
+public class StopwatchBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IBaseRequest
 {
-    private readonly ILogger<TRequest> logger;
+    private readonly ILogger logger;
 
-    public StopwatchBehavior(ILogger<TRequest> logger)
+    public StopwatchBehavior(ILogger<StopwatchBehavior<TRequest, TResponse>> logger)
     {
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<TRespose> Handle(
+    public async Task<TResponse> Handle(
         TRequest request,
-        RequestHandlerDelegate<TRespose> next,
+        RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        _ = request ?? throw new ArgumentNullException(nameof(request));
-        _ = next ?? throw new ArgumentNullException(nameof(next));
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(next);
 
         var stopwatch = new Stopwatch();
 
@@ -29,7 +29,7 @@ public class StopwatchBehavior<TRequest, TRespose> : IPipelineBehavior<TRequest,
         stopwatch.Stop();
 
         this.logger.LogInformation(
-            "Request {Request} completed after {Time}ms.",
+            "Request {Request} completed after {Time}ms",
             typeof(TRequest).Name,
             stopwatch.ElapsedMilliseconds);
 

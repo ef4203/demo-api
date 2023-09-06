@@ -15,7 +15,7 @@ internal sealed class CreateBookCommandHandler : IRequestHandler<CreateBookComma
 
     public async Task<Guid> Handle(CreateBookCommand request, CancellationToken cancellationToken)
     {
-        _ = request ?? throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var entity = new Book
         {

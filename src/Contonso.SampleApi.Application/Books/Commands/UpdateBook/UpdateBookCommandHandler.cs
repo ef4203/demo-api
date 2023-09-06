@@ -17,7 +17,7 @@ internal sealed class UpdateBookCommandHandler : IRequestHandler<UpdateBookComma
 
     public async Task Handle(UpdateBookCommand request, CancellationToken cancellationToken)
     {
-        _ = request ?? throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var entity = await this.dbContext.Books
             .Where(o => o.Id == request.Id)

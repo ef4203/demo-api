@@ -33,6 +33,11 @@ public sealed class AppDbContext : DbContext, IAppDbContext
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
+        if (this.sqlConnection is null)
+        {
+            throw new NotSupportedException();
+        }
+
         return (await this.sqlConnection.QueryAsync<T>(sql, param, transaction)).AsList();
     }
 
@@ -42,6 +47,11 @@ public sealed class AppDbContext : DbContext, IAppDbContext
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
+        if (this.sqlConnection is null)
+        {
+            throw new NotSupportedException();
+        }
+
         return await this.sqlConnection.QueryFirstOrDefaultAsync<T>(sql, param, transaction);
     }
 
@@ -51,6 +61,11 @@ public sealed class AppDbContext : DbContext, IAppDbContext
         IDbTransaction? transaction = null,
         CancellationToken cancellationToken = default)
     {
+        if (this.sqlConnection is null)
+        {
+            throw new NotSupportedException();
+        }
+
         return await this.sqlConnection.QuerySingleAsync<T>(sql, param, transaction);
     }
 

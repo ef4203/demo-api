@@ -11,7 +11,7 @@ public static class ConfigureWebAppExtension
 {
     public static WebApplication UseInfrastructureServices(this WebApplication app)
     {
-        _ = app ?? throw new ArgumentNullException(nameof(app));
+        ArgumentNullException.ThrowIfNull(app);
 
         app.UseHangfireDashboard();
         app.UseAutomaticMigration();
@@ -22,8 +22,6 @@ public static class ConfigureWebAppExtension
 
     private static WebApplication UseAutomaticMigration(this WebApplication app)
     {
-        _ = app ?? throw new ArgumentNullException(nameof(app));
-
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
@@ -37,8 +35,6 @@ public static class ConfigureWebAppExtension
 
     private static WebApplication ScheduleJobs(this WebApplication app)
     {
-        _ = app ?? throw new ArgumentNullException(nameof(app));
-
         using var scope = app.Services.CreateScope();
         var backgroundJobService = scope.ServiceProvider.GetRequiredService<IJobClient>();
 

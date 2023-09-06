@@ -23,7 +23,7 @@ internal sealed class GetBooksQueryHandler : IRequestHandler<GetBooksQuery, IEnu
     public async Task<IEnumerable<BookDto>> Handle(GetBooksQuery request, CancellationToken cancellationToken)
     {
         return await this.dbContext.Books
-            .ProjectTo<BookDto>(this.mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
+            .ProjectTo<BookDto>(this.mapper.ConfigurationProvider!)
+            !.ToListAsync(cancellationToken);
     }
 }

@@ -13,7 +13,7 @@ public static class ConfigureServicesExtension
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
-        _ = services ?? throw new ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         services.AddDbContext<AppDbContext>(
             o => o

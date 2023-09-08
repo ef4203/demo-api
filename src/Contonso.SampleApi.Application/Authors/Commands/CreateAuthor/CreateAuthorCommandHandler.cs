@@ -7,21 +7,19 @@ using MediatR;
 
 internal sealed class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand, Guid>
 {
-    private readonly IAppDbContext dbContext;
-
     private readonly IPublisher mediator;
 
-    public CreateAuthorCommandHandler(IAppDbContext dbContext, IPublisher mediator, IJobClient jobClient)
+    private readonly IRepository<Author> repository;
+
+    public CreateAuthorCommandHandler(IRepository<Author> repository, IPublisher mediator)
     {
-        this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
         this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 
-    public async Task<Guid> Handle(
-        CreateAuthorCommand request,
-        CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateAuthorCommand request, CancellationToken cancellationToken)
     {
-        _ = request ?? throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var entity = new Author
         {
@@ -29,8 +27,8 @@ internal sealed class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorC
             LastName = request.LastName,
         };
 
-        await this.dbContext.Authors.AddAsync(entity, cancellationToken);
-        await this.dbContext.SaveChangesAsync(cancellationToken);
+        await this.repository.AddAsync(entity, cancellationToken);
+        await this.repository.SaveChangesAsync(cancellationToken);
         await this.mediator.Publish(new AuthorCreatedEvent(entity.Id), cancellationToken);
 
         return entity.Id;

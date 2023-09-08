@@ -4,23 +4,21 @@ using Contonso.SampleApi.Application.Common.Abstraction;
 using Contonso.SampleApi.Application.Common.Exceptions;
 using Contonso.SampleApi.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 internal sealed class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand>
 {
-    private readonly IAppDbContext dbContext;
+    private readonly IRepository<Author> repository;
 
-    public UpdateAuthorCommandHandler(IAppDbContext dbContext)
+    public UpdateAuthorCommandHandler(IRepository<Author> repository)
     {
-        this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
 
     public async Task Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
     {
-        _ = request ?? throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
-        var entity = await this.dbContext.Authors.Where(o => o.Id == request.Id)
-            .SingleOrDefaultAsync(cancellationToken);
+        var entity = await this.repository.GetAsync(request.Id, cancellationToken);
 
         if (entity is null)
         {
@@ -30,6 +28,6 @@ internal sealed class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorC
         entity.FirstName = request.FirstName;
         entity.LastName = request.LastName;
 
-        await this.dbContext.SaveChangesAsync(cancellationToken);
+        await this.repository.SaveChangesAsync(cancellationToken);
     }
 }

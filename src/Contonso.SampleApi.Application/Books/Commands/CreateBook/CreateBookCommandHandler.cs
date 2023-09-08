@@ -6,11 +6,11 @@ using MediatR;
 
 internal sealed class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Guid>
 {
-    private readonly IAppDbContext dbContext;
+    private readonly IRepository<Book> repository;
 
-    public CreateBookCommandHandler(IAppDbContext dbContext)
+    public CreateBookCommandHandler(IRepository<Book> repository)
     {
-        this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
 
     public async Task<Guid> Handle(CreateBookCommand request, CancellationToken cancellationToken)
@@ -24,8 +24,8 @@ internal sealed class CreateBookCommandHandler : IRequestHandler<CreateBookComma
             Title = request.Title,
         };
 
-        await this.dbContext.Books.AddAsync(entity, cancellationToken);
-        await this.dbContext.SaveChangesAsync(cancellationToken);
+        await this.repository.AddAsync(entity, cancellationToken);
+        await this.repository.SaveChangesAsync(cancellationToken);
 
         return entity.Id;
     }

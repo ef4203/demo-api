@@ -4,24 +4,21 @@ using Contonso.SampleApi.Application.Common.Abstraction;
 using Contonso.SampleApi.Application.Common.Exceptions;
 using Contonso.SampleApi.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 internal sealed class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
 {
-    private readonly IAppDbContext dbContext;
+    private readonly IRepository<Book> repository;
 
-    public UpdateBookCommandHandler(IAppDbContext dbContext)
+    public UpdateBookCommandHandler(IRepository<Book> repository)
     {
-        this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
 
     public async Task Handle(UpdateBookCommand request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var entity = await this.dbContext.Books
-            .Where(o => o.Id == request.Id)
-            .SingleOrDefaultAsync(cancellationToken);
+        var entity = await this.repository.GetAsync(request.Id, cancellationToken);
 
         if (entity is null)
         {
@@ -32,6 +29,6 @@ internal sealed class UpdateBookCommandHandler : IRequestHandler<UpdateBookComma
         entity.AuthorId = request.AuthorId;
         entity.PublishDate = request.PublishDate;
 
-        await this.dbContext.SaveChangesAsync(cancellationToken);
+        await this.repository.SaveChangesAsync(cancellationToken);
     }
 }

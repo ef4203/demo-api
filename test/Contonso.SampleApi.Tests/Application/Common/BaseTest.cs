@@ -1,10 +1,8 @@
 namespace Contonso.SampleApi.Tests.Application.Common;
 
-using AutoMapper;
 using Contonso.SampleApi.Application;
 using Contonso.SampleApi.Application.Common.Abstraction;
 using Contonso.SampleApi.Infrastructure.Persistence;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -12,23 +10,21 @@ using Respawn;
 
 public class BaseTest
 {
+    private readonly ServiceProvider serviceProvider;
+
     protected BaseTest()
     {
-        var serviceProvider = ConfigureServices(new ServiceCollection())
+        this.serviceProvider = ConfigureServices(new ServiceCollection())
             .BuildServiceProvider();
 
-        this.DbContext = serviceProvider.GetRequiredService<IAppDbContext>();
-        this.Mapper = serviceProvider.GetRequiredService<IMapper>();
-        this.Mediator = serviceProvider.GetRequiredService<ISender>();
-
-        StartRespawner(serviceProvider);
+        StartRespawner(this.serviceProvider);
     }
 
-    public IAppDbContext DbContext { get; }
-
-    protected IMapper Mapper { get; }
-
-    protected ISender Mediator { get; }
+    protected T? Get<T>()
+        where T : notnull
+    {
+        return this.serviceProvider.GetRequiredService<T>();
+    }
 
     private static void StartRespawner(IServiceProvider service)
     {
@@ -51,7 +47,7 @@ public class BaseTest
             o =>
                 o.UseInMemoryDatabase("ExampleApi"));
 
-        services.AddTransient<IAppDbContext, AppDbContext>();
+        services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
         services.AddTransient(o => Mock.Of<IJobClient>()!);
         services.AddLogging();
 

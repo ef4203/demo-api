@@ -13,7 +13,6 @@ public static class ConfigureServicesExtension
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        services.AddAutoMapper(typeof(ConfigureServicesExtension).Assembly);
         services.AddMediatorFromAssembly(typeof(ConfigureServicesExtension).Assembly);
         services.AddValidatorsFromAssembly(typeof(ConfigureServicesExtension).Assembly);
         services.AddJobsFromAssembly(typeof(ConfigureServicesExtension).Assembly);

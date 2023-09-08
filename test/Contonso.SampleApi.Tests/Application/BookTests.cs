@@ -7,6 +7,7 @@ using Contonso.SampleApi.Application.Books.Commands.UpdateBook;
 using Contonso.SampleApi.Application.Books.Queries.GetBooks;
 using Contonso.SampleApi.Application.Common.Exceptions;
 using Contonso.SampleApi.Tests.Application.Common;
+using MediatR;
 using ValidationException = Contonso.SampleApi.Application.Common.Exceptions.ValidationException;
 
 public class BookTests : BaseTest
@@ -27,6 +28,11 @@ public class BookTests : BaseTest
             .RuleFor(o => o.Title, f => f.Commerce.ProductName())
             .RuleFor(o => o.AuthorId, f => f.Random.Guid())
             .RuleFor(o => o.PublishDate, f => f.Date.Past());
+    }
+
+    private IMediator Mediator
+    {
+        get => this.Get<IMediator>()!;
     }
 
     [Test]

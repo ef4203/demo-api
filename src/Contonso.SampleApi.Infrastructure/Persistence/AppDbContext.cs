@@ -10,7 +10,7 @@ using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-public sealed class AppDbContext : DbContext, IAppDbContext
+public sealed class AppDbContext : DbContext
 {
     private readonly DbConnection? sqlConnection;
 

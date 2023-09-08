@@ -1,5 +1,6 @@
 namespace Contonso.SampleApi.Tests.Application;
 
+using System.Runtime.CompilerServices;
 using Bogus;
 using Contonso.SampleApi.Application.Authors.Commands.CreateAuthor;
 using Contonso.SampleApi.Application.Authors.Commands.DeleteAuthor;
@@ -7,6 +8,7 @@ using Contonso.SampleApi.Application.Authors.Commands.UpdateAuthor;
 using Contonso.SampleApi.Application.Authors.Queries.GetAuthors;
 using Contonso.SampleApi.Application.Common.Exceptions;
 using Contonso.SampleApi.Tests.Application.Common;
+using MediatR;
 using ValidationException = Contonso.SampleApi.Application.Common.Exceptions.ValidationException;
 
 public class AuthorTests : BaseTest
@@ -25,6 +27,11 @@ public class AuthorTests : BaseTest
         this.createAuthorCommandFaker = new Faker<CreateAuthorCommand>()
             .RuleFor(o => o.FirstName, f => f.Name.FirstName())
             .RuleFor(o => o.LastName, f => f.Name.LastName());
+    }
+
+    private IMediator Mediator
+    {
+        get => this.Get<IMediator>()!;
     }
 
     [Test]

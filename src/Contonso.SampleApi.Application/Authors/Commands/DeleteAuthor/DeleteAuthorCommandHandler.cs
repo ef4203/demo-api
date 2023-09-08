@@ -9,30 +9,27 @@ using Microsoft.EntityFrameworkCore;
 
 internal sealed class DeleteAuthorCommandHandler : IRequestHandler<DeleteAuthorCommand>
 {
-    private readonly IAppDbContext dbContext;
+    private readonly IRepository<Author> repository;
 
     private readonly IPublisher mediator;
 
-    public DeleteAuthorCommandHandler(IAppDbContext dbContext, IPublisher mediator, IJobClient jobClient)
+    public DeleteAuthorCommandHandler(IRepository<Author> repository, IPublisher mediator)
     {
         this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
 
     public async Task Handle(DeleteAuthorCommand request, CancellationToken cancellationToken)
     {
-        _ = request ?? throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
-        var entity = await this.dbContext.Authors.Where(x => x.Id == request.Id)
-            .SingleOrDefaultAsync(cancellationToken);
-
-        if (entity is null)
+        if (await this.repository.GetAsync(request.Id, cancellationToken) == null)
         {
             throw new NotFoundException(nameof(Book), request.Id);
         }
 
-        this.dbContext.Authors.Remove(entity);
-        await this.dbContext.SaveChangesAsync(cancellationToken);
-        await this.mediator.Publish(new AuthorDeletedEvent(entity.Id), cancellationToken);
+        await this.repository.DeleteAsync(request.Id, cancellationToken);
+        await this.repository.SaveChangesAsync(cancellationToken);
+        await this.mediator.Publish(new AuthorDeletedEvent(request.Id), cancellationToken);
     }
 }

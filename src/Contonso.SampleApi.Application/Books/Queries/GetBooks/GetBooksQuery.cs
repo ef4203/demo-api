@@ -1,29 +1,24 @@
 namespace Contonso.SampleApi.Application.Books.Queries.GetBooks;
 
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Contonso.SampleApi.Application.Common.Abstraction;
+using Contonso.SampleApi.Domain.Entities;
+using Mapster;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 public record GetBooksQuery : IRequest<IEnumerable<BookDto>>;
 
 internal sealed class GetBooksQueryHandler : IRequestHandler<GetBooksQuery, IEnumerable<BookDto>>
 {
-    private readonly IAppDbContext dbContext;
+    private readonly IRepository<Book> repository;
 
-    private readonly IMapper mapper;
-
-    public GetBooksQueryHandler(IAppDbContext dbContext, IMapper mapper)
+    public GetBooksQueryHandler(IRepository<Book> repository)
     {
-        this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-        this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
 
     public async Task<IEnumerable<BookDto>> Handle(GetBooksQuery request, CancellationToken cancellationToken)
     {
-        return await this.dbContext.Books
-            .ProjectTo<BookDto>(this.mapper.ConfigurationProvider!)
-            !.ToListAsync(cancellationToken);
+        return (await this.repository.GetAllAsync(cancellationToken))
+            .Adapt<IEnumerable<BookDto>>();
     }
 }

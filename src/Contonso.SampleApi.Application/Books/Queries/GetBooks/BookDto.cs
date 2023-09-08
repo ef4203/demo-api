@@ -1,9 +1,6 @@
 namespace Contonso.SampleApi.Application.Books.Queries.GetBooks;
 
-using Contonso.SampleApi.Application.Common.Mapping;
-using Contonso.SampleApi.Domain.Entities;
-
-public class BookDto : IMapFrom<Book>
+public class BookDto
 {
     public Guid Id { get; set; }
 

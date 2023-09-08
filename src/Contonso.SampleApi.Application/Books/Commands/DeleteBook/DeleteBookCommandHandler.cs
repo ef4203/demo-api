@@ -4,31 +4,26 @@ using Contonso.SampleApi.Application.Common.Abstraction;
 using Contonso.SampleApi.Application.Common.Exceptions;
 using Contonso.SampleApi.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 internal sealed class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand>
 {
-    private readonly IAppDbContext dbContext;
+    private readonly IRepository<Book> repository;
 
-    public DeleteBookCommandHandler(IAppDbContext dbContext)
+    public DeleteBookCommandHandler(IRepository<Book> repository)
     {
-        this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
 
     public async Task Handle(DeleteBookCommand request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var entity = await this.dbContext.Books
-            .Where(x => x.Id == request.Id)
-            .SingleOrDefaultAsync(cancellationToken);
-
-        if (entity is null)
+        if (await this.repository.GetAsync(request.Id, cancellationToken) == null)
         {
             throw new NotFoundException(nameof(Book), request.Id);
         }
 
-        this.dbContext.Books.Remove(entity);
-        await this.dbContext.SaveChangesAsync(cancellationToken);
+        await this.repository.DeleteAsync(request.Id, cancellationToken);
+        await this.repository.SaveChangesAsync(cancellationToken);
     }
 }

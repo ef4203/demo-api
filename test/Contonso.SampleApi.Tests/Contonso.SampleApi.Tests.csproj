@@ -21,7 +21,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="$(MSBuildThisFileDirectory)..\..\stylecop.json" Link="stylecop.json"/>
+        <AdditionalFiles Include="$(MSBuildThisFileDirectory)..\..\stylecop.json" Link="stylecop.json" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -30,23 +30,23 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Using Include="FluentAssertions"/>
-        <Using Include="NUnit.Framework"/>
+        <Using Include="FluentAssertions" />
+        <Using Include="NUnit.Framework" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="12.0.1"/>
-        <PackageReference Include="Bogus" Version="34.0.2"/>
-        <PackageReference Include="FluentAssertions" Version="6.11.0"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2"/>
-        <PackageReference Include="Moq" Version="4.18.4"/>
-        <PackageReference Include="NUnit" Version="3.13.3"/>
-        <PackageReference Include="NUnit3TestAdapter" Version="4.5.0"/>
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="Bogus" Version="34.0.2" />
+        <PackageReference Include="FluentAssertions" Version="6.11.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
+        <PackageReference Include="Moq" Version="4.18.4" />
+        <PackageReference Include="NUnit" Version="3.13.3" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
         <PackageReference Include="NUnit.Analyzers" Version="3.6.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Respawn" Version="6.0.0"/>
+        <PackageReference Include="Respawn" Version="6.0.0" />
         <PackageReference Include="SonarAnalyzer.CSharp" Version="9.9.0.77355">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -58,8 +58,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Contonso.SampleApi.Application\Contonso.SampleApi.Application.csproj"/>
-        <ProjectReference Include="..\..\src\Contonso.SampleApi.Infrastructure\Contonso.SampleApi.Infrastructure.csproj"/>
+        <ProjectReference Include="..\..\src\Contonso.SampleApi.Application\Contonso.SampleApi.Application.csproj" />
+        <ProjectReference Include="..\..\src\Contonso.SampleApi.Infrastructure\Contonso.SampleApi.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

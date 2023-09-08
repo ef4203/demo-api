@@ -7,13 +7,13 @@ public sealed class CreateAuthorCommandValidator : AbstractValidator<CreateAutho
     public CreateAuthorCommandValidator()
     {
         this.RuleFor(o => o.FirstName)
-            .MinimumLength(1)
-            .NotNull()
-            .NotEmpty();
+            ?.MinimumLength(1)
+            ?.NotNull()
+            ?.NotEmpty();
 
         this.RuleFor(o => o.LastName)
-            .MinimumLength(1)
-            .NotNull()
-            .NotEmpty();
+            ?.MinimumLength(1)
+            ?.NotNull()
+            ?.NotEmpty();
     }
 }

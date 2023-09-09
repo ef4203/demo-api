@@ -13,12 +13,8 @@ public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         // Register known exception types and handlers.
         this.exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
-            {
-                typeof(ValidationException), HandleValidationException
-            },
-            {
-                typeof(NotFoundException), HandleNotFoundException
-            },
+            { typeof(ValidationException), HandleValidationException },
+            { typeof(NotFoundException), HandleNotFoundException },
         };
     }
 

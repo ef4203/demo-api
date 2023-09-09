@@ -5,13 +5,12 @@ using Contonso.SampleApi.Application.Common.Abstraction;
 using Contonso.SampleApi.Application.Common.Exceptions;
 using Contonso.SampleApi.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 internal sealed class DeleteAuthorCommandHandler : IRequestHandler<DeleteAuthorCommand>
 {
-    private readonly IRepository<Author> repository;
-
     private readonly IPublisher mediator;
+
+    private readonly IRepository<Author> repository;
 
     public DeleteAuthorCommandHandler(IRepository<Author> repository, IPublisher mediator)
     {

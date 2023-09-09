@@ -3,7 +3,6 @@ namespace Contonso.SampleApi.Infrastructure.Persistence;
 using System.Data;
 using System.Data.Common;
 using System.Runtime.CompilerServices;
-using Contonso.SampleApi.Application.Common.Abstraction;
 using Contonso.SampleApi.Domain.Common;
 using Contonso.SampleApi.Domain.Entities;
 using Dapper;

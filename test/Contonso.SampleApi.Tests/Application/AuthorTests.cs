@@ -1,6 +1,5 @@
 namespace Contonso.SampleApi.Tests.Application;
 
-using System.Runtime.CompilerServices;
 using Bogus;
 using Contonso.SampleApi.Application.Authors.Commands.CreateAuthor;
 using Contonso.SampleApi.Application.Authors.Commands.DeleteAuthor;

@@ -1,7 +1,6 @@
 namespace Contonso.SampleApi.Infrastructure;
 
 using Contonso.SampleApi.Application.Common.Abstraction;
-using Contonso.SampleApi.Domain.Entities;
 using Contonso.SampleApi.Infrastructure.Persistence;
 using Contonso.SampleApi.Infrastructure.Scheduling;
 using Hangfire;

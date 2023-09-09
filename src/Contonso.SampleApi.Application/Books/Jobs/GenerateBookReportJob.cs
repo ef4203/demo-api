@@ -20,7 +20,7 @@ public class GenerateBookReportJob : IJob
 
     public string CronPattern { get; } = "0/5 * * * *";
 
-    public async Task Handle()
+    public async Task HandleAsync()
     {
         var result = await this.mediator.Send(new GetBooksQuery());
         var resultString = JsonSerializer.Serialize(result);

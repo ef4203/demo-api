@@ -7,14 +7,14 @@ public sealed class UpdateAuthorCommandValidator : AbstractValidator<UpdateAutho
     public UpdateAuthorCommandValidator()
     {
         this.RuleFor(o => o.Id)
-            .NotEmpty();
+            ?.NotEmpty();
 
         this.RuleFor(o => o.FirstName)
-            .MinimumLength(1)
-            .NotEmpty();
+            ?.MinimumLength(1)
+            ?.NotEmpty();
 
         this.RuleFor(o => o.LastName)
-            .MinimumLength(1)
-            .NotEmpty();
+            ?.MinimumLength(1)
+            ?.NotEmpty();
     }
 }

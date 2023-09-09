@@ -17,7 +17,7 @@ public class UpdateBookCommandValidator : AbstractValidator<UpdateBookCommand>
             ?.NotEmpty();
 
         this.RuleFor(o => o.PublishDate)
-            ?.LessThan(DateTime.Now)
+            ?.LessThan(DateTime.UtcNow)
             ?.NotEmpty();
     }
 }

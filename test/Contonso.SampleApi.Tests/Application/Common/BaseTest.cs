@@ -20,7 +20,7 @@ public class BaseTest
         StartRespawner(this.serviceProvider);
     }
 
-    protected T? Get<T>()
+    protected T Get<T>()
         where T : notnull
     {
         return this.serviceProvider.GetRequiredService<T>();
@@ -48,7 +48,7 @@ public class BaseTest
                 o.UseInMemoryDatabase("ExampleApi"));
 
         services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
-        services.AddTransient(o => Mock.Of<IJobClient>()!);
+        services.AddTransient(_ => Mock.Of<IJobClient>()!);
         services.AddLogging();
 
         return services;

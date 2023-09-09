@@ -20,7 +20,7 @@ public static class ConfigureWebAppExtension
         return app;
     }
 
-    private static WebApplication UseAutomaticMigration(this WebApplication app)
+    private static void UseAutomaticMigration(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -29,11 +29,9 @@ public static class ConfigureWebAppExtension
         {
             context.Database.Migrate();
         }
-
-        return app;
     }
 
-    private static WebApplication ScheduleJobs(this WebApplication app)
+    private static void ScheduleJobs(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
         var backgroundJobService = scope.ServiceProvider.GetRequiredService<IJobClient>();
@@ -47,10 +45,8 @@ public static class ConfigureWebAppExtension
             var jobInstance = (IJob)scope.ServiceProvider.GetRequiredService(type);
             backgroundJobService.AddOrUpdate(
                 type.Name,
-                () => jobInstance.Handle(),
+                () => jobInstance.HandleAsync(),
                 jobInstance.CronPattern);
         }
-
-        return app;
     }
 }

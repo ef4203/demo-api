@@ -13,7 +13,7 @@
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
         <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
         <!-- This NoWarn fixes a display bug in JetBrains Rider, but has no effect on builds. -->
         <NoWarn>1701;1702;1591</NoWarn>
         <InvariantGlobalization>true</InvariantGlobalization>

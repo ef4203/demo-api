@@ -7,6 +7,6 @@ public sealed class DeleteAuthorCommandValidator : AbstractValidator<DeleteAutho
     public DeleteAuthorCommandValidator()
     {
         this.RuleFor(o => o.Id)
-            .NotEmpty();
+            ?.NotEmpty();
     }
 }

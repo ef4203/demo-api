@@ -4,5 +4,5 @@ public interface IJob
 {
     string CronPattern { get; }
 
-    Task Handle();
+    Task HandleAsync();
 }

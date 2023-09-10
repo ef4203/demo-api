@@ -1,84 +1,26 @@
 namespace Contonso.SampleApi.Infrastructure.Persistence;
 
-using System.Data;
-using System.Data.Common;
 using System.Runtime.CompilerServices;
 using Contonso.SampleApi.Domain.Common;
 using Contonso.SampleApi.Domain.Entities;
-using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 public sealed class AppDbContext : DbContext
 {
-    private readonly DbConnection? sqlConnection;
-
     public AppDbContext(DbContextOptions options)
         : base(options)
     {
-        if (this.Database.IsRelational())
-        {
-            this.sqlConnection = this.Database.GetDbConnection();
-        }
     }
 
     public DbSet<Book> Books { get; set; } = null!;
 
     public DbSet<Author> Authors { get; set; } = null!;
 
-    public async Task<IReadOnlyList<T>> QueryAsync<T>(
-        string sql,
-        object? param = null,
-        IDbTransaction? transaction = null,
-        CancellationToken cancellationToken = default)
-    {
-        if (this.sqlConnection is null)
-        {
-            throw new NotSupportedException();
-        }
-
-        return (await this.sqlConnection.QueryAsync<T>(sql, param, transaction)).AsList();
-    }
-
-    public async Task<T> QueryFirstOrDefaultAsync<T>(
-        string sql,
-        object? param = null,
-        IDbTransaction? transaction = null,
-        CancellationToken cancellationToken = default)
-    {
-        if (this.sqlConnection is null)
-        {
-            throw new NotSupportedException();
-        }
-
-        return await this.sqlConnection.QueryFirstOrDefaultAsync<T>(sql, param, transaction);
-    }
-
-    public async Task<T> QuerySingleAsync<T>(
-        string sql,
-        object? param = null,
-        IDbTransaction? transaction = null,
-        CancellationToken cancellationToken = default)
-    {
-        if (this.sqlConnection is null)
-        {
-            throw new NotSupportedException();
-        }
-
-        return await this.sqlConnection.QuerySingleAsync<T>(sql, param, transaction);
-    }
-
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         this.ProcessInternalChanges();
         return base.SaveChangesAsync(cancellationToken);
-    }
-
-    public override void Dispose()
-    {
-        this.sqlConnection?.Dispose();
-        GC.SuppressFinalize(this);
-        base.Dispose();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -6,48 +6,48 @@ using Microsoft.EntityFrameworkCore;
 public class GenericRepository<TEntity> : IRepository<TEntity>
     where TEntity : class
 {
-    private readonly AppDbContext appDbContext;
+    private readonly AppDbContext dbContext;
 
-    public GenericRepository(AppDbContext appDbContext)
+    public GenericRepository(AppDbContext dbContext)
     {
-        this.appDbContext = appDbContext ?? throw new ArgumentNullException(nameof(appDbContext));
+        this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
     public ValueTask<TEntity?> GetAsync(object key, CancellationToken cancellationToken = default)
     {
-        return this.appDbContext.FindAsync<TEntity>(key);
+        return this.dbContext.FindAsync<TEntity>(key);
     }
 
     public Task<TEntity[]> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return this.appDbContext.Set<TEntity>()
+        return this.dbContext.Set<TEntity>()
             .ToArrayAsync(cancellationToken);
     }
 
     public Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        this.appDbContext.Add(entity);
+        this.dbContext.Add(entity);
         return Task.CompletedTask;
     }
 
     public Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        this.appDbContext.Attach(entity);
-        this.appDbContext.Entry(entity).State = EntityState.Modified;
+        this.dbContext.Attach(entity);
+        this.dbContext.Entry(entity).State = EntityState.Modified;
         return Task.CompletedTask;
     }
 
     public async Task DeleteAsync(object key, CancellationToken cancellationToken = default)
     {
-        var entity = await this.appDbContext.FindAsync<TEntity>(key);
+        var entity = await this.dbContext.FindAsync<TEntity>(key);
         if (entity != null)
         {
-            this.appDbContext.Remove(entity);
+            this.dbContext.Remove(entity);
         }
     }
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        return this.appDbContext.SaveChangesAsync(cancellationToken);
+        return this.dbContext.SaveChangesAsync(cancellationToken);
     }
 }

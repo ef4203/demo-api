@@ -12,6 +12,7 @@
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
         <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+        <AnalysisLevel>latest</AnalysisLevel>
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
         <!-- This NoWarn fixes a display bug in JetBrains Rider, but has no effect on builds. -->
         <NoWarn>1701;1702;1591</NoWarn>
@@ -29,11 +30,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="11.5.2"/>
-        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2"/>
+        <PackageReference Include="FluentValidation" Version="11.7.1"/>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1"/>
         <PackageReference Include="Mapster" Version="7.3.0"/>
-        <PackageReference Include="MediatR" Version="12.0.1"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.7"/>
+        <PackageReference Include="MediatR" Version="12.1.1"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1"/>
+        <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.7.30">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="SonarAnalyzer.CSharp" Version="9.9.0.77355">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

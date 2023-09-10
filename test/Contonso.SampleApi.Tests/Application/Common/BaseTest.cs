@@ -48,7 +48,7 @@ public class BaseTest
                 o.UseInMemoryDatabase("ExampleApi"));
 
         services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
-        services.AddTransient(_ => Mock.Of<IJobClient>()!);
+        services.AddTransient(_ => Mock.Of<IJobClient>());
         services.AddLogging();
 
         return services;

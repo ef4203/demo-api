@@ -20,7 +20,7 @@ public static class ConfigureServicesExtension
         return services;
     }
 
-    private static IServiceCollection AddJobsFromAssembly(this IServiceCollection services, Assembly assembly)
+    private static void AddJobsFromAssembly(this IServiceCollection services, Assembly assembly)
     {
         var jobs = assembly
             .GetTypes()
@@ -30,11 +30,9 @@ public static class ConfigureServicesExtension
         {
             services.AddTransient(jobType);
         }
-
-        return services;
     }
 
-    private static IServiceCollection AddMediatorFromAssembly(this IServiceCollection services, Assembly assembly)
+    private static void AddMediatorFromAssembly(this IServiceCollection services, Assembly assembly)
     {
         services.AddMediatR(
             x =>
@@ -46,7 +44,5 @@ public static class ConfigureServicesExtension
                 x.AddOpenBehavior(typeof(StopwatchBehavior<,>));
                 x.NotificationPublisher = new TaskWhenAllPublisher();
             });
-
-        return services;
     }
 }

@@ -32,98 +32,98 @@ public class BookTests : BaseTest
 
     private IMediator Mediator
     {
-        get => this.Get<IMediator>()!;
+        get => this.Get<IMediator>();
     }
 
     [Test]
-    public void CreateBookCommandRCannotBeNull()
+    public async Task CreateBookCommandRCannotBeNullAsync()
     {
         var action =
-            async () => await this.Mediator.Send((CreateBookCommand)null!);
+            () => this.Mediator.Send((CreateBookCommand)null!);
 
-        action.Should().ThrowAsync<ArgumentNullException>();
+        await action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
-    public void DeleteBookCommandCannotBeNull()
+    public async Task DeleteBookCommandCannotBeNullAsync()
     {
         var action =
-            async () => await this.Mediator.Send((DeleteBookCommand)null!);
+            () => this.Mediator.Send((DeleteBookCommand)null!);
 
-        action.Should().ThrowAsync<ArgumentNullException>();
+        await action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
-    public void UpdateBookCommandCannotBeNull()
+    public async Task UpdateBookCommandCannotBeNullAsync()
     {
         var action =
-            async () => await this.Mediator.Send((UpdateBookCommand)null!);
+            () => this.Mediator.Send((UpdateBookCommand)null!);
 
-        action.Should().ThrowAsync<ArgumentNullException>();
+        await action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
-    public async Task BookPublishDateCannotBeInTheFutureOnCreate()
+    public async Task BookPublishDateCannotBeInTheFutureOnCreateAsync()
     {
         var command = this.createBookCommandFaker.Generate();
         command.PublishDate = DateTime.Now.AddYears(10);
 
         var action =
-            async () => await this.Mediator.Send(command);
+            () => this.Mediator.Send(command);
 
         await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public async Task BookPublishDateCannotBeNullOnCreate()
+    public async Task BookPublishDateCannotBeNullOnCreateAsync()
     {
         var command = this.createBookCommandFaker.Generate();
         command.PublishDate = default;
 
         var action =
-            async () => await this.Mediator.Send(command);
+            () => this.Mediator.Send(command);
 
         await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public async Task BookTitleCannotBeNullOnCreate()
+    public async Task BookTitleCannotBeNullOnCreateAsync()
     {
         var command = this.createBookCommandFaker.Generate();
         command.Title = null;
 
         var action =
-            async () => await this.Mediator.Send(command);
+            () => this.Mediator.Send(command);
 
         await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public async Task BookTitleCannotBeEmptyStringOnCreate()
+    public async Task BookTitleCannotBeEmptyStringOnCreateAsync()
     {
         var command = this.createBookCommandFaker.Generate();
         command.Title = string.Empty;
 
         var action =
-            async () => await this.Mediator.Send(command);
+            () => this.Mediator.Send(command);
 
         await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public async Task BookAuthorIdCannotBeNullOnCreate()
+    public async Task BookAuthorIdCannotBeNullOnCreateAsync()
     {
         var command = this.createBookCommandFaker.Generate();
         command.AuthorId = Guid.Empty;
 
         var action =
-            async () => await this.Mediator.Send(command);
+            () => this.Mediator.Send(command);
 
         await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public async Task DeleteBook()
+    public async Task DeleteBookAsync()
     {
         var command = this.createBookCommandFaker.Generate();
         var id = await this.Mediator.Send(command);
@@ -131,13 +131,13 @@ public class BookTests : BaseTest
         id.Should().NotBeEmpty();
 
         var action =
-            async () => await this.Mediator.Send(new DeleteBookCommand(id));
+            () => this.Mediator.Send(new DeleteBookCommand(id));
 
         await action.Should().NotThrowAsync();
     }
 
     [Test]
-    public async Task CreateBook()
+    public async Task CreateBookAsync()
     {
         var command = this.createBookCommandFaker.Generate();
         var id = await this.Mediator.Send(command);
@@ -146,7 +146,7 @@ public class BookTests : BaseTest
     }
 
     [Test]
-    public async Task UpdateBook()
+    public async Task UpdateBookAsync()
     {
         var createCommand = this.createBookCommandFaker.Generate();
 
@@ -158,13 +158,13 @@ public class BookTests : BaseTest
         updateCommand.Id = id;
 
         var action =
-            async () => await this.Mediator.Send(updateCommand);
+            () => this.Mediator.Send(updateCommand);
 
         await action.Should().NotThrowAsync();
     }
 
     [Test]
-    public async Task CannotUpdateNonExistingBook()
+    public async Task CannotUpdateNonExistingBookAsync()
     {
         var updateCommand = this.updateBookCommandFaker.Generate();
 
@@ -175,7 +175,7 @@ public class BookTests : BaseTest
     }
 
     [Test]
-    public async Task CannotDeleteNonExistingBook()
+    public async Task CannotDeleteNonExistingBookAsync()
     {
         var action =
             async () => await this.Mediator.Send(new DeleteBookCommand(Guid.NewGuid()));
@@ -184,7 +184,7 @@ public class BookTests : BaseTest
     }
 
     [Test]
-    public async Task GetBooks()
+    public async Task GetBooksAsync()
     {
         for (var i = 0; i < 10; i++)
         {

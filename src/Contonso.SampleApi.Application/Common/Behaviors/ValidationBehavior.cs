@@ -33,7 +33,7 @@ internal sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavio
             this.validators.Select(v => v.ValidateAsync(context, cancellationToken)));
 
         var failures = validationResults
-            .Where(r => r!.Errors!.Any())
+            .Where(r => r.Errors.Any())
             .SelectMany(r => r!.Errors!)
             .ToList();
 

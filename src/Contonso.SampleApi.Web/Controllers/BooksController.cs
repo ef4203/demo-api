@@ -13,27 +13,27 @@ public class BooksController : BaseController
 {
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<IEnumerable<BookDto>>> Index()
+    public async Task<ActionResult<IEnumerable<BookDto>>> IndexAsync()
     {
         var result = await this.Mediator.Send(new GetBooksQuery());
         return this.Ok(result);
     }
 
     [HttpPost]
-    public async Task<ActionResult<Guid>> CreateBook([FromBody] CreateBookCommand command)
+    public async Task<ActionResult<Guid>> CreateBookAsync([FromBody] CreateBookCommand command)
     {
         return await this.Mediator.Send(command);
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<ActionResult> DeleteBook([FromRoute] Guid id)
+    public async Task<ActionResult> DeleteBookAsync([FromRoute] Guid id)
     {
         await this.Mediator.Send(new DeleteBookCommand(id));
         return this.NoContent();
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult> UpdateBook(
+    public async Task<ActionResult> UpdateBookAsync(
         [FromRoute] Guid id,
         [FromBody] UpdateBookCommand command)
     {

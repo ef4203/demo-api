@@ -10,16 +10,16 @@ public class ReadOnlyDbContext : IDisposable
 
     private bool isDisposed;
 
-    public ReadOnlyDbContext(AppDbContext appDbContext)
+    public ReadOnlyDbContext(AppDbContext dbContext)
     {
-        ArgumentNullException.ThrowIfNull(appDbContext);
+        ArgumentNullException.ThrowIfNull(dbContext);
 
-        if (!appDbContext.Database.IsRelational())
+        if (!dbContext.Database.IsRelational())
         {
             throw new NotSupportedException("Cannot use SQL on non-relational databases");
         }
 
-        this.connection = appDbContext.Database.GetDbConnection();
+        this.connection = dbContext.Database.GetDbConnection();
     }
 
     public void Dispose()
@@ -32,7 +32,7 @@ public class ReadOnlyDbContext : IDisposable
     {
         ObjectDisposedException.ThrowIf(this.isDisposed, typeof(ReadOnlyDbContext));
 
-        return this.connection.Query<T>(sql)!;
+        return this.connection.Query<T>(sql);
     }
 
     protected virtual void Dispose(bool disposing)

@@ -13,7 +13,7 @@ public class AuthorsController : BaseController
 {
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<IEnumerable<AuthorDto>>> Index()
+    public async Task<ActionResult<IEnumerable<AuthorDto>>> IndexAsync()
     {
         var result = await this.Mediator.Send(new GetAuthorsQuery());
 
@@ -21,13 +21,13 @@ public class AuthorsController : BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult<Guid>> CreateAuthor([FromBody] CreateAuthorCommand command)
+    public async Task<ActionResult<Guid>> CreateAuthorAsync([FromBody] CreateAuthorCommand command)
     {
         return await this.Mediator.Send(command);
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<ActionResult> DeleteAuthor([FromRoute] Guid id)
+    public async Task<ActionResult> DeleteAuthorAsync([FromRoute] Guid id)
     {
         await this.Mediator.Send(new DeleteAuthorCommand(id));
 
@@ -35,7 +35,7 @@ public class AuthorsController : BaseController
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult> UpdateBook(
+    public async Task<ActionResult> UpdateBookAsync(
         [FromRoute] Guid id,
         [FromBody] UpdateAuthorCommand command)
     {

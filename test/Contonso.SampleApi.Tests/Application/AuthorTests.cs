@@ -30,47 +30,47 @@ public class AuthorTests : BaseTest
 
     private IMediator Mediator
     {
-        get => this.Get<IMediator>()!;
+        get => this.Get<IMediator>();
     }
 
     [Test]
-    public void CreateAuthorCommandRCannotBeNull()
+    public async Task CreateAuthorCommandRCannotBeNullAsync()
     {
         var action =
-            async () => await this.Mediator.Send((CreateAuthorCommand)null!);
+            () => this.Mediator.Send((CreateAuthorCommand)null!);
 
-        action.Should().ThrowAsync<ArgumentNullException>();
+        await action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
-    public void DeleteAuthorCommandCannotBeNull()
+    public async Task DeleteAuthorCommandCannotBeNullAsync()
     {
         var action =
-            async () => await this.Mediator.Send((DeleteAuthorCommand)null!);
+            () => this.Mediator.Send((DeleteAuthorCommand)null!);
 
-        action.Should().ThrowAsync<ArgumentNullException>();
+        await action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
-    public void UpdateAuthorCommandCannotBeNull()
+    public async Task UpdateAuthorCommandCannotBeNullAsync()
     {
         var action =
-            async () => await this.Mediator.Send((UpdateAuthorCommand)null!);
+            () => this.Mediator.Send((UpdateAuthorCommand)null!);
 
-        action.Should().ThrowAsync<ArgumentNullException>();
+        await action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
-    public void GetAuthorQueryCannotBeNull()
+    public async Task GetAuthorQueryCannotBeNullAsync()
     {
         var action =
-            async () => await this.Mediator.Send((GetAuthorsQuery)null!);
+            () => this.Mediator.Send((GetAuthorsQuery)null!);
 
-        action.Should().ThrowAsync<ArgumentNullException>();
+        await action.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Test]
-    public async Task CreateAuthor()
+    public async Task CreateAuthorAsync()
     {
         var command = this.createAuthorCommandFaker.Generate();
         var result = await this.Mediator.Send(command);
@@ -79,55 +79,55 @@ public class AuthorTests : BaseTest
     }
 
     [Test]
-    public async Task FirstNameCannotBeNullOnCreate()
+    public async Task FirstNameCannotBeNullOnCreateAsync()
     {
         var command = this.createAuthorCommandFaker.Generate();
         command.FirstName = null;
 
         var action =
-            async () => await this.Mediator.Send(command);
+            () => this.Mediator.Send(command);
 
         await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public async Task FirstNameCannotBeEmptyStringOnCreate()
+    public async Task FirstNameCannotBeEmptyStringOnCreateAsync()
     {
         var command = this.createAuthorCommandFaker.Generate();
         command.FirstName = string.Empty;
 
         var action =
-            async () => await this.Mediator.Send(command);
+            () => this.Mediator.Send(command);
 
         await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public async Task LastNameCannotBeNullOnCreate()
+    public async Task LastNameCannotBeNullOnCreateAsync()
     {
         var command = this.createAuthorCommandFaker.Generate();
         command.LastName = null;
 
         var action =
-            async () => await this.Mediator.Send(command);
+            () => this.Mediator.Send(command);
 
         await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public async Task LastNameCannotBeEmptyStringOnCreate()
+    public async Task LastNameCannotBeEmptyStringOnCreateAsync()
     {
         var command = this.createAuthorCommandFaker.Generate();
         command.LastName = string.Empty;
 
         var action =
-            async () => await this.Mediator.Send(command);
+            () => this.Mediator.Send(command);
 
         await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public async Task DeleteAuthor()
+    public async Task DeleteAuthorAsync()
     {
         var command = this.createAuthorCommandFaker.Generate();
         var id = await this.Mediator.Send(command);
@@ -135,13 +135,13 @@ public class AuthorTests : BaseTest
         id.Should().NotBeEmpty();
 
         var action =
-            async () => await this.Mediator.Send(new DeleteAuthorCommand(id));
+            () => this.Mediator.Send(new DeleteAuthorCommand(id));
 
         await action.Should().NotThrowAsync();
     }
 
     [Test]
-    public async Task UpdateAuthor()
+    public async Task UpdateAuthorAsync()
     {
         var createCommand = this.createAuthorCommandFaker.Generate();
         var id = await this.Mediator.Send(createCommand);
@@ -152,33 +152,33 @@ public class AuthorTests : BaseTest
         updateCommand.Id = id;
 
         var action =
-            async () => await this.Mediator.Send(updateCommand);
+            () => this.Mediator.Send(updateCommand);
 
         await action.Should().NotThrowAsync();
     }
 
     [Test]
-    public async Task CannotUpdateNonExistingAuthor()
+    public async Task CannotUpdateNonExistingAuthorAsync()
     {
         var updateCommand = this.updateAuthorCommandFaker.Generate();
 
         var action =
-            async () => await this.Mediator.Send(updateCommand);
+            () => this.Mediator.Send(updateCommand);
 
         await action.Should().ThrowAsync<NotFoundException>();
     }
 
     [Test]
-    public async Task CannotDeleteNonExistingAuthor()
+    public async Task CannotDeleteNonExistingAuthorAsync()
     {
         var action =
-            async () => await this.Mediator.Send(new DeleteAuthorCommand(Guid.NewGuid()));
+            () => this.Mediator.Send(new DeleteAuthorCommand(Guid.NewGuid()));
 
         await action.Should().ThrowAsync<NotFoundException>();
     }
 
     [Test]
-    public async Task GetAuthors()
+    public async Task GetAuthorsAsync()
     {
         for (var i = 0; i < 10; i++)
         {

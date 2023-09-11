@@ -1,4 +1,4 @@
-namespace Contonso.SampleApi.Application.Common.Behaviors;
+namespace Contonso.SampleApi.Application.Behaviors;
 
 using System.Diagnostics;
 using MediatR;

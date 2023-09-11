@@ -21,7 +21,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="$(MSBuildThisFileDirectory)..\..\stylecop.json" Link="stylecop.json"/>
+        <AdditionalFiles Include="$(MSBuildThisFileDirectory)..\..\stylecop.json" Link="stylecop.json" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -30,11 +30,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="11.7.1"/>
-        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1"/>
-        <PackageReference Include="Mapster" Version="7.3.0"/>
-        <PackageReference Include="MediatR" Version="12.1.1"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1"/>
+        <PackageReference Include="FluentValidation" Version="11.7.1" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
+        <PackageReference Include="Mapster" Version="7.3.0" />
+        <PackageReference Include="MediatR" Version="12.1.1" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
         <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.7.30">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -50,7 +50,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Contonso.SampleApi.Domain\Contonso.SampleApi.Domain.csproj"/>
+        <ProjectReference Include="..\Contonso.SampleApi.Domain\Contonso.SampleApi.Domain.csproj" />
     </ItemGroup>
 
 </Project>

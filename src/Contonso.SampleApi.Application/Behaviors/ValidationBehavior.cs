@@ -1,8 +1,8 @@
-namespace Contonso.SampleApi.Application.Common.Behaviors;
+namespace Contonso.SampleApi.Application.Behaviors;
 
 using FluentValidation;
 using MediatR;
-using ValidationException = Contonso.SampleApi.Application.Common.Exceptions.ValidationException;
+using ValidationException = Contonso.SampleApi.Application.Exceptions.ValidationException;
 
 internal sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

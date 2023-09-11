@@ -22,17 +22,17 @@ public class ReadOnlyDbContext : IDisposable
         this.connection = dbContext.Database.GetDbConnection();
     }
 
-    public void Dispose()
-    {
-        this.Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
     public IEnumerable<T> Query<T>(string sql)
     {
         ObjectDisposedException.ThrowIf(this.isDisposed, typeof(ReadOnlyDbContext));
 
         return this.connection.Query<T>(sql);
+    }
+
+    public void Dispose()
+    {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
     }
 
     protected virtual void Dispose(bool disposing)

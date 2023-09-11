@@ -1,8 +1,8 @@
 namespace Contonso.SampleApi.Infrastructure.Persistence;
 
 using System.Runtime.CompilerServices;
+using Contonso.SampleApi.Domain;
 using Contonso.SampleApi.Domain.Common;
-using Contonso.SampleApi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

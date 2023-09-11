@@ -1,4 +1,4 @@
-namespace Contonso.SampleApi.Application.Common.Exceptions;
+namespace Contonso.SampleApi.Application.Exceptions;
 
 using System.Runtime.Serialization;
 

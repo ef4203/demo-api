@@ -1,4 +1,4 @@
-namespace Contonso.SampleApi.Domain.Entities;
+namespace Contonso.SampleApi.Domain;
 
 using Contonso.SampleApi.Domain.Common;
 

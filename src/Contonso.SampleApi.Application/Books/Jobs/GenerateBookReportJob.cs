@@ -1,8 +1,8 @@
 namespace Contonso.SampleApi.Application.Books.Jobs;
 
 using System.Text.Json;
+using Contonso.SampleApi.Application.Abstraction;
 using Contonso.SampleApi.Application.Books.Queries.GetBooks;
-using Contonso.SampleApi.Application.Common.Abstraction;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

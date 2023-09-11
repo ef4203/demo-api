@@ -1,7 +1,7 @@
 namespace Contonso.SampleApi.Application.Books.Commands.CreateBook;
 
-using Contonso.SampleApi.Application.Common.Abstraction;
-using Contonso.SampleApi.Domain.Entities;
+using Contonso.SampleApi.Application.Abstraction;
+using Contonso.SampleApi.Domain;
 using MediatR;
 
 internal sealed class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Guid>

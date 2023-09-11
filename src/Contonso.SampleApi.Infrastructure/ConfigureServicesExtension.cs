@@ -1,8 +1,7 @@
 namespace Contonso.SampleApi.Infrastructure;
 
-using Contonso.SampleApi.Application.Common.Abstraction;
+using Contonso.SampleApi.Application.Abstraction;
 using Contonso.SampleApi.Infrastructure.Persistence;
-using Contonso.SampleApi.Infrastructure.Scheduling;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +32,6 @@ public static class ConfigureServicesExtension
                 ?.UseMemoryStorage());
 
         services.AddHangfireServer();
-        services.AddTransient<IJobClient, JobClient>();
 
         return services;
     }

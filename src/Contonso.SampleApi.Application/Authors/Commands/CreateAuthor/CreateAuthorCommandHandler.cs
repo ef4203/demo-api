@@ -1,8 +1,8 @@
 namespace Contonso.SampleApi.Application.Authors.Commands.CreateAuthor;
 
+using Contonso.SampleApi.Application.Abstraction;
 using Contonso.SampleApi.Application.Authors.Events;
-using Contonso.SampleApi.Application.Common.Abstraction;
-using Contonso.SampleApi.Domain.Entities;
+using Contonso.SampleApi.Domain;
 using MediatR;
 
 internal sealed class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand, Guid>

@@ -1,7 +1,7 @@
 namespace Contonso.SampleApi.Tests.Application.Common;
 
 using Contonso.SampleApi.Application;
-using Contonso.SampleApi.Application.Common.Abstraction;
+using Contonso.SampleApi.Application.Abstraction;
 using Contonso.SampleApi.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,7 +48,6 @@ public class BaseTest
                 o.UseInMemoryDatabase("ExampleApi"));
 
         services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
-        services.AddTransient(_ => Mock.Of<IJobClient>());
         services.AddLogging();
 
         return services;

@@ -1,11 +1,12 @@
 namespace Contonso.SampleApi.Infrastructure;
 
-using Contonso.SampleApi.Application.Common.Abstraction;
+using Contonso.SampleApi.Application.Abstraction;
 using Contonso.SampleApi.Infrastructure.Persistence;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 public static class ConfigureWebAppExtension
 {
@@ -20,7 +21,7 @@ public static class ConfigureWebAppExtension
         return app;
     }
 
-    private static void UseAutomaticMigration(this WebApplication app)
+    private static void UseAutomaticMigration(this IHost app)
     {
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -31,10 +32,10 @@ public static class ConfigureWebAppExtension
         }
     }
 
-    private static void ScheduleJobs(this WebApplication app)
+    private static void ScheduleJobs(this IHost app)
     {
         using var scope = app.Services.CreateScope();
-        var backgroundJobService = scope.ServiceProvider.GetRequiredService<IJobClient>();
+        var backgroundJobService = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
 
         var jobs = typeof(IJob).Assembly
             .GetTypes()

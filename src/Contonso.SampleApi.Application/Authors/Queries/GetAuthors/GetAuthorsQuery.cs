@@ -1,7 +1,7 @@
 namespace Contonso.SampleApi.Application.Authors.Queries.GetAuthors;
 
-using Contonso.SampleApi.Application.Common.Abstraction;
-using Contonso.SampleApi.Domain.Entities;
+using Contonso.SampleApi.Application.Abstraction;
+using Contonso.SampleApi.Domain;
 using Mapster;
 using MediatR;
 

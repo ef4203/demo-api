@@ -1,12 +1,14 @@
 namespace Contonso.SampleApi.Infrastructure.Persistence;
 
-using Contonso.SampleApi.Application.Common.Abstraction;
+using Contonso.SampleApi.Application.Abstraction;
 using Microsoft.EntityFrameworkCore;
 
-public class GenericRepository<TEntity> : IRepository<TEntity>
+public class GenericRepository<TEntity> : IRepository<TEntity>, IDisposable
     where TEntity : class
 {
     private readonly AppDbContext dbContext;
+
+    private bool isDisposed;
 
     public GenericRepository(AppDbContext dbContext)
     {
@@ -49,5 +51,26 @@ public class GenericRepository<TEntity> : IRepository<TEntity>
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         return this.dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public void Dispose()
+    {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (this.isDisposed)
+        {
+            return;
+        }
+
+        if (disposing)
+        {
+            this.dbContext.Dispose();
+        }
+
+        this.isDisposed = true;
     }
 }

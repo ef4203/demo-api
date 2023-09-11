@@ -1,6 +1,6 @@
 namespace Contonso.SampleApi.Web.Filter;
 
-using Contonso.SampleApi.Application.Common.Exceptions;
+using Contonso.SampleApi.Application.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

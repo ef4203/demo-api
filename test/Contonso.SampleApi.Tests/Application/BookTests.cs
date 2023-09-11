@@ -5,10 +5,10 @@ using Contonso.SampleApi.Application.Books.Commands.CreateBook;
 using Contonso.SampleApi.Application.Books.Commands.DeleteBook;
 using Contonso.SampleApi.Application.Books.Commands.UpdateBook;
 using Contonso.SampleApi.Application.Books.Queries.GetBooks;
-using Contonso.SampleApi.Application.Common.Exceptions;
+using Contonso.SampleApi.Application.Exceptions;
 using Contonso.SampleApi.Tests.Application.Common;
 using MediatR;
-using ValidationException = Contonso.SampleApi.Application.Common.Exceptions.ValidationException;
+using ValidationException = Contonso.SampleApi.Application.Exceptions.ValidationException;
 
 public class BookTests : BaseTest
 {

@@ -1,8 +1,8 @@
 namespace Contonso.SampleApi.Application;
 
 using System.Reflection;
-using Contonso.SampleApi.Application.Common.Abstraction;
-using Contonso.SampleApi.Application.Common.Behaviors;
+using Contonso.SampleApi.Application.Abstraction;
+using Contonso.SampleApi.Application.Behaviors;
 using FluentValidation;
 using MediatR.NotificationPublishers;
 using Microsoft.Extensions.DependencyInjection;

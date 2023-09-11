@@ -1,4 +1,4 @@
-namespace Contonso.SampleApi.Application.Common.Abstraction;
+namespace Contonso.SampleApi.Application.Abstraction;
 
 public interface IRepository<TEntity>
     where TEntity : class

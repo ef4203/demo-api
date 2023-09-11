@@ -1,4 +1,4 @@
-namespace Contonso.SampleApi.Application.Common.LoggerMessages;
+namespace Contonso.SampleApi.Application.LoggerMessages;
 
 using Microsoft.Extensions.Logging;
 

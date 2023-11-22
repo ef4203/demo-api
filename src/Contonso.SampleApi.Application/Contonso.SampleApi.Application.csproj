@@ -31,7 +31,7 @@
 
     <ItemGroup>
         <PackageReference Include="FluentValidation" Version="11.8.0" />
-        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.0" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
         <PackageReference Include="Mapster" Version="7.4.0" />
         <PackageReference Include="MediatR" Version="12.1.1" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />

@@ -31,10 +31,10 @@
 
     <ItemGroup>
         <PackageReference Include="Dapper" Version="2.1.44" />
-        <PackageReference Include="Hangfire.AspNetCore" Version="1.8.12" />
-        <PackageReference Include="Hangfire.Core" Version="1.8.12" />
+        <PackageReference Include="Hangfire.AspNetCore" Version="1.8.14" />
+        <PackageReference Include="Hangfire.Core" Version="1.8.14" />
         <PackageReference Include="Hangfire.MemoryStorage" Version="1.8.1.1" />
-        <PackageReference Include="Hangfire.SqlServer" Version="1.8.12" />
+        <PackageReference Include="Hangfire.SqlServer" Version="1.8.14" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.20" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.20" />

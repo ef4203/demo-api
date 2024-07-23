@@ -31,7 +31,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MediatR" Version="12.3.0"/>
+        <PackageReference Include="MediatR" Version="12.4.0"/>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.20"/>
         <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.5"/>
         <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1"/>
